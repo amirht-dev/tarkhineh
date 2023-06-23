@@ -19,6 +19,10 @@
   src: url(/font/Estedad-FD-SemiBold.woff2) format('woff2');
 }
 
+a {
+  color: inherit;
+}
+
 body {
   font-family: 'estedad-regular';
 }

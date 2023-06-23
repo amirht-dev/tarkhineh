@@ -1,21 +1,49 @@
+import { NavLink } from 'react-router-dom';
 import IconButton from '../IconButton';
 
 function Navbar() {
   return (
-    <nav className="flex max-w-7xl">
-      <div className="flex-1 flex">
+    <nav className="container mx-auto flex items-center">
+      <div className="flex flex-1 gap-2">
         <IconButton>
-          <img src="/icons/user.svg" alt="user" />
+          <img src="/public/icons/user.svg" alt="user" />
         </IconButton>
         <IconButton>
-          <img src="/icons/shop.svg" alt="shop" />
+          <img src="/public/icons/shop.svg" alt="shop" />
         </IconButton>
         <IconButton>
-          <img src="/icons/search.svg" alt="search" />
+          <img src="/public/icons/search.svg" alt="search" />
         </IconButton>
       </div>
-      <div className="flex-1">{/* links */}</div>
-      <div className="flex-1">{/* logo */}</div>
+      <div className="flex-1 flex justify-center gap-2">
+        <NavLink
+          to="/"
+          className="text-blue-500 underline underline-offset-8"
+        >
+          صفحه اصلی
+        </NavLink>
+        <NavLink
+          to="/"
+          className="text-black"
+        >
+          اعطای نمایندگی
+        </NavLink>
+        <NavLink
+          to="/"
+          className="text-black"
+        >
+          درباره ما
+        </NavLink>
+        <NavLink
+          to="/"
+          className="text-black"
+        >
+          تماس با ما
+        </NavLink>
+      </div>
+      <div className="flex flex-1 justify-end">
+        <img src="/public/icons/Logo.svg" alt="tarkhineh" className="h-12" />
+      </div>
     </nav>
   );
 }
