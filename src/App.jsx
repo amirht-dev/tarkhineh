@@ -1,9 +1,16 @@
-import './App.css'
+import { Routes, Route } from 'react-router-dom';
+import Layout from './Layout';
+import Home from './pages/Home';
+import './App.css';
 
 function App() {
   return (
-    <main>خانه</main>
-  )
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Home />} />
+      </Route>
+    </Routes>
+  );
 }
 
-export default App
+export default App;
