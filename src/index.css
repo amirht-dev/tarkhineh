@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @font-face {
   font-family: 'estedad-regular';
   src: url(/font/Estedad-FD-Regular.woff2) format('woff2');
