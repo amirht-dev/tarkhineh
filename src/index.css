@@ -1,20 +1,20 @@
 @font-face {
-  font-family: estedad-regular;
-  src: url('/font/Estedad-FD-Regular.woff2') format('woff2');
+  font-family: 'estedad-regular';
+  src: url(/font/Estedad-FD-Regular.woff2) format('woff2');
 }
 @font-face {
-  font-family: estedad-medium;
-  src: url('/font/Estedad-FD-Medium.woff2') format('woff2');
+  font-family: 'estedad-medium';
+  src: url(/font/Estedad-FD-Medium.woff2) format('woff2');
 }
 @font-face {
-  font-family: estedad-bold;
-  src: url('/font/Estedad-FD-Bold.woff2') format('woff2');
+  font-family: 'estedad-bold';
+  src: url(/font/Estedad-FD-Bold.woff2) format('woff2');
 }
 @font-face {
-  font-family: estedad-semibold;
-  src: url('/font/Estedad-FD-SemiBold.woff2') format('woff2');
+  font-family: 'estedad-semibold';
+  src: url(/font/Estedad-FD-SemiBold.woff2) format('woff2');
 }
 
 body {
-  font-faily: estedad-regular;
+  font-family: 'estedad-regular';
 }
