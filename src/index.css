@@ -26,3 +26,26 @@ a {
 body {
   font-family: 'estedad-regular';
 }
+
+@layer components {
+  .inputStyles {
+    /* //bg-transparent h-[40px] mb-[12px] rounded border-[#717171] border-[1px] */
+    background: transparent;
+    height: 40px;
+    margin-bottom: 12px;
+    border-radius: 4px;
+  }
+
+  .inputborder {
+    border: 1px solid #717171;
+  }
+
+  .placeholder::placeholder {
+    padding: 15px
+  }
+
+  .dir-rtl {
+    direction: rtl;
+  }
+
+}

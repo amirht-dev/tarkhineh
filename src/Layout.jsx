@@ -4,7 +4,7 @@ import Footer from './components/layout/Footer/Footer'
 
 function Layout() {
   return (
-    <>
+    <div className='max-w-[1700px] m-[0_auto]'>
     <header>
       <Navbar />
     </header>
@@ -12,7 +12,7 @@ function Layout() {
     <footer>
       <Footer />
     </footer>
-    </>
+    </div>
   )
 }
 

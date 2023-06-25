@@ -1,10 +1,10 @@
 import React from 'react';
 
-const FooterInput = () => {
+const FooterInput = ({placeholder}) => {
     return (
-        <div>
-            
-        </div>
+        <input 
+            className='placeholder dir-rtl inputStyles inputborder' 
+            placeholder={placeholder}/>
     );
 };
 
