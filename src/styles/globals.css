@@ -1,12 +1,52 @@
+@import 'tailwindcss';
 @font-face {
   font-family: 'estedad';
   src: url('/fonts/Estedad.woff2') format(woff2);
 }
-@import 'tailwindcss';
 
 @theme {
   --font-estedad: var(--font-estedad);
   --default-font-family: var(--font-estedad);
+
+  --color-*: initial;
+  --color-primary-tint-1: #e5f2e9;
+  --color-primary-tint-2: #cae4d3;
+  --color-primary-tint-3: #b0d7bd;
+  --color-primary-tint-4: #96c9a7;
+  --color-primary-tint-5: #7cbc91;
+  --color-primary-tint-6: #61ae7b;
+  --color-primary-tint-7: #4e9968;
+  --color-primary: #417f56;
+  --color-primary-shade-1: #396f4b;
+  --color-primary-shade-2: #315f41;
+  --color-primary-shade-3: #294f36;
+  --color-primary-shade-4: #21402b;
+  --color-primary-shade-5: #183020;
+  --color-primary-shade-6: #102016;
+  --color-primary-shade-7: #08100b;
+
+  --color-neutral-white: #ffffff;
+  --color-neutral-gray-1: #f9f9f9;
+  --color-neutral-gray-2: #e1e1e1;
+  --color-neutral-gray-3: #ededed;
+  --color-neutral-gray-4: #cbcbcb;
+  --color-neutral-gray-5: #adadad;
+  --color-neutral-gray-6: #757575;
+  --color-neutral-gray-7: #717171;
+  --color-neutral-gray-8: #353535;
+  --color-neutral-black: #0c0c0c;
+
+  --color-status-error-el: #fff2f2;
+  --color-status-error-l: #ed2e2e;
+  --color-status-error: #c30000;
+
+  --color-status-success-el: #f3fdfa;
+  --color-status-success-l: #00ba88;
+  --color-status-success: #00966d;
+
+  --color-status-warning-el: #fff8e1;
+  --color-status-warning-l: #f4b740;
+  --color-status-warning: #a9791c;
 }
 
 @layer utilities {
