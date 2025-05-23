@@ -5,6 +5,7 @@
 }
 
 @theme {
+  --font-*: initial;
   --font-estedad: var(--font-estedad);
   --default-font-family: var(--font-estedad);
 
@@ -55,6 +56,8 @@
   --drop-shadow-8: 0px 8px 8px rgba(0, 0, 0, 0.25);
   --drop-shadow-12: 0px 12px 12px rgba(0, 0, 0, 0.25);
   --drop-shadow-16: 0px 16px 16px rgba(0, 0, 0, 0.25);
+
+  --text-*: initial;
 
   --text-display-1: 4rem;
   --text-display-1--font-weight: var(--font-weight-bold);
