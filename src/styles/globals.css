@@ -1,0 +1,22 @@
+@font-face {
+  font-family: 'estedad';
+  src: url('/fonts/Estedad.woff2') format(woff2);
+}
+@import 'tailwindcss';
+
+@theme {
+  --font-estedad: var(--font-estedad);
+  --default-font-family: var(--font-estedad);
+}
+
+@layer utilities {
+  .font-estedad {
+    font-family: 'estedad';
+  }
+}
+
+@layer base {
+  body {
+    font-family: 'estedad';
+  }
+}
