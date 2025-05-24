@@ -2,8 +2,8 @@ import {
   PropsWithAsChild,
   PropsWithComponentPropsWithoutRef,
 } from "@/types/utils";
-import { type VariantProps } from "class-variance-authority";
 import { ReactNode } from "react";
+import type { VariantProps } from "tailwind-variants";
 import type { Except, Merge } from "type-fest";
 import { buttonVariants } from ".";
 
