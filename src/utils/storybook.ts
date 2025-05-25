@@ -1,39 +1,45 @@
 export const TYPES = {
-  union: (...types: string[]) => types.join(' | '),
+  union: (...types: string[]) => types.join(" | "),
   arrayOf: (type: string) => `Array<${type}>`,
   undefinable: (type: string) => TYPES.union(type, TYPES.primitive.undefined),
   nullable: (type: string) => TYPES.union(type, TYPES.primitive.null),
+  function: (params: Record<string, string>, returnType = "void") =>
+    `(${Object.entries(params)
+      .map(([paramKey, paramType]) => `${paramKey}: ${paramType}`)
+      .join(", ")}) => ${returnType}`,
   object: <T extends Record<string, unknown>>(
-    object: Record<keyof T, string>
+    object: Record<keyof T, string>,
   ) =>
     `{
 ${Object.entries(object)
   .map(([key, value]) => `${key}: ${value}`)
-  .join(';\n')}
+  .join(";\n")}
 }`,
   nullish: (type: string) =>
     TYPES.union(type, TYPES.primitive.undefined, TYPES.primitive.null),
   instanceOf: (instance: { new (): unknown }) => instance.name,
   primitive: {
-    string: 'string',
-    number: 'number',
-    boolean: 'boolean',
-    undefined: 'undefined',
-    null: 'null',
-    symbol: 'symbol',
+    string: "string",
+    number: "number",
+    boolean: "boolean",
+    undefined: "undefined",
+    null: "null",
+    symbol: "symbol",
   },
   instance: {
-    date: 'Date',
+    date: "Date",
   },
   react: {
     elements: {
-      HTMLInputElement: 'HTMLInputElement',
-      HTMLDivElement: 'HTMLDivElement',
+      HTMLInputElement: "HTMLInputElement",
+      HTMLDivElement: "HTMLDivElement",
     },
-    ReactNode: 'ReactNode',
+    ReactNode: "ReactNode",
     events: {
+      ChangeEvent: (element: string, reactPrefix = true) =>
+        `${reactPrefix ? "React." : ""}ChangeEvent<${element}>`,
       ChangeEventHandler: (genericType: string, reactPrefix = true) =>
-        `${reactPrefix ? 'React.' : ''}ChangeEventHandler<${genericType}>`,
+        `${reactPrefix ? "React." : ""}ChangeEventHandler<${genericType}>`,
     },
   },
 };

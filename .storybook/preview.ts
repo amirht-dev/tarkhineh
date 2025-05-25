@@ -1,7 +1,10 @@
-import type { Preview } from '@storybook/react';
-import '../src/styles/globals.css';
+import type { Preview } from "@storybook/react";
+import "../src/styles/globals.css";
 
 const preview: Preview = {
+  beforeAll() {
+    document.body.dir = "rtl";
+  },
   parameters: {
     controls: {
       matchers: {
@@ -10,7 +13,7 @@ const preview: Preview = {
       },
     },
   },
-  tags: ['autodocs'],
+  tags: ["autodocs"],
 };
 
 export default preview;
