@@ -2,9 +2,6 @@ import type { Preview } from "@storybook/react";
 import "../src/styles/globals.css";
 
 const preview: Preview = {
-  beforeAll() {
-    document.body.dir = "rtl";
-  },
   parameters: {
     controls: {
       matchers: {
@@ -14,6 +11,7 @@ const preview: Preview = {
     },
   },
   tags: ["autodocs"],
+  decorators: [(Story) => <div dir="rtl">{Story()}</div>],
 };
 
 export default preview;
