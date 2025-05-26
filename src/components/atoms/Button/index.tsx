@@ -6,7 +6,7 @@ import { ButtonProps } from "./index.types";
 export const buttonVariants = tv(
   {
     slots: {
-      root: "group rounded-sm transition-colors disabled:cursor-not-allowed",
+      root: "group inline-flex items-center rounded-sm transition-colors disabled:cursor-not-allowed",
       icon: "",
       loadingIndicator:
         "group-disabled:border-neutral-gray-4 animate-spin rounded-full border-t-transparent [animation-duration:500ms] group-disabled:border-t-transparent",
@@ -52,7 +52,7 @@ export const buttonVariants = tv(
       },
       icon: {
         true: {
-          root: "inline-flex items-center",
+          root: "",
         },
       },
       loading: {
@@ -202,17 +202,18 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       icon: !!prefixIcon || !!suffixIcon,
     });
 
+    if (loading)
+      return (
+        <button ref={ref} {...props} className={cns.root({ className })}>
+          <span className={cns.loadingIndicator()} />
+        </button>
+      );
+
     return (
       <Comp ref={ref} {...props} className={cns.root({ className })}>
-        {loading ? (
-          <span className={cns.loadingIndicator()} />
-        ) : (
-          <>
-            <Slot className={cns.icon()}>{prefixIcon}</Slot>
-            <Slottable>{children}</Slottable>
-            <Slot className={cns.icon()}>{suffixIcon}</Slot>
-          </>
-        )}
+        <Slot className={cns.icon()}>{prefixIcon}</Slot>
+        <Slottable>{children}</Slottable>
+        <Slot className={cns.icon()}>{suffixIcon}</Slot>
       </Comp>
     );
   },
