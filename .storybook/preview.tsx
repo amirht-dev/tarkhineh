@@ -9,6 +9,9 @@ const preview: Preview = {
         date: /Date$/i,
       },
     },
+    nextjs: {
+      appDirectory: true,
+    },
   },
   tags: ["autodocs"],
   decorators: [(Story) => <div dir="rtl">{Story()}</div>],

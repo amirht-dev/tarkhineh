@@ -1,7 +1,7 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 @font-face {
-  font-family: 'estedad';
-  src: url('/fonts/Estedad.woff2') format(woff2);
+  font-family: "estedad";
+  src: url("/fonts/Estedad.woff2") format(woff2);
 }
 
 @theme {
@@ -142,12 +142,21 @@
 
 @layer utilities {
   .font-estedad {
-    font-family: 'estedad';
+    font-family: "estedad";
   }
 }
 
 @layer base {
   body {
-    font-family: 'estedad';
+    font-family: "estedad";
+  }
+  button {
+    @apply cursor-pointer;
+  }
+}
+
+@layer utilities {
+  .container {
+    @apply mx-auto max-sm:px-5;
   }
 }
