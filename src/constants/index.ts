@@ -1,3 +1,7 @@
+import appetizer from "@/assets/images/menu/appetizer.png";
+import dessert from "@/assets/images/menu/dessert.png";
+import drink from "@/assets/images/menu/drink.png";
+import mainFood from "@/assets/images/menu/main-food.png";
 import slide1 from "@/assets/images/slides/slide-1.jpg";
 import slide2 from "@/assets/images/slides/slide-2.jpg";
 import slide3 from "@/assets/images/slides/slide-3.jpg";
@@ -44,3 +48,22 @@ export const heroSlides = [
     },
   },
 ];
+
+export const menus = {
+  mainFood: {
+    label: "غذای اصلی",
+    imageSrc: mainFood,
+  },
+  appetizer: {
+    label: "پیش غذا",
+    imageSrc: appetizer,
+  },
+  dessert: {
+    label: "دسر",
+    imageSrc: dessert,
+  },
+  drink: {
+    label: "نوشیدنی",
+    imageSrc: drink,
+  },
+};
