@@ -5,6 +5,9 @@ import mainFood from "@/assets/images/menu/main-food.png";
 import slide1 from "@/assets/images/slides/slide-1.jpg";
 import slide2 from "@/assets/images/slides/slide-2.jpg";
 import slide3 from "@/assets/images/slides/slide-3.jpg";
+import { Instagram_Outline } from "@/components/atoms/icons/SocialMedia/Instagram";
+import { Telegram_Outline } from "@/components/atoms/icons/SocialMedia/Telegram";
+import { Twitter_Outline } from "@/components/atoms/icons/SocialMedia/Twitter";
 
 export const navLinks = {
   root: {
@@ -67,3 +70,21 @@ export const menus = {
     imageSrc: drink,
   },
 };
+
+export const socialMedias = [
+  {
+    title: "twitter",
+    icon: <Twitter_Outline />,
+    href: "",
+  },
+  {
+    title: "instagram",
+    icon: <Instagram_Outline />,
+    href: "",
+  },
+  {
+    title: "telegram",
+    icon: <Telegram_Outline />,
+    href: "",
+  },
+];

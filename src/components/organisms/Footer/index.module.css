@@ -1,0 +1,7 @@
+.message_form {
+  grid-template-areas:
+    "name msg"
+    "phone msg"
+    "email msg"
+    ". btn";
+}

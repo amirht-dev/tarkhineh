@@ -1,3 +1,4 @@
+import Footer from "@/components/organisms/Footer";
 import Header from "@/components/organisms/Header";
 import { estedad } from "@/lib/font";
 import "@/styles/globals.css";
@@ -9,9 +10,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${estedad.variable}`} dir="rtl">
-      <body>
+      <body className="flex min-h-screen flex-col">
         <Header />
-        {children}
+        <main className="container flex-1">{children}</main>
+        <Footer />
       </body>
     </html>
   );
