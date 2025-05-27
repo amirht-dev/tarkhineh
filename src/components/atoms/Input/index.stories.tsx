@@ -12,6 +12,7 @@ import { InputProps } from "./index.types";
 const meta = {
   component: Input,
   args: {
+    label: "رمز عبور",
     size: "md",
     mode: "dark",
     error: false,

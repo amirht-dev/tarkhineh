@@ -1,6 +1,6 @@
 import type { VariantProps } from "@/lib/tailwind-variants";
 import { PropsWithComponentPropsWithoutRef } from "@/types/utils";
-import { ChangeEvent, ReactNode } from "react";
+import { ChangeEvent, ComponentPropsWithoutRef, ReactNode } from "react";
 import { Merge } from "type-fest";
 import { inputVariants } from ".";
 
@@ -11,6 +11,8 @@ export type InputOwnProps = Merge<
     suffixIcon?: ReactNode;
     onChange?: (event: ChangeEvent<HTMLInputElement>, value: string) => void;
     error?: boolean | string;
+    label?: string;
+    containerProps?: ComponentPropsWithoutRef<"div">;
   }
 >;
 

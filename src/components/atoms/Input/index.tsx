@@ -1,3 +1,5 @@
+"use client";
+
 import { tv } from "@/lib/tailwind-variants";
 import { Slot } from "@radix-ui/react-slot";
 import { forwardRef } from "react";
@@ -115,12 +117,14 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     {
       mode = "dark",
       size = "md",
+      label,
       prefixIcon,
       suffixIcon,
       className,
       onChange,
       value,
       error,
+      containerProps,
       ...props
     },
     ref,
@@ -133,7 +137,8 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
     const input = (
       <div
-        className={cns.root()}
+        {...containerProps}
+        className={cns.root({ className: containerProps?.className })}
         data-has-value={!!value}
         data-has-prefix-icon={!!prefixIcon}
         aria-disabled={!!props.disabled}
@@ -160,15 +165,17 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             data-has-prefix-icon={!!prefixIcon}
             data-error={!!error}
           />
-          <span
-            className={cns.label()}
-            data-has-value={!!value}
-            data-has-prefix-icon={!!prefixIcon}
-            aria-disabled={!!props.disabled}
-            data-error={!!error}
-          >
-            رمز عبور
-          </span>
+          {!!label && (
+            <span
+              className={cns.label()}
+              data-has-value={!!value}
+              data-has-prefix-icon={!!prefixIcon}
+              aria-disabled={!!props.disabled}
+              data-error={!!error}
+            >
+              {label}
+            </span>
+          )}
         </div>
         <Slot
           className={cns.icon()}
