@@ -9,7 +9,7 @@ import { menus } from "@/constants";
 
 const RestaurantMenuSection = () => {
   return (
-    <Section>
+    <Section className="container">
       <SectionHeader>
         <SectionTitle>منوی رستوران</SectionTitle>
       </SectionHeader>
