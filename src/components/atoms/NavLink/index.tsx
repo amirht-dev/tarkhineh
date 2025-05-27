@@ -7,7 +7,7 @@ import { ComponentPropsWithoutRef, forwardRef } from "react";
 const NavLink = forwardRef<
   HTMLAnchorElement,
   ComponentPropsWithoutRef<typeof Link>
->((props) => {
+>((props, ref) => {
   const pathname = usePathname().slice(1);
   const href = props.href.toString().slice(1);
 
@@ -17,6 +17,7 @@ const NavLink = forwardRef<
   return (
     <Link
       {...props}
+      ref={ref}
       aria-selected={isActive}
       data-state={isActive ? "active" : "disactive"}
     />
