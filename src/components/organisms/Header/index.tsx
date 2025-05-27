@@ -52,7 +52,7 @@ const Header = () => {
             <ShoppingCard_Outline />
           </IconButton>
 
-          <IconButton color="white" size="lg" className="max-lg::hidden">
+          <IconButton color="white" size="lg" className="max-lg:hidden">
             <User_Outline />
           </IconButton>
         </>
