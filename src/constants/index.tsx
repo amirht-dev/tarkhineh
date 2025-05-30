@@ -1,3 +1,9 @@
+import branch1 from "@/assets/images/branches/branch-1.jpg";
+import branch2 from "@/assets/images/branches/branch-2.jpg";
+import branch3 from "@/assets/images/branches/branch-3.jpg";
+import branch4 from "@/assets/images/branches/branch-4.jpg";
+import branch5 from "@/assets/images/branches/branch-5.jpg";
+import branch6 from "@/assets/images/branches/branch-6.jpg";
 import appetizer from "@/assets/images/menu/appetizer.png";
 import dessert from "@/assets/images/menu/dessert.png";
 import drink from "@/assets/images/menu/drink.png";
@@ -88,3 +94,31 @@ export const socialMedias = [
     href: "",
   },
 ];
+
+export const branches = {
+  ekbatan: {
+    name: "اکباتان",
+    address: "شهرک اکباتان، فاز ۳، مجتمع تجاری کوروش، طبقه سوم",
+    images: [branch1, branch2, branch3, branch4, branch5, branch6],
+    slug: "ekbatan",
+  },
+  chalos: {
+    name: "chalos",
+    address:
+      "چالوس، خیابان ۱۷ شهریور، بعد کوچه کوروش، جنب داروخانه دکتر میلانی",
+    images: [branch2, branch1, branch3, branch4, branch5, branch6],
+    slug: "ekbatan",
+  },
+  aghdasieh: {
+    name: "اقدسیه",
+    address: "خیابان اقدسیه ، نرسیده به میدان خیام، پلاک ۸",
+    images: [branch3, branch1, branch2, branch4, branch5, branch6],
+    slug: "aghdasieh",
+  },
+  vanak: {
+    name: "ونک",
+    address: "میدان ونک، خیابان فردوسی، نبش کوچه نیلوفر، پلاک ۲۶",
+    images: [branch4, branch1, branch2, branch3, branch5, branch6],
+    slug: "vanak",
+  },
+};
