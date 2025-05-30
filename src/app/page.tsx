@@ -1,5 +1,6 @@
 import SearchBox from "@/components/atoms/SearchBox";
 import AboutSection from "@/components/organisms/AboutSection";
+import BranchesSection from "@/components/organisms/BranchesSection";
 import HeroSlider from "@/components/organisms/HeroSlider";
 import RestaurantMenuSection from "@/components/organisms/RestaurantMenuSection";
 
@@ -12,6 +13,7 @@ export default function Home() {
       </section>
       <RestaurantMenuSection />
       <AboutSection />
+      <BranchesSection />
     </div>
   );
 }
