@@ -1,10 +1,12 @@
 import type { OneOrMore } from "@/types/utils";
-import { useEffect } from "react";
 import type { EmblaCarouselType, EmblaEventType } from "embla-carousel";
+import { useEffect } from "react";
+
+export type UseEmblaEventType = OneOrMore<EmblaEventType>;
 
 function useEmblaEvent(
   api: EmblaCarouselType | undefined,
-  event: OneOrMore<EmblaEventType>,
+  event: UseEmblaEventType,
   cb: (api: EmblaCarouselType) => void,
 ) {
   useEffect(() => {

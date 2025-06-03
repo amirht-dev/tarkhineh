@@ -31,6 +31,7 @@ ${Object.entries(object)
   },
   react: {
     elements: {
+      HTMLElement: "HTMLElement",
       HTMLInputElement: "HTMLInputElement",
       HTMLDivElement: "HTMLDivElement",
     },
