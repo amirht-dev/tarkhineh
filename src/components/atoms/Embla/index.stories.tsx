@@ -1,4 +1,14 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+import useEmblaEffect, {
+  EMBLA_SCALE_EFFECT_TARGETS,
+  EmblaEffectOptions,
+  EmblaScaleEffectOptions,
+  EmblaScaleTargetContext,
+  scaleEffect,
+} from "@/hooks/useEmblaEffect";
+import { T } from "@/utils/storybook";
 import { Meta, StoryObj } from "@storybook/react";
+import useEmblaCarousel from "embla-carousel-react";
 import {
   Embla,
   EmblaContainer,
@@ -23,7 +33,7 @@ const meta = {
 
 export default meta;
 
-type Story = StoryObj<typeof meta>;
+type Story<T = typeof meta> = StoryObj<T>;
 
 export const Story = {
   render() {
@@ -176,3 +186,102 @@ export const WithNavigation = {
     );
   },
 } satisfies Story;
+
+export const ScaleEffect = {
+  args: {
+    loop: false,
+    target: ({ scale, slide }) => {
+      slide.style.setProperty("--s", scale.toFixed(2));
+    },
+  },
+  argTypes: {
+    factor: {
+      control: {
+        type: "range",
+        min: 0.5,
+        max: 3,
+        step: 0.1,
+      },
+    },
+    min: {
+      control: {
+        type: "range",
+        min: 0,
+        max: 1,
+        step: 0.1,
+      },
+    },
+    wrapperSlideSelector: {
+      control: false,
+    },
+    eventTargets: {
+      control: false,
+      table: {
+        type: {
+          summary: T.arrayOf("EmblaEventType"),
+        },
+      },
+    },
+    target: {
+      control: "inline-radio",
+      options: EMBLA_SCALE_EFFECT_TARGETS,
+      table: {
+        type: {
+          summary: T.union(
+            ...EMBLA_SCALE_EFFECT_TARGETS,
+            T.function({
+              context: T.object<EmblaScaleTargetContext>({
+                scale: T.primitive.number,
+                slide: T.react.elements.HTMLElement,
+                wrapperSlide: T.react.elements.HTMLElement,
+              }),
+            }),
+          ),
+        },
+      },
+    },
+  },
+  parameters: {
+    controls: {
+      expanded: true,
+    },
+  },
+  render({
+    loop,
+    factor,
+    min,
+    target,
+    wrapperSlideSelector,
+    eventTargets,
+    onlyInView,
+  }) {
+    const [ref, api] = useEmblaCarousel({
+      skipSnaps: true,
+      loop,
+    });
+
+    useEmblaEffect(
+      api,
+      scaleEffect({ factor, min, target, wrapperSlideSelector }),
+      { eventTargets, onlyInView },
+    );
+
+    return (
+      <Embla loop={loop} emblaRef={ref} emblaApi={api}>
+        <EmblaWrapper dir="ltr">
+          <EmblaContainer className="[--gap:16px] [--slide-per-view:5]">
+            {Array.from({ length: 10 }, (_, idx) => (
+              <EmblaSlide key={idx} className="[--slide-size:] select-none">
+                <div className="bg-neutral-gray-3 flex h-[200px] scale-(--s) flex-col items-center justify-center">
+                  <span>slide {idx + 1}</span>
+                </div>
+              </EmblaSlide>
+            ))}
+          </EmblaContainer>
+        </EmblaWrapper>
+      </Embla>
+    );
+  },
+} satisfies Story<
+  { loop: boolean } & EmblaEffectOptions & EmblaScaleEffectOptions
+>;

@@ -37,7 +37,12 @@ export type NavigationState = {
 export type EmblaProps = PropsWithChildren<
   Merge<
     EmblaOptionsType,
-    { type?: EmblaDisplayType; plugins?: EmblaPluginType[] }
+    {
+      type?: EmblaDisplayType;
+      plugins?: EmblaPluginType[];
+      emblaRef?: EmblaViewportRefType;
+      emblaApi?: EmblaCarouselType | undefined;
+    }
   >
 >;
 

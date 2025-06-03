@@ -32,15 +32,22 @@ import type {
 export const { context: EmblaContext, hook: useEmblaContext } =
   createCTX<EmblaContextType>("Embla");
 
-const Embla = ({ children, type = "flex", plugins, ...props }: EmblaProps) => {
-  const [emblaRef, emblaApi] = useEmblaCarousel(props, plugins);
+const Embla = ({
+  children,
+  type = "flex",
+  plugins,
+  emblaRef,
+  emblaApi,
+  ...props
+}: EmblaProps) => {
+  const [_emblaRef, _emblaApi] = useEmblaCarousel(props, plugins);
 
   return (
     <EmblaContext.Provider
       value={{
-        emblaRef,
+        emblaRef: emblaRef ?? _emblaRef,
+        emblaApi: emblaApi ?? _emblaApi,
         type,
-        emblaApi,
         ...props,
       }}
     >
@@ -92,7 +99,7 @@ EmblaContainer.displayName = "EmblaContainer";
 
 const EmblaSlide = forwardRef<HTMLDivElement, EmblaContainerProps>(
   ({ asChild, ...props }, ref) => {
-    const { type, loop } = useEmblaContext();
+    const { type, loop, emblaApi } = useEmblaContext();
     const Comp = asChild ? Slot : DEFAULT_EMBLA_SLIDE_ELEMENT;
     return (
       <Comp
@@ -100,7 +107,7 @@ const EmblaSlide = forwardRef<HTMLDivElement, EmblaContainerProps>(
         ref={ref}
         className={twMerge(
           "me-[var(--gap,0px)] min-w-0",
-          !loop && "last:me-0",
+          !(emblaApi?.internalEngine().options.loop ?? loop) && "last:me-0",
           type === "flex"
             ? "flex-[0_0_var(--slide-size,calc(calc(100%/var(--slide-per-view,1))-calc(calc(calc(var(--slide-per-view,1)-1)*var(--gap,0px))/var(--slide-per-view,1))))]"
             : "",
