@@ -1,3 +1,4 @@
+import { OneOrMore } from "@/types/utils";
 import {
   getSlideElementsBySnap,
   getSnapDiffToTarget,
@@ -24,7 +25,7 @@ export type EmblaEffectOptions = {
 
 export default function useEmblaEffect(
   api: EmblaCarouselType | undefined,
-  callback: UseEmblaEffectCallback,
+  effectsCallback: OneOrMore<UseEmblaEffectCallback>,
   {
     onlyInView = true,
     eventTargets = ["scroll", "init", "reInit"],
@@ -38,11 +39,15 @@ export default function useEmblaEffect(
           .map<SnapObject>((value, index) => ({ value, index }));
 
     snapList.forEach((snap) => {
-      callback({
+      const context: EmblaEffectCallbackContext = {
         diffToTarget: getSnapDiffToTarget(api, snap.index),
         snap,
         api,
-      });
+      };
+
+      if (Array.isArray(effectsCallback))
+        effectsCallback.forEach((cb) => cb(context));
+      else effectsCallback(context);
     });
   });
 }
