@@ -1,4 +1,5 @@
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
+import { MouseEventHandler } from "react";
 
 export type BranchCardProps = {
   name: string;
@@ -7,4 +8,5 @@ export type BranchCardProps = {
   slug: string;
   fullWidth?: boolean;
   popup?: boolean;
+  onClick?: MouseEventHandler;
 };

@@ -103,11 +103,11 @@ export const branches = {
     slug: "ekbatan",
   },
   chalos: {
-    name: "chalos",
+    name: "چالوس",
     address:
       "چالوس، خیابان ۱۷ شهریور، بعد کوچه کوروش، جنب داروخانه دکتر میلانی",
     images: [branch2, branch1, branch3, branch4, branch5, branch6],
-    slug: "ekbatan",
+    slug: "chalos",
   },
   aghdasieh: {
     name: "اقدسیه",

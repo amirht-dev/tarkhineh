@@ -99,6 +99,7 @@ const BranchCard = ({
   slug,
   fullWidth = true,
   popup = false,
+  onClick,
 }: BranchCardProps) => {
   const cns = branchCardVariants({ fullWidth, popup });
 
@@ -110,9 +111,9 @@ const BranchCard = ({
     <Dialog>
       <div
         className={cns.root()}
-        onClick={() => {
+        onClick={(e) => {
           router.push(branchURL);
-          console.log("root click");
+          onClick?.(e);
         }}
       >
         <div className={cns.imageWrapper()}>

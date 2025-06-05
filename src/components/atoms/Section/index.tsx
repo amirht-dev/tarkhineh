@@ -1,4 +1,6 @@
 import { twMerge } from "@/lib/tailwind-merge";
+import { PropsWithAsChild } from "@/types/utils";
+import { Slot } from "@radix-ui/react-slot";
 import { ComponentPropsWithoutRef, forwardRef } from "react";
 
 const Section = forwardRef<HTMLElement, ComponentPropsWithoutRef<"section">>(
@@ -16,7 +18,10 @@ const SectionHeader = forwardRef<
     <div
       {...props}
       ref={ref}
-      className={twMerge("flex items-center justify-center", props.className)}
+      className={twMerge(
+        "group/header flex items-center justify-center",
+        props.className,
+      )}
     />
   );
 });
@@ -24,10 +29,12 @@ SectionHeader.displayName = "SectionHeader";
 
 const SectionTitle = forwardRef<
   HTMLHeadingElement,
-  React.ComponentPropsWithoutRef<"h4">
->((props, ref) => {
+  PropsWithAsChild<React.ComponentPropsWithoutRef<"h4">>
+>(({ asChild, ...props }, ref) => {
+  const Comp = asChild ? Slot : "h4";
+
   return (
-    <h4
+    <Comp
       {...props}
       ref={ref}
       className={twMerge("text-heading-6 lg:text-heading-4", props.className)}
@@ -50,4 +57,29 @@ const SectionBody = forwardRef<
 });
 SectionBody.displayName = "SectionBody";
 
-export { Section, SectionBody, SectionHeader, SectionTitle };
+const SectionActionIconButton = forwardRef<
+  HTMLButtonElement,
+  PropsWithAsChild<React.ComponentPropsWithoutRef<"button">>
+>(({ asChild, ...props }, ref) => {
+  const Comp = asChild ? Slot : "button";
+
+  return (
+    <Comp
+      {...props}
+      ref={ref}
+      className={twMerge(
+        "text-neutral-gray-8 section__action_icon_button [&>svg]:size-4 lg:[&>svg]:size-6",
+        props.className,
+      )}
+    />
+  );
+});
+SectionActionIconButton.displayName = "SectionActionIconButton";
+
+export {
+  Section,
+  SectionActionIconButton,
+  SectionBody,
+  SectionHeader,
+  SectionTitle,
+};
