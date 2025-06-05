@@ -1,10 +1,18 @@
 "use client";
 
+import ImageSlider from "@/components/molecules/ImageSlider";
 import { tv } from "@/lib/tailwind-variants";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Button from "../Button";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from "../Dialog";
 import { ChevronLeft_Outline } from "../icons/Arrow/ChevronLeft";
 import { Gallery_Outline } from "../icons/Video-Audio-Image/Gallery";
 import { BranchCardProps } from "./index.types";
@@ -99,49 +107,56 @@ const BranchCard = ({
   const branchURL = `/branch/${slug}`;
 
   return (
-    <div
-      className={cns.root()}
-      onClick={() => {
-        router.push(branchURL);
-        console.log("root click");
-      }}
-    >
-      <div className={cns.imageWrapper()}>
-        <Image src={images[0]} alt="" fill className={cns.image()} />
-        <div className={cns.overlay()} />
-        <>
-          <div className={cns.imageBtnBgShape()} />
-          <button
-            className={cns.moreImagesBtn()}
-            onClick={(e) => {
-              console.log("more picture");
-              e.stopPropagation();
-            }}
-          >
-            <Gallery_Outline className={cns.imageBtnIcon()} />
-          </button>
-        </>
+    <Dialog>
+      <div
+        className={cns.root()}
+        onClick={() => {
+          router.push(branchURL);
+          console.log("root click");
+        }}
+      >
+        <div className={cns.imageWrapper()}>
+          <Image src={images[0]} alt="" fill className={cns.image()} />
+          <div className={cns.overlay()} />
+          <>
+            <div className={cns.imageBtnBgShape()} />
+            <DialogTrigger
+              className={cns.moreImagesBtn()}
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+            >
+              <Gallery_Outline className={cns.imageBtnIcon()} />
+            </DialogTrigger>
+          </>
+        </div>
+
+        <div className={cns.contentWrapper()}>
+          <div className={cns.titleAndAddressWrapper()}>
+            <h5 className={cns.title()}>شعبه {name}</h5>
+            <span className={cns.address()}>{address}</span>
+          </div>
+          {!popup && (
+            <Button
+              size="sm"
+              variant="outline"
+              suffixIcon={<ChevronLeft_Outline />}
+              className={cns.linkBtn()}
+              onClick={(e) => e.stopPropagation()}
+              asChild
+            >
+              <Link href={branchURL}>صفحه شعبه</Link>
+            </Button>
+          )}
+        </div>
       </div>
 
-      <div className={cns.contentWrapper()}>
-        <div className={cns.titleAndAddressWrapper()}>
-          <h5 className={cns.title()}>شعبه {name}</h5>
-          <span className={cns.address()}>{address}</span>
-        </div>
-        {!popup && (
-          <Button
-            size="sm"
-            variant="outline"
-            suffixIcon={<ChevronLeft_Outline />}
-            className={cns.linkBtn()}
-            onClick={(e) => e.stopPropagation()}
-            asChild
-          >
-            <Link href={branchURL}>صفحه شعبه</Link>
-          </Button>
-        )}
-      </div>
-    </div>
+      <DialogContent className="border-0 p-0 lg:max-w-[808px]" dir="rtl">
+        <DialogTitle className="sr-only">{name} branch images</DialogTitle>
+        <ImageSlider images={images} />
+        <DialogClose className="bg-neutral-gray-8/50 text-neutral-white absolute top-4 left-4 rounded-full" />
+      </DialogContent>
+    </Dialog>
   );
 };
 
