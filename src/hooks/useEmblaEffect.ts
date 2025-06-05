@@ -77,9 +77,9 @@ export function scaleEffect({
   return ({ diffToTarget, snap, api }) => {
     const snapSlidesElements = getSlideElementsBySnap(api, snap.index);
 
-    snapSlidesElements.forEach((slideElement) => {
-      const scale = Math.max(1 - Math.abs(diffToTarget) * factor, min);
+    const scale = Math.max(1 - Math.abs(diffToTarget) * factor, min);
 
+    snapSlidesElements.forEach((slideElement) => {
       (
         slideElement.querySelector(wrapperSlideSelector) as HTMLElement
       ).style.transform = `scale(${scale})`;
