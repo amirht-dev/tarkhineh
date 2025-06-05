@@ -1,10 +1,10 @@
-import BranchCard from "@/components/atoms/BranchCard";
 import {
   Section,
   SectionBody,
   SectionHeader,
   SectionTitle,
 } from "@/components/atoms/Section";
+import BranchCard from "@/components/molecules/BranchCard";
 import { branches } from "@/constants";
 
 const BranchesSection = () => {

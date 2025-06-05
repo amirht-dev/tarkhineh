@@ -5,16 +5,16 @@ import { tv } from "@/lib/tailwind-variants";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import Button from "../Button";
+import Button from "../../atoms/Button";
 import {
   Dialog,
   DialogClose,
   DialogContent,
   DialogTitle,
   DialogTrigger,
-} from "../Dialog";
-import { ChevronLeft_Outline } from "../icons/Arrow/ChevronLeft";
-import { Gallery_Outline } from "../icons/Video-Audio-Image/Gallery";
+} from "../../atoms/Dialog";
+import { ChevronLeft_Outline } from "../../atoms/icons/Arrow/ChevronLeft";
+import { Gallery_Outline } from "../../atoms/icons/Video-Audio-Image/Gallery";
 import { BranchCardProps } from "./index.types";
 
 const branchCardVariants = tv({
