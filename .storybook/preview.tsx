@@ -14,7 +14,13 @@ const preview: Preview = {
     },
   },
   tags: ["autodocs"],
-  decorators: [(Story) => <div dir="rtl">{Story()}</div>],
+  decorators: [
+    (Story) => (
+      <div dir="rtl">
+        {Story()}
+      </div>
+    ),
+  ],
 };
 
 export default preview;

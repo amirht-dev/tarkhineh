@@ -4,6 +4,8 @@
   src: url("/fonts/Estedad.woff2") format(woff2);
 }
 
+@plugin "tailwindcss-animate";
+
 @theme {
   --font-*: initial;
   --font-estedad: var(--font-estedad);
