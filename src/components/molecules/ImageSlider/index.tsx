@@ -9,7 +9,6 @@ import {
   EmblaWrapper,
 } from "@/components/atoms/Embla";
 import useEmblaEvent from "@/hooks/useEmblaEvent";
-import ClassNames from "embla-carousel-class-names";
 import useEmblaCarousel from "embla-carousel-react";
 import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
@@ -22,14 +21,11 @@ const MotionImage = motion(Image);
 const ImageSlider = ({ images }: ImageSliderProps) => {
   const [selected, setSelected] = useState(0);
 
-  const [emblaRef, emblaApi] = useEmblaCarousel(
-    {
-      direction: "rtl",
-      skipSnaps: true,
-      align: "center",
-    },
-    [ClassNames()],
-  );
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    direction: "rtl",
+    skipSnaps: true,
+    align: "center",
+  });
 
   useEmblaEvent(emblaApi, "select", (api) => {
     setSelected(api.selectedScrollSnap());
@@ -57,7 +53,7 @@ const ImageSlider = ({ images }: ImageSliderProps) => {
       <Embla emblaRef={emblaRef} emblaApi={emblaApi}>
         <div className="from-neutral-black absolute inset-x-0 bottom-0 bg-gradient-to-t to-transparent pb-5">
           <div className="relative">
-            <EmblaWrapper className="px-24">
+            <EmblaWrapper className="px-24 py-px">
               <EmblaContainer className="items-center [--gap:theme(spacing.4)] lg:[--gap:theme(spacing.8)]">
                 {images.map((image, idx) => {
                   const isSelected = idx === selected;
@@ -69,9 +65,10 @@ const ImageSlider = ({ images }: ImageSliderProps) => {
                     >
                       <div
                         className={twJoin(
-                          "border-neutral-white relative size-18 scale-90 overflow-hidden rounded-sm brightness-75 transition-all lg:size-22",
-                          isSelected &&
-                            "group-[.is-snapped]:scale-100 group-[.is-snapped]:border group-[.is-snapped]:brightness-100",
+                          "relative size-18 overflow-hidden rounded-sm transition-all lg:size-22",
+                          isSelected
+                            ? "border-neutral-white scale-100 border brightness-100"
+                            : "scale-90 brightness-75",
                         )}
                         onClick={() => {
                           setSelected(idx);
