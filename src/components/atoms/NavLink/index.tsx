@@ -1,5 +1,6 @@
 "use client";
 
+import withSuspense from "@/hoc/withSuspense";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ComponentPropsWithoutRef, forwardRef } from "react";
@@ -25,4 +26,4 @@ const NavLink = forwardRef<
 });
 NavLink.displayName = "NavLink";
 
-export default NavLink;
+export default withSuspense(NavLink, null);
