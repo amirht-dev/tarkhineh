@@ -140,6 +140,27 @@
   --text-overline-sm: 0.75rem;
   --text-overline-sm--font-weight: var(--font-weight-bold);
   --text-overline-sm--line-height: auto;
+
+  --animate-accordion-down: accordion-down 300ms ease-out;
+  --animate-accordion-up: accordion-up 300ms ease-out;
+}
+
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
 }
 
 @layer utilities {
