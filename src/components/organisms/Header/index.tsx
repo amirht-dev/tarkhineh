@@ -1,9 +1,9 @@
 import IconButton from "@/components/atoms/IconButton";
-import { Menu_Outline } from "@/components/atoms/icons/Essential/Menu";
 import { ShoppingCard_Outline } from "@/components/atoms/icons/Shop/ShoppingCard";
 import { User_Outline } from "@/components/atoms/icons/Users/User";
 import Logo from "@/components/atoms/Logo";
 import NavLink from "@/components/atoms/NavLink";
+import MenuSheet from "@/components/molecules/MenuSheet";
 import SearchModal from "@/components/molecules/SearchModal";
 import { navLinks } from "@/constants";
 
@@ -11,9 +11,8 @@ const Header = () => {
   return (
     <header className="container flex min-h-16 items-center justify-between lg:min-h-[115px]">
       <div className="flex flex-1 items-center">
-        <button className="text-primary lg:hidden">
-          <Menu_Outline className="size-6" />
-        </button>
+        <MenuSheet />
+
         <Logo size="lg" color="primary" className="max-lg:hidden" />
       </div>
 
