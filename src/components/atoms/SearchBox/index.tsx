@@ -1,5 +1,7 @@
 "use client";
 
+import { twMerge } from "@/lib/tailwind-merge";
+import { useRouter } from "next/navigation";
 import {
   ChangeEventHandler,
   KeyboardEventHandler,
@@ -10,15 +12,23 @@ import { CloseCircle_Outline } from "../icons/Essential/CloseCircle";
 import { SearchNormal_Outline } from "../icons/Search/SearchNormal";
 import { SearchBoxProps } from "./index.types";
 
-const SearchBox = ({ onChange, onClear, onSearch }: SearchBoxProps) => {
+const SearchBox = ({
+  onChange,
+  onClear,
+  onSearch,
+  fullWidth = true,
+  className,
+}: SearchBoxProps) => {
   const [value, setValue] = useState("");
+  const router = useRouter();
 
   const isDisabled = !value;
 
   const handleSearch = (e: SyntheticEvent) => {
-    onSearch?.(e, value);
-    if (!e.isDefaultPrevented() && !isDisabled)
-      console.log("search value:", value);
+    if (!isDisabled) onSearch?.(e, value);
+    if (e.isDefaultPrevented() || isDisabled) return;
+    const searchParams = new URLSearchParams({ q: encodeURI(value) });
+    router.push(`/search?${searchParams.toString()}`);
   };
 
   const handleClear = (e: SyntheticEvent<HTMLButtonElement>) => {
@@ -36,7 +46,13 @@ const SearchBox = ({ onChange, onClear, onSearch }: SearchBoxProps) => {
   };
 
   return (
-    <div className="border-neutral-gray-4 text-neutral-gray-8 not-[:focus-within]:hover:border-neutral-gray-8 focus-within:border-primary flex h-8 items-center gap-1 rounded-sm border px-4 transition-colors lg:h-10 lg:rounded-lg">
+    <div
+      className={twMerge(
+        "border-neutral-gray-4 text-neutral-gray-8 not-[:focus-within]:hover:border-neutral-gray-8 focus-within:border-primary flex h-8 items-center gap-1 rounded-sm border px-4 transition-colors lg:h-10 lg:rounded-lg",
+        fullWidth ? "w-full" : "max-w-[409px]",
+        className,
+      )}
+    >
       {value && (
         <button onClick={handleClear}>
           <CloseCircle_Outline className="hover:text-status-error size-3 transition-colors lg:size-4" />

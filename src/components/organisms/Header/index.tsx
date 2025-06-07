@@ -1,10 +1,10 @@
 import IconButton from "@/components/atoms/IconButton";
 import { Menu_Outline } from "@/components/atoms/icons/Essential/Menu";
-import { SearchNormal_Outline } from "@/components/atoms/icons/Search/SearchNormal";
 import { ShoppingCard_Outline } from "@/components/atoms/icons/Shop/ShoppingCard";
 import { User_Outline } from "@/components/atoms/icons/Users/User";
 import Logo from "@/components/atoms/Logo";
 import NavLink from "@/components/atoms/NavLink";
+import SearchModal from "@/components/molecules/SearchModal";
 import { navLinks } from "@/constants";
 
 const Header = () => {
@@ -44,9 +44,7 @@ const Header = () => {
         </>
 
         <>
-          <IconButton color="white" size="lg" className="max-lg:hidden">
-            <SearchNormal_Outline />
-          </IconButton>
+          <SearchModal />
 
           <IconButton color="white" size="lg" className="max-lg:hidden">
             <ShoppingCard_Outline />
