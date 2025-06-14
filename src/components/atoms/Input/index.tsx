@@ -3,7 +3,6 @@
 import { tv } from "@/lib/tailwind-variants";
 import { Slot } from "@radix-ui/react-slot";
 import { forwardRef } from "react";
-import { InfoCircle_Outline } from "../icons/Essential/InfoCircle";
 import { InputProps } from "./index.types";
 
 export const inputVariants = tv(
@@ -14,10 +13,7 @@ export const inputVariants = tv(
       inputLabelWrapper: "relative flex-1",
       input: "w-full border-none bg-transparent outline-none",
       label:
-        "group-focus-within:text-caption-md data-[has-value=true]:text-caption-md pointer-events-none absolute -translate-y-1/2 px-1 leading-none transition-all select-none rtl:top-1/2 rtl:right-0",
-      errorWrapper: "text-status-error mt-1 flex items-center gap-1",
-      errorIcon: "size-4",
-      errorMessage: "text-caption-sm font-normal",
+        "group-focus-within:text-caption-md data-[has-value=true]:text-caption-md pointer-events-none absolute -translate-y-1/2 px-1 leading-none text-nowrap transition-all select-none rtl:top-1/2 rtl:right-0",
     },
     variants: {
       size: {
@@ -123,7 +119,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       className,
       onChange,
       value,
-      error,
+      error = false,
       containerProps,
       ...props
     },
@@ -135,20 +131,20 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       className,
     });
 
-    const input = (
+    return (
       <div
         {...containerProps}
         className={cns.root({ className: containerProps?.className })}
         data-has-value={!!value}
         data-has-prefix-icon={!!prefixIcon}
         aria-disabled={!!props.disabled}
-        data-error={!!error}
+        data-error={error}
       >
         <Slot
           className={cns.icon()}
           data-has-value={!!value}
           aria-disabled={!!props.disabled}
-          data-error={!!error}
+          data-error={error}
         >
           {prefixIcon}
         </Slot>
@@ -163,7 +159,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             value={value}
             data-has-value={!!value}
             data-has-prefix-icon={!!prefixIcon}
-            data-error={!!error}
+            data-error={error}
           />
           {!!label && (
             <span
@@ -171,7 +167,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
               data-has-value={!!value}
               data-has-prefix-icon={!!prefixIcon}
               aria-disabled={!!props.disabled}
-              data-error={!!error}
+              data-error={error}
             >
               {label}
             </span>
@@ -181,25 +177,12 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           className={cns.icon()}
           data-has-value={!!value}
           aria-disabled={!!props.disabled}
-          data-error={!!error}
+          data-error={error}
         >
           {suffixIcon}
         </Slot>
       </div>
     );
-
-    if (error && typeof error === "string")
-      return (
-        <div>
-          {input}
-          <div className={cns.errorWrapper()}>
-            <InfoCircle_Outline className={cns.errorIcon()} />
-            <p className={cns.errorMessage()}>{error}</p>
-          </div>
-        </div>
-      );
-
-    return input;
   },
 );
 Input.displayName = "Input";

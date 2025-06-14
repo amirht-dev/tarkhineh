@@ -10,7 +10,7 @@ export type InputOwnProps = Merge<
     prefixIcon?: ReactNode;
     suffixIcon?: ReactNode;
     onChange?: (event: ChangeEvent<HTMLInputElement>, value: string) => void;
-    error?: boolean | string;
+    error?: boolean;
     label?: string;
     containerProps?: ComponentPropsWithoutRef<"div">;
   }

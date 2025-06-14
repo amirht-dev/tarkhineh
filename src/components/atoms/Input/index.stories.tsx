@@ -68,10 +68,10 @@ const meta = {
       type: "boolean",
     },
     error: {
-      control: "text",
+      control: "boolean",
       table: {
         type: {
-          summary: T.union(T.primitive.string, T.primitive.boolean),
+          summary: T.primitive.boolean,
         },
       },
     },
@@ -173,6 +173,6 @@ export const Disabled = {
 
 export const Error = {
   args: {
-    error: "پر کردن این فیلد الزامی است!",
+    error: true,
   },
 } satisfies Story;
