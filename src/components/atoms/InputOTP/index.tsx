@@ -1,32 +1,38 @@
 "use client";
 
 import { twMerge } from "@/lib/tailwind-merge";
+import { lastIndex } from "@/utils";
 import { createCTX } from "@/utils/clientHelpers";
 import { OTPInput, OTPInputContext } from "input-otp";
+import sum from "lodash/sum";
 import * as React from "react";
-import { ArrayValues } from "type-fest";
 import { Minus_Outline } from "../icons/Essential/Minus";
-import { INPUT_OTP_GROUP_VARIANTS } from "./index.constants";
-import { InputOTPContextType } from "./index.types";
+import {
+  InputOTPContextType,
+  InputOTPGroupProps,
+  InputOTPProps,
+  InputOTPRootProps,
+  InputOTPSeparatorProps,
+  InputOTPSlotProps,
+} from "./index.types";
 
 const { context: InputOTPContext, hook: useInputOTPContext } =
   createCTX<InputOTPContextType>("InputOTP");
 
-function InputOTP({
+function InputOTPRoot({
   className,
   containerClassName,
   error = false,
+  fullWidth = false,
   ...props
-}: React.ComponentProps<typeof OTPInput> & {
-  containerClassName?: string;
-  error?: boolean;
-}) {
+}: InputOTPRootProps) {
   return (
-    <InputOTPContext value={{ error }}>
+    <InputOTPContext value={{ error, fullWidth }}>
       <OTPInput
         data-slot="input-otp"
         containerClassName={twMerge(
           "flex items-center gap-2 group/root",
+          !fullWidth && "w-fit",
           containerClassName,
         )}
         className={twMerge("disabled:cursor-not-allowed", className)}
@@ -40,9 +46,7 @@ function InputOTPGroup({
   className,
   variant = "separate",
   ...props
-}: React.ComponentProps<"div"> & {
-  variant?: ArrayValues<typeof INPUT_OTP_GROUP_VARIANTS>;
-}) {
+}: InputOTPGroupProps) {
   return (
     <div
       data-slot="input-otp-group"
@@ -57,18 +61,10 @@ function InputOTPGroup({
   );
 }
 
-function InputOTPSlot({
-  index,
-  className,
-  fullWidth = false,
-  ...props
-}: React.ComponentProps<"div"> & {
-  index: number;
-  fullWidth?: boolean;
-}) {
+function InputOTPSlot({ index, className, ...props }: InputOTPSlotProps) {
   const inputOTPContext = React.useContext(OTPInputContext);
   const { char, hasFakeCaret, isActive } = inputOTPContext?.slots[index] ?? {};
-  const { error } = useInputOTPContext();
+  const { error, fullWidth } = useInputOTPContext();
 
   return (
     <div
@@ -109,7 +105,7 @@ function InputOTPSlot({
   );
 }
 
-function InputOTPSeparator({ ...props }: React.ComponentProps<"div">) {
+function InputOTPSeparator(props: InputOTPSeparatorProps) {
   const { error } = useInputOTPContext();
 
   return (
@@ -128,4 +124,43 @@ function InputOTPSeparator({ ...props }: React.ComponentProps<"div">) {
   );
 }
 
-export { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot };
+export default function InputOTP({
+  slots,
+  separator,
+  groupClassName,
+  slotClassName,
+  variant,
+  ...props
+}: InputOTPProps) {
+  let index = 0;
+
+  return (
+    <InputOTPRoot {...props} maxLength={sum(slots)}>
+      {slots.map((groupSlotsCount, groupIdx) => (
+        <>
+          <InputOTPGroup
+            key={groupIdx}
+            className={groupClassName}
+            variant={variant}
+          >
+            {Array.from({ length: groupSlotsCount }, (_, idx) => (
+              <InputOTPSlot
+                index={index++}
+                key={idx}
+                className={slotClassName}
+              />
+            ))}
+          </InputOTPGroup>
+          {separator && groupIdx !== lastIndex(slots) && <InputOTPSeparator />}
+        </>
+      ))}
+    </InputOTPRoot>
+  );
+}
+
+export {
+  InputOTPRoot as InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+};

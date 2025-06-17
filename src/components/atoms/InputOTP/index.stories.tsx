@@ -2,23 +2,25 @@
 import { useArgs } from "@storybook/preview-api";
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
-import { ComponentProps } from "react";
-import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from ".";
+import InputOTP, {
+  InputOTPGroup,
+  InputOTP as InputOTPRoot,
+  InputOTPSeparator,
+  InputOTPSlot,
+} from ".";
 import { INPUT_OTP_GROUP_VARIANTS } from "./index.constants";
-
-type Props = {
-  count: number[];
-  fullWidth: boolean;
-} & Pick<
-  ComponentProps<typeof InputOTP>,
-  "value" | "onChange" | "disabled" | "error"
-> &
-  Pick<ComponentProps<typeof InputOTPGroup>, "variant">;
+import { InputOTPProps } from "./index.types";
 
 const meta = {
-  subcomponents: { InputOTP, InputOTPSlot, InputOTPGroup, InputOTPSeparator },
+  subcomponents: {
+    InputOTPRoot,
+    InputOTPSlot,
+    InputOTPGroup,
+    InputOTPSeparator,
+  },
+  component: InputOTP,
   args: {
-    count: [5],
+    slots: [5],
     disabled: false,
     value: "",
     variant: "separate",
@@ -33,47 +35,22 @@ const meta = {
     },
   },
   render(args) {
-    const [{ value }, updateArgs] = useArgs<Props>();
-    let idx = 0;
+    const [{ value }, updateArgs] = useArgs<InputOTPProps>();
+
     return (
       <div dir="ltr">
         <InputOTP
-          maxLength={
-            Array.isArray(args.count)
-              ? args.count.reduce((total, number) => total + number)
-              : args.count
-          }
+          {...args}
           value={value}
           onChange={(value) => {
             args.onChange?.(value);
             updateArgs({ value });
           }}
-          disabled={args.disabled}
-          error={args.error}
-        >
-          {args.count.map((slotsCount, groupIdx) => {
-            return (
-              <>
-                <InputOTPGroup key={groupIdx} variant={args.variant} dir="ltr">
-                  {Array.from({ length: slotsCount }, (_, slotIdx) => {
-                    return (
-                      <InputOTPSlot
-                        key={slotIdx}
-                        fullWidth={args.fullWidth}
-                        index={idx++}
-                      />
-                    );
-                  })}
-                </InputOTPGroup>
-                {groupIdx !== args.count.length - 1 && <InputOTPSeparator />}
-              </>
-            );
-          })}
-        </InputOTP>
+        />
       </div>
     );
   },
-} satisfies Meta<Props>;
+} satisfies Meta<InputOTPProps>;
 
 export default meta;
 
@@ -101,7 +78,8 @@ export const StickySlots = {
 
 export const MultipleGroups = {
   args: {
-    count: [3, 3],
+    slots: [3, 3],
+    separator: true,
   },
 } satisfies Story;
 
