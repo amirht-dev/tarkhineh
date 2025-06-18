@@ -24,6 +24,7 @@ function InputOTPRoot({
   containerClassName,
   error = false,
   fullWidth = false,
+  children,
   ...props
 }: InputOTPRootProps) {
   return (
@@ -37,7 +38,9 @@ function InputOTPRoot({
         )}
         className={twMerge("disabled:cursor-not-allowed", className)}
         {...props}
-      />
+      >
+        {children}
+      </OTPInput>
     </InputOTPContext>
   );
 }
@@ -125,7 +128,7 @@ function InputOTPSeparator(props: InputOTPSeparatorProps) {
 }
 
 export default function InputOTP({
-  slots,
+  slots = [5],
   separator,
   groupClassName,
   slotClassName,

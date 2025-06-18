@@ -6,7 +6,7 @@ import { fn } from "@storybook/test";
 import Input from ".";
 import { Eye_Outline } from "../icons/Security/Eye";
 import { Lock_Outline } from "../icons/Security/Lock";
-import { INPUT_MODES, INPUT_SIZES } from "./index.constants";
+import { INPUT_MODES, INPUT_SIZES, INPUT_TYPES } from "./index.constants";
 import { InputProps } from "./index.types";
 
 const meta = {
@@ -23,6 +23,15 @@ const meta = {
     value: "",
   },
   argTypes: {
+    type: {
+      control: "select",
+      options: INPUT_TYPES,
+      table: {
+        type: {
+          summary: T.union(...INPUT_TYPES),
+        },
+      },
+    },
     mode: {
       control: "inline-radio",
       options: INPUT_MODES,
