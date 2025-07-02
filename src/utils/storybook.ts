@@ -3,13 +3,16 @@ export const TYPES = {
   arrayOf: (type: string) => `Array<${type}>`,
   undefinable: (type: string) => TYPES.union(type, TYPES.primitive.undefined),
   nullable: (type: string) => TYPES.union(type, TYPES.primitive.null),
-  function: (params: Record<string, string>, returnType = "void") =>
-    `(${Object.entries(params)
-      .map(([paramKey, paramType]) => `${paramKey}: ${paramType}`)
-      .join(", ")}) => ${returnType}`,
-  object: <T extends Record<string, unknown>>(
-    object: Record<keyof T, string>,
-  ) =>
+  function: (params?: Record<string, string>, returnType = "void") =>
+    `(${
+      params
+        ? Object.entries(params)
+            .map(([paramKey, paramType]) => `${paramKey}: ${paramType}`)
+            .join(", ")
+        : ""
+    }) => ${returnType}`,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  object: <T extends Record<string, any>>(object: Record<keyof T, string>) =>
     `{
 ${Object.entries(object)
   .map(([key, value]) => `${key}: ${value}`)
