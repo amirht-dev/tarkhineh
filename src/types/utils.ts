@@ -1,5 +1,5 @@
 import { ComponentPropsWithoutRef, ElementType } from "react";
-import { Merge } from "type-fest";
+import { Merge, Primitive } from "type-fest";
 
 export type PropsWithAsChild<P = object> = Merge<
   P,
@@ -14,3 +14,13 @@ export type PropsWithComponentPropsWithoutRef<
 > = Merge<ComponentPropsWithoutRef<T>, P>;
 
 export type OneOrMore<T> = T | T[];
+
+export type DistributedMerge<Destination, Source> = Destination extends infer T
+  ? Merge<T, Source>
+  : never;
+
+export type UnwrapLiteralUnion<T, P extends Primitive> = T extends P & {}
+  ? P extends T
+    ? never
+    : T // Check if T is exactly (string & {})
+  : T;
