@@ -1,9 +1,13 @@
 import useTimer from "@/hooks/useTimer";
-import { formatTimerDuration, secondsToDuration } from "@/utils";
+import {
+  formatTimerDuration,
+  secondsToDuration,
+  timerDurationToSeconds,
+} from "@/utils";
 import { useEffect } from "react";
 import { TimerProps } from "./index.types";
 
-const Timer = ({ duration, onFinish, ...props }: TimerProps) => {
+const Timer = ({ duration, onFinish, warningStart, ...props }: TimerProps) => {
   const [timer, api] = useTimer(duration, { autoStart: true });
 
   useEffect(() => {
@@ -11,7 +15,15 @@ const Timer = ({ duration, onFinish, ...props }: TimerProps) => {
   }, [timer, onFinish, api]);
 
   return (
-    <div {...props} data-timer={timer}>
+    <div
+      {...props}
+      data-state={
+        warningStart && timer <= timerDurationToSeconds(warningStart)
+          ? "warning"
+          : "idle"
+      }
+      data-timer={timer}
+    >
       {formatTimerDuration(secondsToDuration(timer))}
     </div>
   );

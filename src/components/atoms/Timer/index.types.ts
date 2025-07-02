@@ -1,5 +1,6 @@
 import useTimer, { UseTimerApiType } from "@/hooks/useTimer";
 import { PropsWithComponentPropsWithoutRef } from "@/types/utils";
+import { Duration } from "date-fns";
 import { Except } from "type-fest";
 
 export type TimerProps = Except<
@@ -8,6 +9,7 @@ export type TimerProps = Except<
     {
       duration: Parameters<typeof useTimer>[0];
       onFinish?: (api: UseTimerApiType) => void;
+      warningStart?: number | Duration;
     }
   >,
   "children"

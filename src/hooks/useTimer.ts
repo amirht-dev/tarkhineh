@@ -1,5 +1,6 @@
+import { timerDurationToSeconds } from "@/utils";
 import { useCounter } from "@uidotdev/usehooks";
-import { add, differenceInSeconds, Duration } from "date-fns";
+import { Duration } from "date-fns";
 import { useCallback, useEffect, useMemo, useRef } from "react";
 
 export type UseTimerOptions = {
@@ -7,12 +8,6 @@ export type UseTimerOptions = {
 };
 
 export type UseTimerApiType = ReturnType<typeof useTimer>[1];
-
-function timerDurationToSeconds(duration: Parameters<typeof useTimer>[0]) {
-  return typeof duration === "number"
-    ? duration
-    : differenceInSeconds(add(Date.now(), duration), Date.now());
-}
 
 function useTimer(
   duration: Duration | number,
