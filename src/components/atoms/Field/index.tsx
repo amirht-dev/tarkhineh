@@ -53,16 +53,22 @@ const FieldErrorMessage = ({ children, ...props }: FieldErrorMessageProps) => {
   );
 };
 
-export default function Field({error, ...props}: FieldProps) {
+export default function Field({
+  error,
+  rootClassName,
+  errorMessageClassName,
+  ...props
+}: FieldProps) {
   return (
-    <FieldRoot error={!!error}>
+    <FieldRoot error={!!error} className={rootClassName}>
       <FieldInput {...props} />
-      {typeof error === 'string' &&
-      <FieldErrorMessage>{error}</FieldErrorMessage>
-      }
+      {typeof error === "string" && (
+        <FieldErrorMessage className={errorMessageClassName}>
+          {error}
+        </FieldErrorMessage>
+      )}
     </FieldRoot>
   );
 }
 
 export { FieldRoot as Field, FieldErrorMessage, FieldInput };
-

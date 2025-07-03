@@ -36,5 +36,7 @@ export type FieldProps = DistributedMerge<
   FieldInputProps,
   {
     error?: boolean | string;
+    rootClassName?: string;
+    errorMessageClassName?: string;
   }
 >;
