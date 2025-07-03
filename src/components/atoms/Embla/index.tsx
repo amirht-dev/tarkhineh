@@ -3,8 +3,9 @@
 import useCombineRefs from "@/hooks/useCombineRefs";
 import useEmblaEvent from "@/hooks/useEmblaEvent";
 import { twMerge } from "@/lib/tailwind-merge";
+import { PropsWithAsChild } from "@/types/utils";
 import { createCTX } from "@/utils/clientHelpers";
-import { Slot } from "@radix-ui/react-slot";
+import { Slot, Slottable } from "@radix-ui/react-slot";
 import useEmblaCarousel from "embla-carousel-react";
 import {
   forwardRef,
@@ -122,8 +123,8 @@ EmblaSlide.displayName = "EmblaSlide";
 
 const EmblaPreButton = forwardRef<
   HTMLButtonElement,
-  ComponentPropsWithoutRef<"button">
->(({ children, ...props }, ref) => {
+  PropsWithAsChild<ComponentPropsWithoutRef<"button">>
+>(({ children, asChild, ...props }, ref) => {
   const { emblaApi } = useEmblaContext();
   const [disabled, setDisabled] = useState(false);
 
@@ -133,8 +134,10 @@ const EmblaPreButton = forwardRef<
     useCallback((api) => setDisabled(!api.canScrollPrev()), []),
   );
 
+  const Comp = asChild ? Slot : "button";
+
   return (
-    <button
+    <Comp
       {...props}
       ref={ref}
       disabled={disabled}
@@ -144,8 +147,8 @@ const EmblaPreButton = forwardRef<
         props.className,
       )}
     >
-      {children ?? <ChevronRight_Outline />}
-    </button>
+      {children ? <Slottable>{children}</Slottable> : <ChevronRight_Outline />}
+    </Comp>
   );
 });
 
