@@ -11,7 +11,8 @@ export const inputVariants = tv(
       root: "group flex items-center gap-1 rounded-sm border px-4 transition-colors has-[input:disabled]:[&,&_*]:cursor-not-allowed",
       icon: "shrink-0 transition-colors",
       inputLabelWrapper: "relative flex-1",
-      input: "w-full border-none bg-transparent outline-none",
+      input:
+        "w-full border-none bg-transparent outline-none placeholder:opacity-0 placeholder:transition-opacity group-has-focus-within:placeholder:opacity-100",
       label:
         "group-focus-within:text-caption-md data-[has-value=true]:text-caption-md pointer-events-none absolute -translate-y-1/2 px-1 leading-none text-nowrap transition-all select-none rtl:top-1/2 rtl:right-0",
     },
