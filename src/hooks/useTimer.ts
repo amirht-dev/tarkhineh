@@ -14,12 +14,15 @@ function useTimer(
   { autoStart = true }: UseTimerOptions = {},
 ) {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
-  const [value, api] = useCounter(timerDurationToSeconds(duration), { min: 0 });
+  const [value, { decrement, reset: resetCounter, set }] = useCounter(
+    timerDurationToSeconds(duration),
+    { min: 0 },
+  );
 
   const start = useCallback(() => {
     if (intervalRef.current) return;
-    intervalRef.current = setInterval(api.decrement, 1000);
-  }, [api]);
+    intervalRef.current = setInterval(decrement, 1000);
+  }, [decrement]);
 
   const stop = useCallback(() => {
     if (!intervalRef.current) return;
@@ -30,13 +33,12 @@ function useTimer(
 
   const reset = useCallback(() => {
     stop();
-    api.reset();
-  }, [stop, api]);
+    resetCounter();
+  }, [stop, resetCounter]);
 
   useEffect(() => {
-    api.set(timerDurationToSeconds(duration));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [duration]);
+    set(timerDurationToSeconds(duration));
+  }, [duration, set]);
 
   useEffect(() => {
     if (autoStart) start();

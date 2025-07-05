@@ -4,11 +4,20 @@ import {
   secondsToDuration,
   timerDurationToSeconds,
 } from "@/utils";
-import { useEffect } from "react";
+import { useEffect, useImperativeHandle } from "react";
 import { TimerProps } from "./index.types";
 
-const Timer = ({ duration, onFinish, warningStart, ...props }: TimerProps) => {
-  const [timer, api] = useTimer(duration, { autoStart: true });
+const Timer = ({
+  duration,
+  onFinish,
+  warningStart,
+  controlRef,
+  autoStart = false,
+  ...props
+}: TimerProps) => {
+  const [timer, api] = useTimer(duration, { autoStart });
+
+  useImperativeHandle(controlRef, () => api);
 
   useEffect(() => {
     if (timer === 0 && onFinish) onFinish(api);
@@ -28,5 +37,6 @@ const Timer = ({ duration, onFinish, warningStart, ...props }: TimerProps) => {
     </div>
   );
 };
+Timer.displayName = "Timer";
 
 export default Timer;
