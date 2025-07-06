@@ -1,7 +1,7 @@
 import IconButton from "@/components/atoms/IconButton";
 import { ShoppingCard_Outline } from "@/components/atoms/icons/Shop/ShoppingCard";
-import { User_Outline } from "@/components/atoms/icons/Users/User";
 import Logo from "@/components/atoms/Logo";
+import LoginView from "@/components/molecules/LoginView";
 import MenuSheet from "@/components/molecules/MenuSheet";
 import NavigationMenu from "@/components/molecules/NavigationMenu";
 import SearchModal from "@/components/molecules/SearchModal";
@@ -24,27 +24,29 @@ const Header = () => {
       </div>
 
       <div className="flex flex-1 items-center justify-end gap-1 lg:gap-2">
+        <SearchModal />
+
         <>
           <IconButton color="white" className="lg:hidden">
             <ShoppingCard_Outline />
           </IconButton>
 
-          <IconButton color="white" className="lg:hidden">
-            <User_Outline />
+          <IconButton color="white" size="lg" className="max-lg:hidden">
+            <ShoppingCard_Outline />
           </IconButton>
         </>
 
         <>
-          <SearchModal />
+          {/* <IconButton color="white" className="lg:hidden">
+              <User_Outline />
+            </IconButton> */}
 
-          <IconButton color="white" size="lg" className="max-lg:hidden">
-            <ShoppingCard_Outline />
-          </IconButton>
-
-          <IconButton color="white" size="lg" className="max-lg:hidden">
-            <User_Outline />
-          </IconButton>
+          <LoginView />
         </>
+
+        {/* <IconButton color="white" size="lg" className="max-lg:hidden">
+            <User_Outline />
+          </IconButton> */}
       </div>
     </header>
   );

@@ -1,4 +1,10 @@
-import { add, Duration, intervalToDuration } from "date-fns";
+import useTimer from "@/hooks/useTimer";
+import {
+  add,
+  differenceInSeconds,
+  Duration,
+  intervalToDuration,
+} from "date-fns";
 
 export function lastIndex(target: { length: number }) {
   return target.length - 1;
@@ -24,4 +30,16 @@ export function secondsToDuration(seconds: number) {
     start: Date.now(),
     end: add(Date.now(), { seconds }),
   });
+}
+
+export function timerDurationToSeconds(
+  duration: Parameters<typeof useTimer>[0],
+) {
+  return typeof duration === "number"
+    ? duration
+    : differenceInSeconds(add(Date.now(), duration), Date.now());
+}
+
+export function wait(ms = 1000) {
+  return new Promise((res) => setTimeout(res, ms));
 }
