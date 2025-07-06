@@ -150,3 +150,8 @@ export const socialMedias = [
     href: "",
   },
 ];
+
+export const breakpoint = {
+  initial: 0,
+  lg: 1024,
+};
