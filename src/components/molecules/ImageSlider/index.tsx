@@ -16,7 +16,7 @@ import { useState } from "react";
 import { twJoin } from "tailwind-merge";
 import { ImageSliderProps } from "./index.types";
 
-const MotionImage = motion(Image);
+const MotionImage = motion.create(Image);
 
 const ImageSlider = ({ images }: ImageSliderProps) => {
   const [selected, setSelected] = useState(0);

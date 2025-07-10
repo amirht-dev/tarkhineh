@@ -69,11 +69,13 @@ function DialogContent({
   container?: React.ComponentProps<typeof DialogPortal>["container"] | string;
 }) {
   let _container;
-  if (typeof container === "string")
-    _container = document.querySelector(container);
-  else
-    _container =
-      container ?? document.getElementById("dialog-root") ?? document.body;
+  if ("document" in globalThis) {
+    if (typeof container === "string")
+      _container = document.querySelector(container);
+    else
+      _container =
+        container ?? document.getElementById("dialog-root") ?? document.body;
+  }
 
   return (
     <DialogPortal data-slot="dialog-portal" container={_container}>

@@ -65,11 +65,13 @@ function SheetContent({
   container?: React.ComponentProps<typeof SheetPortal>["container"] | string;
 }) {
   let _container;
-  if (typeof container === "string")
-    _container = document.querySelector(container);
-  else
-    _container =
-      container ?? document.getElementById("sheet-root") ?? document.body;
+  if ("document" in globalThis) {
+    if (typeof container === "string")
+      _container = document.querySelector(container);
+    else
+      _container =
+        container ?? document.getElementById("sheet-root") ?? document.body;
+  }
 
   return (
     <SheetPortal container={_container}>
