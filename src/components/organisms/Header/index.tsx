@@ -5,8 +5,12 @@ import LoginView from "@/components/molecules/LoginView";
 import MenuSheet from "@/components/molecules/MenuSheet";
 import NavigationMenu from "@/components/molecules/NavigationMenu";
 import SearchModal from "@/components/molecules/SearchModal";
+import UserDropdown from "@/components/molecules/UserDropdown";
+import { auth } from "@/lib/auth";
 
-const Header = () => {
+const Header = async () => {
+  const session = await auth();
+
   return (
     <header className="container flex min-h-16 items-center justify-between lg:min-h-[115px]">
       <div className="flex flex-1 items-center">
@@ -36,17 +40,7 @@ const Header = () => {
           </IconButton>
         </>
 
-        <>
-          {/* <IconButton color="white" className="lg:hidden">
-              <User_Outline />
-            </IconButton> */}
-
-          <LoginView />
-        </>
-
-        {/* <IconButton color="white" size="lg" className="max-lg:hidden">
-            <User_Outline />
-          </IconButton> */}
+        {session?.user ? <UserDropdown /> : <LoginView />}
       </div>
     </header>
   );
