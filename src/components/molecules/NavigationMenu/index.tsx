@@ -1,4 +1,5 @@
 import { ChevronDown_Outline } from "@/components/atoms/icons/Arrow/ChevronDown";
+import { List, ListItem } from "@/components/atoms/List";
 import NavLink from "@/components/atoms/NavLink";
 import { navLinks } from "@/constants";
 import { twMerge } from "@/lib/tailwind-merge";
@@ -36,18 +37,16 @@ const NavigationMenu = () => {
                 </NavigationMenuTrigger>
 
                 <NavigationMenuContent asChild>
-                  <ul className="bg-neutral-white drop-shadow-6 divide-neutral-gray-3 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in data-[state=closed]:fade-out data-[state=open]:zoom-in-75 data-[state=closed]:zoom-out-75 absolute top-full right-0 z-10 flex min-w-36 flex-col divide-y rounded-sm transition-all rtl:origin-top-right">
+                  <List
+                    className="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in data-[state=closed]:fade-out data-[state=open]:zoom-in-75 data-[state=closed]:zoom-out-75 absolute top-full right-0 z-10 min-w-36 transition-all rtl:origin-top-right"
+                    divider
+                  >
                     {link.items.map((item) => (
-                      <li key={item.label}>
-                        <Link
-                          href={item.href}
-                          className="text-body-sm text-neutral-gray-8 hover:bg-neutral-gray-3 block p-2 transition-colors"
-                        >
-                          {item.label}
-                        </Link>
-                      </li>
+                      <ListItem key={item.label}>
+                        <Link href={item.href}>{item.label}</Link>
+                      </ListItem>
                     ))}
-                  </ul>
+                  </List>
                 </NavigationMenuContent>
               </>
             ) : (
