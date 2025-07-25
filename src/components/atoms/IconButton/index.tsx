@@ -4,40 +4,44 @@ import { forwardRef } from "react";
 import Badge from "../Badge";
 import { IconButtonProps } from "./index.types";
 
-export const iconButtonVariants = tv({
-  slots: {
-    button:
-      "relative inline-flex aspect-square items-center justify-center rounded-sm",
-    icon: "",
-    badge: "absolute",
-  },
-  variants: {
-    size: {
-      md: {
-        icon: "size-4",
-        button: "size-6",
-        badge: "rtl:-top-1 rtl:-right-1",
+export const iconButtonVariants = tv(
+  {
+    slots: {
+      button: "relative inline-flex items-center justify-center rounded-sm",
+      icon: "",
+      badge: "absolute",
+    },
+    variants: {
+      size: {
+        md: {
+          icon: "h-4 w-4",
+          button: "h-6 w-6",
+          badge: "rtl:-top-1 rtl:-right-1",
+        },
+        lg: {
+          icon: "h-6 w-6",
+          button: "h-10 w-10",
+          badge: "rtl:top-1 rtl:right-1",
+        },
       },
-      lg: {
-        icon: "size-6",
-        button: "size-10",
-        badge: "rtl:top-1 rtl:right-1",
+      color: {
+        primary: {
+          button: "bg-primary text-neutral-white",
+        },
+        white: {
+          button: "bg-primary-tint-1 text-primary",
+        },
       },
     },
-    color: {
-      primary: {
-        button: "bg-primary text-neutral-white",
-      },
-      white: {
-        button: "bg-primary-tint-1 text-primary",
-      },
+    defaultVariants: {
+      size: "md",
+      color: "primary",
     },
   },
-  defaultVariants: {
-    size: "md",
-    color: "primary",
+  {
+    twMerge: true,
   },
-});
+);
 
 const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
   (
