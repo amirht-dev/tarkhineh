@@ -1,4 +1,8 @@
-import { ComponentPropsWithoutRef, ElementType } from "react";
+import {
+  ComponentPropsWithoutRef,
+  ComponentPropsWithRef,
+  ElementType,
+} from "react";
 import { Merge, Primitive } from "type-fest";
 
 export type PropsWithAsChild<P = object> = Merge<
@@ -12,6 +16,11 @@ export type PropsWithComponentPropsWithoutRef<
   T extends ElementType,
   P = object,
 > = Merge<ComponentPropsWithoutRef<T>, P>;
+
+export type PropsWithComponentPropsWithRef<
+  T extends ElementType,
+  P = object,
+> = Merge<ComponentPropsWithRef<T>, P>;
 
 export type OneOrMore<T> = T | T[];
 
