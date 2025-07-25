@@ -1,6 +1,6 @@
 import { Dialog } from "@/components/atoms/Dialog";
 import { LoginConfirmFormType, LoginFormType } from "@/utils/schemas";
-import { ComponentProps } from "react";
+import { ComponentProps, Dispatch, SetStateAction } from "react";
 import { SubmitHandler } from "react-hook-form";
 
 export type LoginViewProps = Pick<
@@ -14,4 +14,9 @@ export type LoginFormProps = {
 
 export type ConfirmOTPFormProps = {
   onSuccessfullySubmit?: SubmitHandler<LoginConfirmFormType>;
+};
+
+export type LoginViewContextType = {
+  open: boolean;
+  setOpen: Dispatch<SetStateAction<boolean>>;
 };

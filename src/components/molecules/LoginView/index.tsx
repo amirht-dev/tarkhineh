@@ -1,5 +1,6 @@
 "use client";
 
+import { loginAction, sendOTPAction } from "@/actions/auth";
 import Button from "@/components/atoms/Button";
 import {
   Dialog,
@@ -11,6 +12,7 @@ import {
 } from "@/components/atoms/Dialog";
 import { Field, FieldErrorMessage, FieldInput } from "@/components/atoms/Field";
 import IconButton from "@/components/atoms/IconButton";
+import { InfoCircle_Outline } from "@/components/atoms/icons/Essential/InfoCircle";
 import { Clock_Outline } from "@/components/atoms/icons/Time/Clock";
 import { User_Outline } from "@/components/atoms/icons/Users/User";
 import Logo from "@/components/atoms/Logo";
@@ -31,9 +33,11 @@ import {
   useMultiViewContext,
   useMultiViewWindowContext,
 } from "@/components/utils/MultiView";
+import { TEST_OTP_CODE } from "@/constants";
 import useBreakpointMediaQuery from "@/hooks/useBreakpointMediaQuery";
 import useTimerControl from "@/hooks/useTimerControl";
-import { localizeNumber, wait } from "@/utils";
+import { localizeNumber } from "@/utils";
+import { createCTX } from "@/utils/clientHelpers";
 import {
   LoginConfirmFormType,
   LoginFormType,
@@ -42,86 +46,92 @@ import {
 } from "@/utils/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import {
   ConfirmOTPFormProps,
   LoginFormProps,
+  LoginViewContextType,
   LoginViewProps,
 } from "./index.types";
+
+const { context: LoginViewContext, hook: useLoginViewContext } =
+  createCTX<LoginViewContextType>("LoginViewContext");
 
 const LoginView = (props: LoginViewProps) => {
   const [open, setOpen] = useState(false);
 
   const isLG = useBreakpointMediaQuery("lg");
 
-  if (isLG)
-    return (
-      <Dialog
-        open={props.open ?? open}
-        onOpenChange={props.onOpenChange ?? setOpen}
-      >
-        <DialogTrigger asChild className="max-lg:hidden">
-          <IconButton color="white" size="lg">
-            <User_Outline />
-          </IconButton>
-        </DialogTrigger>
-
-        <DialogContent
-          dir="rtl"
-          className="max-w-[392px] overflow-hidden lg:p-6"
-        >
-          <MultiView>
-            <DialogClose className="absolute top-6 left-6 lg:[&>svg]:size-6" />
-            <Logo size="sm" className="mx-auto mb-4" />
-            <MultiViewPrevButton className="text-neutral-gray-7 absolute top-6 right-6 disabled:hidden lg:size-6" />
-
-            <MultiViewContainer>
-              <LoginWindow />
-              <LoginConfirmCodeWindow />
-            </MultiViewContainer>
-          </MultiView>
-        </DialogContent>
-      </Dialog>
-    );
-
   return (
-    <Sheet
-      open={props.open ?? open}
-      onOpenChange={props.onOpenChange ?? setOpen}
-    >
-      <SheetTrigger asChild>
-        <IconButton color="white" className="lg:hidden">
-          <User_Outline />
-        </IconButton>
-      </SheetTrigger>
+    <LoginViewContext.Provider value={{ open, setOpen }}>
+      {isLG ? (
+        <Dialog
+          open={props.open ?? open}
+          onOpenChange={props.onOpenChange ?? setOpen}
+        >
+          <DialogTrigger asChild className="max-lg:hidden">
+            <IconButton color="white" size="lg">
+              <User_Outline />
+            </IconButton>
+          </DialogTrigger>
 
-      <SheetContent
-        className="flex w-full flex-col justify-center gap-20 px-5"
-        dir="rtl"
-      >
-        <SheetClose className="absolute top-5 left-5 [&>svg]:size-6" />
-        <Logo size="lg" className="mx-auto" />
-        <div className="">
-          <SheetTitle className="text-heading-6 text-center font-bold">
-            ورود / ثبت‌نام
-          </SheetTitle>
-          <SheetDescription className="text-body-sm text-neutral-gray-7 mt-6 text-center">
-            شماره همراه خود را وارد کنید.
-          </SheetDescription>
+          <DialogContent
+            dir="rtl"
+            className="max-w-[392px] overflow-hidden lg:p-6"
+          >
+            <MultiView>
+              <DialogClose className="absolute top-6 left-6 lg:[&>svg]:size-6" />
+              <Logo size="sm" className="mx-auto mb-4" />
+              <MultiViewPrevButton className="text-neutral-gray-7 absolute top-6 right-6 disabled:hidden lg:size-6" />
 
-          <LoginForm />
+              <MultiViewContainer>
+                <LoginWindow />
+                <LoginConfirmCodeWindow />
+              </MultiViewContainer>
+            </MultiView>
+          </DialogContent>
+        </Dialog>
+      ) : (
+        <Sheet
+          open={props.open ?? open}
+          onOpenChange={props.onOpenChange ?? setOpen}
+        >
+          <SheetTrigger asChild>
+            <IconButton color="white" className="lg:hidden">
+              <User_Outline />
+            </IconButton>
+          </SheetTrigger>
 
-          <p className="text-caption-sm text-neutral-gray-8 mt-4 text-center font-normal">
-            ورود و عضویت در ترخینه به منزله قبول{" "}
-            <Link href="#" className="text-primary hover:underline">
-              قوانین و مقررات
-            </Link>{" "}
-            است.
-          </p>
-        </div>
-      </SheetContent>
-    </Sheet>
+          <SheetContent
+            className="flex w-full flex-col justify-center gap-20 px-5"
+            dir="rtl"
+          >
+            <SheetClose className="absolute top-5 left-5 [&>svg]:size-6" />
+            <Logo size="lg" className="mx-auto" />
+            <div className="">
+              <SheetTitle className="text-heading-6 text-center font-bold">
+                ورود / ثبت‌نام
+              </SheetTitle>
+              <SheetDescription className="text-body-sm text-neutral-gray-7 mt-6 text-center">
+                شماره همراه خود را وارد کنید.
+              </SheetDescription>
+
+              <LoginForm />
+
+              <p className="text-caption-sm text-neutral-gray-8 mt-4 text-center font-normal">
+                ورود و عضویت در ترخینه به منزله قبول{" "}
+                <Link href="#" className="text-primary hover:underline">
+                  قوانین و مقررات
+                </Link>{" "}
+                است.
+              </p>
+            </div>
+          </SheetContent>
+        </Sheet>
+      )}
+    </LoginViewContext.Provider>
   );
 };
 
@@ -131,6 +141,7 @@ function LoginForm({ onSuccessfullySubmit }: LoginFormProps) {
   const {
     handleSubmit,
     control,
+    setError,
     formState: { errors, isDirty, isSubmitting },
   } = useForm<LoginFormType>({
     defaultValues: {
@@ -142,18 +153,22 @@ function LoginForm({ onSuccessfullySubmit }: LoginFormProps) {
   const isDisabled = !isDirty || isSubmitting;
 
   const onSubmit: SubmitHandler<LoginFormType> = async (data, event) => {
-    await wait(2000);
+    const res = await sendOTPAction(data.phoneNumber);
 
-    onSuccessfullySubmit?.(data, event);
+    if (res.success) onSuccessfullySubmit?.(data, event);
+    else
+      setError("root", {
+        message: "خطایی در ارسال OTP رخ داده است",
+      });
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Field error={!!errors.phoneNumber} className="mt-6">
+      <Field error={!!errors.phoneNumber || !!errors.root} className="mt-6">
         <Controller
           control={control}
           name="phoneNumber"
-          render={({ field, fieldState: { error } }) => (
+          render={({ field, fieldState: { error }, formState }) => (
             <>
               <FieldInput
                 type="text"
@@ -162,7 +177,9 @@ function LoginForm({ onSuccessfullySubmit }: LoginFormProps) {
                 placeholder="09123456789"
                 {...field}
               />
-              <FieldErrorMessage>{error?.message}</FieldErrorMessage>
+              <FieldErrorMessage>
+                {error?.message || formState.errors.root?.message}
+              </FieldErrorMessage>
             </>
           )}
         />
@@ -179,6 +196,7 @@ function ConfirmOTPForm({ onSuccessfullySubmit }: ConfirmOTPFormProps) {
   const {
     handleSubmit,
     control,
+    setError,
     formState: { isDirty, isSubmitting },
   } = useForm<LoginConfirmFormType>({
     resolver: zodResolver(loginConfirmFormSchema),
@@ -218,8 +236,15 @@ function ConfirmOTPForm({ onSuccessfullySubmit }: ConfirmOTPFormProps) {
   const isDisabled = !isDirty || isSubmitting;
 
   const onSubmit: SubmitHandler<LoginConfirmFormType> = async (data, event) => {
-    await wait(2000);
-    onSuccessfullySubmit?.(data, event);
+    const res = await loginAction(data);
+
+    if (res.success) {
+      onSuccessfullySubmit?.(data, event);
+    } else {
+      setError("root", {
+        message: res.error,
+      });
+    }
   };
 
   const handleResendCode = () => {
@@ -231,12 +256,17 @@ function ConfirmOTPForm({ onSuccessfullySubmit }: ConfirmOTPFormProps) {
       <Controller
         control={control}
         name="otpCode"
-        render={({ field, fieldState }) => (
-          <Field className="mt-6 px-2" error={!!fieldState.error}>
+        render={({ field, fieldState, formState }) => (
+          <Field
+            className="mt-6 px-2"
+            error={!!fieldState.error || !!formState.errors.root}
+          >
             <div dir="ltr">
               <FieldInput type="otp" fullWidth {...field} />
             </div>
-            <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
+            <FieldErrorMessage>
+              {fieldState.error?.message || formState.errors.root?.message}
+            </FieldErrorMessage>
           </Field>
         )}
       />
@@ -272,6 +302,13 @@ function ConfirmOTPForm({ onSuccessfullySubmit }: ConfirmOTPFormProps) {
           </Button>
         </MultiViewPrevButton>
       </div>
+
+      {process.env.NODE_ENV === "development" && (
+        <p className="text-neutral-gray-7 text-caption-sm flex items-center gap-1 font-normal">
+          <InfoCircle_Outline className="size-4" />
+          <span>کد تست {localizeNumber(TEST_OTP_CODE)} میباشد</span>
+        </p>
+      )}
 
       <Button type="submit" disabled={isDisabled} className="mt-4 block w-full">
         ثبت کد
@@ -316,6 +353,10 @@ function LoginConfirmCodeWindow() {
 
   const { data } = loginFormSchema.safeParse(meta);
 
+  const { setOpen } = useLoginViewContext();
+
+  const router = useRouter();
+
   return (
     <MultiViewWindow windowIdx={1}>
       <DialogTitle className="lg:text-body-md text-center">
@@ -330,8 +371,9 @@ function LoginConfirmCodeWindow() {
       )}
 
       <ConfirmOTPForm
-        onSuccessfullySubmit={(data) => {
-          console.log(data);
+        onSuccessfullySubmit={() => {
+          setOpen(false);
+          router.refresh();
         }}
       />
     </MultiViewWindow>

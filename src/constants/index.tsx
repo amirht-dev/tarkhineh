@@ -155,3 +155,5 @@ export const breakpoint = {
   initial: 0,
   lg: 1024,
 };
+
+export const TEST_OTP_CODE = "11111";
