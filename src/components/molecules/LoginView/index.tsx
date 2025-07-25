@@ -20,8 +20,6 @@ import {
   Sheet,
   SheetClose,
   SheetContent,
-  SheetDescription,
-  SheetTitle,
   SheetTrigger,
 } from "@/components/atoms/Sheet";
 import Timer from "@/components/atoms/Timer";
@@ -108,26 +106,18 @@ const LoginView = (props: LoginViewProps) => {
             className="flex w-full flex-col justify-center gap-20 px-5"
             dir="rtl"
           >
-            <SheetClose className="absolute top-5 left-5 [&>svg]:size-6" />
-            <Logo size="lg" className="mx-auto" />
-            <div className="">
-              <SheetTitle className="text-heading-6 text-center font-bold">
-                ورود / ثبت‌نام
-              </SheetTitle>
-              <SheetDescription className="text-body-sm text-neutral-gray-7 mt-6 text-center">
-                شماره همراه خود را وارد کنید.
-              </SheetDescription>
+            <MultiView>
+              <MultiViewPrevButton className="text-neutral-gray-6 absolute top-6 right-6 size-6 disabled:hidden lg:size-6" />
 
-              <LoginForm />
+              <SheetClose className="absolute top-5 left-5 [&>svg]:size-6" />
 
-              <p className="text-caption-sm text-neutral-gray-8 mt-4 text-center font-normal">
-                ورود و عضویت در ترخینه به منزله قبول{" "}
-                <Link href="#" className="text-primary hover:underline">
-                  قوانین و مقررات
-                </Link>{" "}
-                است.
-              </p>
-            </div>
+              <Logo size="lg" className="mx-auto" />
+
+              <MultiViewContainer>
+                <LoginWindow />
+                <LoginConfirmCodeWindow />
+              </MultiViewContainer>
+            </MultiView>
           </SheetContent>
         </Sheet>
       )}
@@ -322,11 +312,11 @@ function LoginWindow() {
 
   return (
     <MultiViewWindow windowIdx={0}>
-      <DialogTitle className="lg:text-body-md text-center">
+      <DialogTitle className="lg:text-body-md text-heading-6 text-center max-lg:font-bold">
         ورود / ثبت ‌نام
       </DialogTitle>
 
-      <DialogDescription className="lg:text-caption-md text-neutral-gray-7 text-center">
+      <DialogDescription className="lg:text-caption-md text-body-sm text-neutral-gray-7 text-center max-lg:mt-6">
         با وارد کردن شماره موبایل کد تاییدی برای شما ارسال خواهد شد.
       </DialogDescription>
 
@@ -337,7 +327,7 @@ function LoginWindow() {
         }}
       />
 
-      <p className="text-caption-sm text-neutral-gray-8 mt-4 text-center font-normal">
+      <p className="text-caption-sm text-neutral-gray-8 mt-2 text-center font-normal lg:mt-4">
         ورود و عضویت در ترخینه به منزله قبول{" "}
         <Link href="#" className="text-primary hover:underline">
           قوانین و مقررات
@@ -359,12 +349,12 @@ function LoginConfirmCodeWindow() {
 
   return (
     <MultiViewWindow windowIdx={1}>
-      <DialogTitle className="lg:text-body-md text-center">
+      <DialogTitle className="lg:text-body-md text-heading-6 text-center max-lg:font-bold">
         کد تائید
       </DialogTitle>
 
       {!!data?.phoneNumber && (
-        <DialogDescription className="lg:text-caption-md text-neutral-gray-7 text-center">
+        <DialogDescription className="lg:text-caption-md text-body-sm text-neutral-gray-7 text-center max-lg:mt-6">
           <span>کد تایید پنج‌رقمی به شماره</span>{" "}
           <span>{localizeNumber(data.phoneNumber)}</span> <span>ارسال شد.</span>
         </DialogDescription>
