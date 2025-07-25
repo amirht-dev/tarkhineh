@@ -1,6 +1,7 @@
 "use server";
 
-import { signIn } from "@/lib/auth";
+import { signIn, signOut } from "@/lib/auth";
+import { UseActionStateFunction } from "@/types/next";
 
 export async function sendOTPAction(
   phoneNumber: string,
@@ -30,3 +31,10 @@ export async function loginAction(data: Record<string, unknown>) {
     };
   }
 }
+
+export const signoutAction: UseActionStateFunction<
+  { success: true } | { success: false; error: string } | null
+> = async () => {
+  await signOut();
+  return null;
+};

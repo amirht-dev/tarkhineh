@@ -11,6 +11,7 @@ import {
   PopoverIconIndicator,
   PopoverTrigger,
 } from "@/components/atoms/Popover";
+import SignoutButton from "@/components/atoms/SignoutButton";
 import Link from "next/link";
 
 const UserDropdown = () => {
@@ -64,12 +65,12 @@ const UserDropdown = () => {
           </ListItem>
 
           <ListItem passClassName>
-            <button className="w-full">
+            <SignoutButton className="w-full disabled:opacity-50">
               <ListIcon>
                 <Logout_Outline />
               </ListIcon>
               <span>خروج از حساب</span>
-            </button>
+            </SignoutButton>
           </ListItem>
         </List>
       </PopoverContent>
