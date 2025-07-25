@@ -15,12 +15,14 @@ export const iconButtonVariants = tv(
       size: {
         md: {
           icon: "h-4 w-4",
-          button: "h-6 w-6",
+          button:
+            "h-6 w-6 [&_[data-slot=icon]]:size-4 [&_svg:only-child]:size-4",
           badge: "rtl:-top-1 rtl:-right-1",
         },
         lg: {
           icon: "h-6 w-6",
-          button: "h-10 w-10",
+          button:
+            "h-10 w-10 [&_[data-slot=icon]]:size-6 [&_svg:only-child]:size-6",
           badge: "rtl:top-1 rtl:right-1",
         },
       },
@@ -62,7 +64,7 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
 
     return (
       <Comp {...props} ref={ref} className={cns.button({ className })}>
-        <Slot className={cns.icon()}>{children}</Slot>
+        {children}
         {badge != null && (
           <Badge color={color} className={cns.badge()}>
             {badge}

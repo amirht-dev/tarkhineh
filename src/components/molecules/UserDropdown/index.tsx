@@ -1,3 +1,5 @@
+"use client";
+
 import IconButton from "@/components/atoms/IconButton";
 import { Logout_Outline } from "@/components/atoms/icons/Arrow/Logout";
 import { Location_Outline } from "@/components/atoms/icons/Location/Location";
@@ -12,16 +14,27 @@ import {
   PopoverTrigger,
 } from "@/components/atoms/Popover";
 import SignoutButton from "@/components/atoms/SignoutButton";
+import useBreakpointMediaQuery from "@/hooks/useBreakpointMediaQuery";
 import Link from "next/link";
+import { twJoin } from "tailwind-merge";
 
 const UserDropdown = () => {
+  const isLG = useBreakpointMediaQuery("lg");
+
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <IconButton color="white" size="lg" className="flex w-auto gap-1 px-2">
+        <IconButton
+          color="white"
+          size={isLG ? "lg" : "md"}
+          className={twJoin(
+            "flex w-auto items-center gap-1",
+            isLG ? "px-2" : "px-1",
+          )}
+        >
           <>
-            <User_Outline />
-            <PopoverIconIndicator className="relative top-1" />
+            <User_Outline data-slot="icon" />
+            <PopoverIconIndicator className="size-2 lg:size-4" />
           </>
         </IconButton>
       </PopoverTrigger>
