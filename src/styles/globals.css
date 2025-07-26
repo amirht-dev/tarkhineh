@@ -6,6 +6,42 @@
 
 @plugin "tailwindcss-animate";
 
+@utility loader {
+  --loader-size: 50px;
+  --loader-color: var(--color-primary);
+  width: var(--loader-size);
+  aspect-ratio: 1;
+  display: grid;
+  border: calc(calc(var(--loader-size) * 4) / 50) solid transparent;
+  border-radius: 50%;
+  border-color: #ccc transparent;
+  animation: l16 1s infinite linear;
+
+  &::before,
+  &::after {
+    content: "";
+    grid-area: 1/1;
+    margin: calc(calc(var(--loader-size) * 2) / 50);
+    border: inherit;
+    border-radius: 50%;
+  }
+  &::before {
+    border-color: var(--loader-color) transparent;
+    animation: inherit;
+    animation-duration: 0.5s;
+    animation-direction: reverse;
+  }
+  &::after {
+    margin: calc(calc(var(--loader-size) * 8) / 50);
+  }
+}
+
+@utility loader-* {
+  --loader-size: calc(--value(integer) * var(--spacing));
+  --loader-size: --value([ *]);
+  --loader-color: --value(--color- *);
+}
+
 @theme {
   --font-*: initial;
   --font-estedad: var(--font-estedad);
@@ -179,6 +215,12 @@
 @layer utilities {
   .font-estedad {
     font-family: "estedad";
+  }
+}
+
+@keyframes l16 {
+  100% {
+    transform: rotate(1turn);
   }
 }
 
