@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 import { Simplify, UnionToIntersection } from "type-fest";
 
 type PromiseAble<T> = T | Promise<T>;
@@ -56,6 +56,14 @@ export type NextPageProps<TParams extends ParamType = never> =
 
 export type NextPage<TParams extends ParamType = never> = FC<
   NextPageProps<TParams>
+>;
+
+export type NextLayoutProps<TParams extends ParamType = never> = {
+  children: ReactNode;
+} & NextParamsObject<TParams>;
+
+export type NextLayout<TParams extends ParamType = never> = FC<
+  NextLayoutProps<TParams>
 >;
 // ==========================
 
