@@ -6,6 +6,7 @@ import {
 } from "@/components/atoms/icons/Support-Like-Question/Heart";
 import SingleRate from "@/components/atoms/SingleRate";
 import Tag from "@/components/atoms/Tag";
+import Responsive from "@/components/utils/Responsive";
 import { localizeNumber } from "@/utils";
 import Image from "next/image";
 
@@ -74,17 +75,14 @@ const ProductCard = () => {
           </span>
         </div>
 
-        <>
-          <Button size="sm" className="mt-3 w-full justify-center lg:hidden">
-            افزودن به سبد خرید
-          </Button>
-          <Button
-            size="md"
-            className="mt-4 w-full justify-center max-lg:hidden"
-          >
-            افزودن به سبد خرید
-          </Button>
-        </>
+        <Responsive<typeof Button>
+          component={
+            <Button className="mt-3 w-full justify-center lg:mt-4">
+              افزودن به سبد خرید
+            </Button>
+          }
+          size={{ initial: "sm", lg: "md" }}
+        />
       </div>
     </div>
   );
