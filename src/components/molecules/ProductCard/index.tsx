@@ -10,9 +10,10 @@ import { localizeNumber } from "@/utils";
 import Image from "next/image";
 
 const ProductCard = () => {
+  const discount = true;
   return (
-    <div className="border-neutral-gray-4 w-[168px] overflow-hidden rounded-sm border">
-      <div className="relative aspect-168/109">
+    <div className="border-neutral-gray-4 w-[168px] overflow-hidden rounded-sm border lg:w-[288px] lg:rounded-lg">
+      <div className="relative aspect-168/109 lg:aspect-288/240">
         <Image
           src="/images/products/demo.jpg"
           alt=""
@@ -21,23 +22,34 @@ const ProductCard = () => {
         />
       </div>
 
-      <div className="p-2 pt-1">
-        <h4 className="text-caption-md text-center">غذای گیاهی</h4>
+      <div className="p-2 pt-1 lg:p-4">
+        <h4 className="text-caption-md lg:text-heading-7 text-center">
+          غذای گیاهی
+        </h4>
 
-        <div className="mt-1 flex items-center">
-          <Checkbox
-            checkedIcon={<Heart_Bold className="text-status-error" />}
-            uncheckedIcon={<Heart_Outline className="text-neutral-gray-5" />}
-            className="size-4"
-          />
+        <div className="mt-1 flex items-center lg:mt-4">
+          <label className="lg:flex lg:items-center lg:gap-1">
+            <Checkbox
+              checkedIcon={<Heart_Bold className="text-status-error" />}
+              uncheckedIcon={<Heart_Outline className="text-neutral-gray-5" />}
+              className="size-4"
+            />
+            <span className="text-caption-sm text-neutral-gray-5 font-normal max-lg:hidden">
+              افزودن به علاقمندی‌ها
+            </span>
+          </label>
 
-          <span className="text-neutral-gray-5 text-caption-sm ms-auto font-normal line-through">
-            {localizeNumber(175000)}
-          </span>
+          {discount && (
+            <>
+              <span className="text-neutral-gray-5 text-caption-sm ms-auto font-normal line-through">
+                {localizeNumber(175000)}
+              </span>
 
-          <Tag variant="pill" color="error" size="16" className="ms-1">
-            ٪۲۰
-          </Tag>
+              <Tag variant="pill" color="error" size="16" className="ms-1">
+                ٪۲۰
+              </Tag>
+            </>
+          )}
         </div>
 
         <div className="mt-1 flex items-center justify-between">
@@ -49,19 +61,30 @@ const ProductCard = () => {
               }}
               value={(1 * 3) / 5}
             />
-            <span className="text-caption-sm text-neutral-gray-8 font-normal">
-              {localizeNumber(3)}
+            <span className="text-caption-sm lg:text-button-sm text-neutral-gray-8 font-normal">
+              ۳
+            </span>
+            <span className="text-caption-sm text-neutral-gray-5 font-normal max-lg:hidden">
+              (۶۲ امتیاز)
             </span>
           </div>
 
-          <span className="text-caption-sm text-neutral-gray-8 font-normal">
+          <span className="text-caption-sm lg:text-body-md text-neutral-gray-8 font-normal">
             <span>{localizeNumber(150000)}</span> <span>تومان</span>
           </span>
         </div>
 
-        <Button size="sm" className="mt-3 w-full justify-center">
-          افزودن به سبد خرید
-        </Button>
+        <>
+          <Button size="sm" className="mt-3 w-full justify-center lg:hidden">
+            افزودن به سبد خرید
+          </Button>
+          <Button
+            size="md"
+            className="mt-4 w-full justify-center max-lg:hidden"
+          >
+            افزودن به سبد خرید
+          </Button>
+        </>
       </div>
     </div>
   );
