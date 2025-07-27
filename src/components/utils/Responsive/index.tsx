@@ -1,44 +1,59 @@
-import { breakpointEntires } from "@/constants";
+"use client";
+
+import { breakpoint, breakpointEntires } from "@/constants";
 import useCurrentBreakpoint from "@/hooks/useCurrentBreakpoint";
-import { cloneElement, ReactElement, useMemo } from "react";
+import { useMemo } from "react";
 import { Entries } from "type-fest";
 import { ResponsiveComponentProps, ResponsiveProps } from "./index.types";
 
 function resolveResponsiveProps(props: object) {
   return (
     Object.entries(props) as Entries<
-      ResponsiveComponentProps<Record<string, unknown>>
+      // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+      ResponsiveComponentProps<Record<string, {}>>
     >
   ).reduce(
     (resolvedProps, [propName, propResponsiveObj]) => {
       if (!propResponsiveObj) return resolvedProps;
 
-      const resolvedPropValue = breakpointEntires.reduce<unknown>(
-        (resolvedPropValue, [bpName, bpValue]) => {
-          if (
-            bpName in propResponsiveObj &&
-            propResponsiveObj[bpName] !== undefined &&
-            window.matchMedia(`only screen and (min-width: ${bpValue}px)`)
-              .matches
-          ) {
-            return propResponsiveObj[bpName];
-          }
-          return resolvedPropValue;
-        },
-        undefined,
-      );
+      let propValue: unknown = propResponsiveObj;
+
+      if (
+        typeof propResponsiveObj === "object" &&
+        Object.keys(breakpoint).some((bpName) =>
+          Object.keys(propResponsiveObj).includes(bpName),
+        )
+      ) {
+        propValue = breakpointEntires.reduce<unknown>(
+          (resolvedPropValue, [bpName, bpValue]) => {
+            if (
+              bpName in propResponsiveObj &&
+              propResponsiveObj[bpName as keyof typeof propResponsiveObj] !==
+                undefined &&
+              window.matchMedia(`only screen and (min-width: ${bpValue}px)`)
+                .matches
+            ) {
+              return propResponsiveObj[
+                bpName as keyof typeof propResponsiveObj
+              ];
+            }
+            return resolvedPropValue;
+          },
+          undefined,
+        );
+      }
 
       return {
         ...resolvedProps,
-        [propName]: resolvedPropValue,
+        [propName]: propValue,
       };
     },
     {} as Record<string, unknown>,
   );
 }
 
-const Responsive = <TProps,>({
-  component,
+const Responsive = <TProps extends object>({
+  component: Comp,
   ...props
 }: ResponsiveProps<TProps>) => {
   const [bp] = useCurrentBreakpoint();
@@ -48,7 +63,8 @@ const Responsive = <TProps,>({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bp]);
 
-  return cloneElement(component as ReactElement, resolvedProps);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return <Comp {...(resolvedProps as any)} />;
 };
 
 export default Responsive;

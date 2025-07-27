@@ -3,7 +3,13 @@ import {
   ComponentPropsWithRef,
   ElementType,
 } from "react";
-import { Merge, Primitive } from "type-fest";
+import {
+  Merge,
+  OmitIndexSignature,
+  PickIndexSignature,
+  Primitive,
+} from "type-fest";
+import { SimpleMerge } from "type-fest/source/merge";
 
 export type PropsWithAsChild<P = object> = Merge<
   P,
@@ -33,3 +39,9 @@ export type UnwrapLiteralUnion<T, P extends Primitive> = T extends P & {}
     ? never
     : T // Check if T is exactly (string & {})
   : T;
+
+export type UnSimplifiedMerge<Destination, Source> = SimpleMerge<
+  PickIndexSignature<Destination>,
+  PickIndexSignature<Source>
+> &
+  SimpleMerge<OmitIndexSignature<Destination>, OmitIndexSignature<Source>>;

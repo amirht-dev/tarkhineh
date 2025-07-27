@@ -1,20 +1,25 @@
 import { breakpoint } from "@/constants";
-import { ComponentProps, ReactNode } from "react";
-import { Merge } from "type-fest";
+import { UnSimplifiedMerge } from "@/types/utils";
+import { ComponentType } from "react";
+import type { RequiredKeysOf, SetRequired } from "type-fest";
 
 export type ResponsiveValueObject<T> = Partial<
   Record<keyof typeof breakpoint, T>
 >;
 
-export type ResponsiveComponentProps<TProps> = {
-  [P in keyof TProps]?: ResponsiveValueObject<TProps[P]>;
+export type ResponsiveComponentProps<TProps extends object> = {
+  [RP in RequiredKeysOf<TProps>]:
+    | SetRequired<ResponsiveValueObject<TProps[RP]>, "initial">
+    | TProps[RP];
+} & {
+  [OP in Exclude<keyof TProps, RequiredKeysOf<TProps>>]?:
+    | ResponsiveValueObject<TProps[OP]>
+    | TProps[OP];
 };
 
-export type ResponsiveProps<TProps> = Merge<
-  ResponsiveComponentProps<
-    TProps extends React.ComponentType ? ComponentProps<TProps> : TProps
-  >,
+export type ResponsiveProps<TProps extends object> = UnSimplifiedMerge<
+  ResponsiveComponentProps<TProps>,
   {
-    component: ReactNode;
+    component: ComponentType<TProps>;
   }
 >;
