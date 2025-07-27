@@ -4,6 +4,7 @@ import {
   SectionHeader,
   SectionTitle,
 } from "@/components/atoms/Section";
+import ProductCardSlider from "@/components/molecules/ProductCardSlider";
 import { NextPage } from "@/types/next";
 
 const BranchPage: NextPage<"branch_slug"> = async ({ params }) => {
@@ -18,7 +19,9 @@ const BranchPage: NextPage<"branch_slug"> = async ({ params }) => {
           </SectionTitle>
         </SectionHeader>
 
-        <SectionBody>dsfdf</SectionBody>
+        <SectionBody className="relative overflow-hidden">
+          <ProductCardSlider />
+        </SectionBody>
       </Section>
     </>
   );
