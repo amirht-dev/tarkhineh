@@ -12,7 +12,7 @@ import { ProductCardAddToCartButton } from "./client";
 const ProductCard = () => {
   const discount = true;
   return (
-    <div className="border-neutral-gray-4 w-[168px] overflow-hidden rounded-sm border lg:w-[288px] lg:rounded-lg">
+    <div className="border-neutral-gray-4 bg-neutral-white w-[168px] overflow-hidden rounded-sm border lg:w-[288px] lg:rounded-lg">
       <div className="relative aspect-168/109 lg:aspect-288/240">
         <Image
           src="/images/products/demo.jpg"
