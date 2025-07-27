@@ -23,6 +23,18 @@ const BranchPage: NextPage<"branch_slug"> = async ({ params }) => {
           <ProductCardSlider />
         </SectionBody>
       </Section>
+
+      <Section className="bg-primary-shade-2 pt-6 pb-10">
+        <SectionHeader className="container grid grid-cols-1">
+          <SectionTitle className="text-neutral-white justify-self-start">
+            غذاهای محبوب
+          </SectionTitle>
+        </SectionHeader>
+
+        <SectionBody className="relative overflow-hidden">
+          <ProductCardSlider />
+        </SectionBody>
+      </Section>
     </>
   );
 };
