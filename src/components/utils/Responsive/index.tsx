@@ -1,20 +1,8 @@
-import { breakpoint, breakpointEntires } from "@/constants";
+import { breakpointEntires } from "@/constants";
 import useCurrentBreakpoint from "@/hooks/useCurrentBreakpoint";
-import { cloneElement, ReactElement, ReactNode, useMemo } from "react";
-import { Entries, Merge } from "type-fest";
-
-type ResponsiveValueObject<T> = Partial<Record<keyof typeof breakpoint, T>>;
-
-type ResponsiveComponentProps<TProps> = {
-  [P in keyof TProps]?: ResponsiveValueObject<TProps[P]>;
-};
-
-type Props<TProps> = Merge<
-  ResponsiveComponentProps<TProps>,
-  {
-    component: ReactNode;
-  }
->;
+import { cloneElement, ReactElement, useMemo } from "react";
+import { Entries } from "type-fest";
+import { ResponsiveComponentProps, ResponsiveProps } from "./index.types";
 
 function resolveResponsiveProps(props: object) {
   return (
@@ -49,7 +37,10 @@ function resolveResponsiveProps(props: object) {
   );
 }
 
-const Responsive = <TProps,>({ component, ...props }: Props<TProps>) => {
+const Responsive = <TProps,>({
+  component,
+  ...props
+}: ResponsiveProps<TProps>) => {
   const [bp] = useCurrentBreakpoint();
 
   const resolvedProps = useMemo(() => {
