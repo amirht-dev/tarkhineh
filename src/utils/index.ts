@@ -1,3 +1,4 @@
+import { breakpointEntires } from "@/constants";
 import useTimer from "@/hooks/useTimer";
 import {
   add,
@@ -42,4 +43,14 @@ export function timerDurationToSeconds(
 
 export function wait(ms = 1000) {
   return new Promise((res) => setTimeout(res, ms));
+}
+
+export function getCurrentBreakpoint() {
+  return breakpointEntires.reduce((resolvedCurrentBpEntry, bpEntry) => {
+    if (
+      window.matchMedia(`only screen and (min-width: ${bpEntry[1]}px)`).matches
+    )
+      return bpEntry[0];
+    return resolvedCurrentBpEntry;
+  }, breakpointEntires[0][0]);
 }

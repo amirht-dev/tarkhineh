@@ -20,6 +20,7 @@ import { Instagram_Outline } from "@/components/atoms/icons/SocialMedia/Instagra
 import { Telegram_Outline } from "@/components/atoms/icons/SocialMedia/Telegram";
 import { Twitter_Outline } from "@/components/atoms/icons/SocialMedia/Twitter";
 import { Profile2Users_Outline } from "@/components/atoms/icons/Users/Profile2Users";
+import { Entries } from "type-fest";
 
 export const menus = {
   mainFood: {
@@ -155,5 +156,9 @@ export const breakpoint = {
   initial: 0,
   lg: 1024,
 };
+
+export const breakpointEntires = Object.entries(breakpoint) as Entries<
+  typeof breakpoint
+>;
 
 export const TEST_OTP_CODE = "11111";
