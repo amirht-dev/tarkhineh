@@ -1,4 +1,3 @@
-import Button from "@/components/atoms/Button";
 import Checkbox from "@/components/atoms/Checkbox";
 import {
   Heart_Bold,
@@ -6,9 +5,9 @@ import {
 } from "@/components/atoms/icons/Support-Like-Question/Heart";
 import SingleRate from "@/components/atoms/SingleRate";
 import Tag from "@/components/atoms/Tag";
-import Responsive from "@/components/utils/Responsive";
 import { localizeNumber } from "@/utils";
 import Image from "next/image";
+import { ProductCardAddToCartButton } from "./client";
 
 const ProductCard = () => {
   const discount = true;
@@ -74,15 +73,7 @@ const ProductCard = () => {
             <span>{localizeNumber(150000)}</span> <span>تومان</span>
           </span>
         </div>
-
-        <Responsive<typeof Button>
-          component={
-            <Button className="mt-3 w-full justify-center lg:mt-4">
-              افزودن به سبد خرید
-            </Button>
-          }
-          size={{ initial: "sm", lg: "md" }}
-        />
+        <ProductCardAddToCartButton />
       </div>
     </div>
   );
