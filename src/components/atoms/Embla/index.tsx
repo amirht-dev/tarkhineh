@@ -6,6 +6,7 @@ import { twMerge } from "@/lib/tailwind-merge";
 import { PropsWithAsChild } from "@/types/utils";
 import { createCTX } from "@/utils/clientHelpers";
 import { Slot, Slottable } from "@radix-ui/react-slot";
+import ClassNames from "embla-carousel-class-names";
 import useEmblaCarousel from "embla-carousel-react";
 import {
   forwardRef,
@@ -36,12 +37,15 @@ export const { context: EmblaContext, hook: useEmblaContext } =
 const Embla = ({
   children,
   type = "flex",
-  plugins,
+  plugins = [],
   emblaRef,
   emblaApi,
   ...props
 }: EmblaProps) => {
-  const [_emblaRef, _emblaApi] = useEmblaCarousel(props, plugins);
+  const [_emblaRef, _emblaApi] = useEmblaCarousel(props, [
+    ClassNames(),
+    ...plugins,
+  ]);
 
   return (
     <EmblaContext.Provider
