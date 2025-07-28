@@ -1,3 +1,6 @@
+"use client";
+
+import { withResponsive } from "@/components/utils/Responsive";
 import { tv } from "@/lib/tailwind-variants";
 import { Slot, Slottable } from "@radix-ui/react-slot";
 import { forwardRef } from "react";
@@ -221,3 +224,5 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 Button.displayName = "Button";
 
 export default Button;
+
+export const ResponsiveButton = withResponsive(Button);
