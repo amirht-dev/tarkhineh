@@ -42,6 +42,18 @@
   --loader-color: --value(--color- *);
 }
 
+@utility overlay-* {
+  --overlay-opacity: calc(--value(integer) / 100);
+  --overlay-opacity: --value([percentage]);
+  &::after {
+    content: "";
+    position: absolute;
+    background-color: #000;
+    opacity: var(--overlay-opacity);
+    inset: 0;
+  }
+}
+
 @theme {
   --font-*: initial;
   --font-estedad: var(--font-estedad);
