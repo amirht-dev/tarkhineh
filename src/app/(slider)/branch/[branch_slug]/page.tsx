@@ -1,3 +1,5 @@
+import { ResponsiveButton } from "@/components/atoms/Button";
+import { Note_Outline } from "@/components/atoms/icons/Content-Edit/Note";
 import {
   Section,
   SectionBody,
@@ -36,7 +38,7 @@ const BranchPage: NextPage<"branch_slug"> = async ({ params }) => {
         </SectionBody>
       </Section>
 
-      <Section>
+      <Section className="mb-0">
         <SectionHeader className="container grid grid-cols-1">
           <SectionTitle className="justify-self-start">
             غذاهای غیر ایرانی
@@ -47,6 +49,16 @@ const BranchPage: NextPage<"branch_slug"> = async ({ params }) => {
           <ProductCardSlider />
         </SectionBody>
       </Section>
+
+      <section className="mt-3 flex justify-center lg:mt-6">
+        <ResponsiveButton
+          variant="outline"
+          size={{ initial: "sm", lg: "md" }}
+          prefixIcon={<Note_Outline />}
+        >
+          مشاهده منوی کامل
+        </ResponsiveButton>
+      </section>
     </>
   );
 };
