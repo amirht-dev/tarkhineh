@@ -9,11 +9,18 @@ import {
 } from "@/components/atoms/Section";
 import BranchInfo from "@/components/molecules/BranchInfo";
 import ProductCardSlider from "@/components/molecules/ProductCardSlider";
-import { heroSlides } from "@/constants";
+import { branches } from "@/constants";
 import { NextPage } from "@/types/next";
+import { notFound } from "next/navigation";
 
 const BranchPage: NextPage<"branch_slug"> = async ({ params }) => {
   const { branch_slug } = await params;
+
+  const branch = Object.values(branches).find(
+    (branch) => branch.slug === branch_slug,
+  );
+
+  if (!branch) notFound();
 
   return (
     <>
@@ -65,7 +72,7 @@ const BranchPage: NextPage<"branch_slug"> = async ({ params }) => {
 
       <Section>
         <SectionHeader className="flex justify-center">
-          <SectionTitle>شعبه اکباتان</SectionTitle>
+          <SectionTitle>شعبه {branch.name}</SectionTitle>
         </SectionHeader>
 
         <SectionBody>
@@ -74,12 +81,12 @@ const BranchPage: NextPage<"branch_slug"> = async ({ params }) => {
             prevButtonClassName="[&_svg]:size-6 lg:[&_svg]:size-12"
             nextButtonClassName="[&_svg]:size-6 lg:[&_svg]:size-12"
           >
-            {heroSlides.map((slide, idx) => (
+            {branch.images.map((imageSrc, idx) => (
               <ImageSliderSlide
                 overlay={false}
                 key={idx}
-                src={slide.imageSrc}
-                alt={slide.title}
+                src={imageSrc}
+                alt={imageSrc.src}
                 className="overlay-20"
               />
             ))}
