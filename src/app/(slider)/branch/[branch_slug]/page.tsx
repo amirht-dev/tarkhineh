@@ -10,7 +10,7 @@ import {
 import BranchInfo from "@/components/molecules/BranchInfo";
 import { CardSlider, CardSliderSlide } from "@/components/molecules/CardSlider";
 import CommentCard from "@/components/molecules/CommentCard";
-import ProductCardSlider from "@/components/molecules/ProductCardSlider";
+import ProductCard from "@/components/molecules/ProductCard";
 import { branches } from "@/constants";
 import { NextPage } from "@/types/next";
 import { notFound } from "next/navigation";
@@ -24,6 +24,22 @@ const BranchPage: NextPage<"branch_slug"> = async ({ params }) => {
 
   if (!branch) notFound();
 
+  const ProductCardSlider = (
+    <CardSlider
+      sidesNavigation
+      sidesNavigationClassName="max-lg:hidden"
+      emblaProps={{
+        inViewThreshold: 0.9,
+      }}
+    >
+      {Array.from({ length: 10 }, (_, idx) => (
+        <CardSliderSlide key={idx}>
+          <ProductCard />
+        </CardSliderSlide>
+      ))}
+    </CardSlider>
+  );
+
   return (
     <>
       <Section>
@@ -33,9 +49,7 @@ const BranchPage: NextPage<"branch_slug"> = async ({ params }) => {
           </SectionTitle>
         </SectionHeader>
 
-        <SectionBody className="relative overflow-hidden">
-          <ProductCardSlider />
-        </SectionBody>
+        <SectionBody>{ProductCardSlider}</SectionBody>
       </Section>
 
       <Section className="bg-primary-shade-2 pt-6 pb-10">
@@ -45,9 +59,7 @@ const BranchPage: NextPage<"branch_slug"> = async ({ params }) => {
           </SectionTitle>
         </SectionHeader>
 
-        <SectionBody className="relative overflow-hidden">
-          <ProductCardSlider />
-        </SectionBody>
+        <SectionBody>{ProductCardSlider}</SectionBody>
       </Section>
 
       <Section className="mb-0">
@@ -57,9 +69,7 @@ const BranchPage: NextPage<"branch_slug"> = async ({ params }) => {
           </SectionTitle>
         </SectionHeader>
 
-        <SectionBody className="relative overflow-hidden">
-          <ProductCardSlider />
-        </SectionBody>
+        <SectionBody>{ProductCardSlider}</SectionBody>
       </Section>
 
       <section className="mt-3 flex justify-center lg:mt-6">
