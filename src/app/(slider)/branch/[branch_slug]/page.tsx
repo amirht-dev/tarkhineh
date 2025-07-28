@@ -8,6 +8,8 @@ import {
   SectionTitle,
 } from "@/components/atoms/Section";
 import BranchInfo from "@/components/molecules/BranchInfo";
+import { CardSlider, CardSliderSlide } from "@/components/molecules/CardSlider";
+import CommentCard from "@/components/molecules/CommentCard";
 import ProductCardSlider from "@/components/molecules/ProductCardSlider";
 import { branches } from "@/constants";
 import { NextPage } from "@/types/next";
@@ -95,6 +97,27 @@ const BranchPage: NextPage<"branch_slug"> = async ({ params }) => {
           <div className="container -mt-[15px] lg:-mt-[30px]">
             <BranchInfo />
           </div>
+        </SectionBody>
+      </Section>
+
+      <Section>
+        <SectionHeader className="flex justify-center">
+          <SectionTitle>نظرات کاربران</SectionTitle>
+        </SectionHeader>
+
+        <SectionBody>
+          <CardSlider
+            sidesNavigation
+            sidesNavigationClassName="max-lg:hidden"
+            dotNavigation
+            dotNavigationClassName="max-lg:hidden"
+          >
+            {Array.from({ length: 10 }, (_, idx) => (
+              <CardSliderSlide key={idx}>
+                <CommentCard />
+              </CardSliderSlide>
+            ))}
+          </CardSlider>
         </SectionBody>
       </Section>
     </>
