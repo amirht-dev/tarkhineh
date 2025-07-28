@@ -26,9 +26,10 @@ const CardSlider = ({
   nextButtonClassName,
   dotNavigation = false,
   dotNavigationClassName,
+  emblaProps,
 }: CardSliderProps) => {
   return (
-    <Embla direction="rtl" skipSnaps inViewThreshold={1}>
+    <Embla direction="rtl" skipSnaps inViewThreshold={1} {...emblaProps}>
       <div
         className={twMerge(
           "overflow-hidden",
