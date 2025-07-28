@@ -1,6 +1,6 @@
 "use client";
 
-import ImageSlider from "@/components/molecules/ImageSlider";
+import ThumbnailGallery from "@/components/molecules/ThumbnailGallery";
 import { tv } from "@/lib/tailwind-variants";
 import Image from "next/image";
 import Link from "next/link";
@@ -154,7 +154,7 @@ const BranchCard = ({
 
       <DialogContent className="border-0 p-0 lg:max-w-[808px]" dir="rtl">
         <DialogTitle className="sr-only">{name} branch images</DialogTitle>
-        <ImageSlider images={images} />
+        <ThumbnailGallery images={images} />
         <DialogClose className="bg-neutral-gray-8/50 text-neutral-white absolute top-4 left-4 rounded-full" />
       </DialogContent>
     </Dialog>

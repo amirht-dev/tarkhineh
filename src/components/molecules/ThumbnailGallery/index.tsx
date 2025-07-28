@@ -14,11 +14,11 @@ import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
 import { useState } from "react";
 import { twJoin } from "tailwind-merge";
-import { ImageSliderProps } from "./index.types";
+import { ThumbnailGalleryProps } from "./index.types";
 
 const MotionImage = motion.create(Image);
 
-const ImageSlider = ({ images }: ImageSliderProps) => {
+const ThumbnailGallery = ({ images }: ThumbnailGalleryProps) => {
   const [selected, setSelected] = useState(0);
 
   const [emblaRef, emblaApi] = useEmblaCarousel({
@@ -97,4 +97,4 @@ const ImageSlider = ({ images }: ImageSliderProps) => {
   );
 };
 
-export default ImageSlider;
+export default ThumbnailGallery;

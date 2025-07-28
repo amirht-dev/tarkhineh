@@ -1,19 +1,19 @@
 import { branches } from "@/constants";
 import type { Meta, StoryObj } from "@storybook/react";
-import ImageSlider from ".";
+import ThumbnailGallery from ".";
 
 const meta = {
-  component: ImageSlider,
+  component: ThumbnailGallery,
   tags: ["!autodocs"],
   args: {
     images: branches.ekbatan.images,
   },
-} satisfies Meta<typeof ImageSlider>;
+} satisfies Meta<typeof ThumbnailGallery>;
 
 export default meta;
 
 type Story<T = typeof meta> = StoryObj<T>;
 
 export const Default = {
-  name: "ImageSlider",
+  name: "ThumbnailGallery",
 } satisfies Story;
