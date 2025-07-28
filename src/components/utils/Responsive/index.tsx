@@ -2,7 +2,7 @@
 
 import { breakpoint, breakpointEntires } from "@/constants";
 import useCurrentBreakpoint from "@/hooks/useCurrentBreakpoint";
-import { useMemo } from "react";
+import { ComponentType, FC, useMemo } from "react";
 import { Entries } from "type-fest";
 import { ResponsiveComponentProps, ResponsiveProps } from "./index.types";
 
@@ -68,3 +68,14 @@ const Responsive = <TProps extends object>({
 };
 
 export default Responsive;
+
+export function withResponsive<TProps extends object>(
+  Component: ComponentType<TProps>,
+) {
+  const func: FC<ResponsiveComponentProps<TProps>> = (props) => {
+    return <Responsive component={Component} {...props} />;
+  };
+  func.displayName = Component.displayName;
+
+  return func;
+}
