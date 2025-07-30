@@ -6,4 +6,5 @@ export type SearchBoxProps = {
   onChange?: (e: ChangeEvent<HTMLInputElement>, value: string) => void;
   fullWidth?: boolean;
   className?: string;
+  initialValue?: string;
 };

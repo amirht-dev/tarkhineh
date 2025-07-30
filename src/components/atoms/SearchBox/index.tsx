@@ -1,11 +1,12 @@
 "use client";
 
 import { twMerge } from "@/lib/tailwind-merge";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   ChangeEventHandler,
   KeyboardEventHandler,
   SyntheticEvent,
+  useEffect,
   useState,
 } from "react";
 import { CloseCircle_Outline } from "../icons/Essential/CloseCircle";
@@ -18,16 +19,23 @@ const SearchBox = ({
   onSearch,
   fullWidth = true,
   className,
+  initialValue = "",
 }: SearchBoxProps) => {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(initialValue);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const searchTermQuery = searchParams.get("q");
+
+  useEffect(() => {
+    if (searchTermQuery) setValue(searchTermQuery);
+  }, [searchTermQuery]);
 
   const isDisabled = !value;
 
   const handleSearch = (e: SyntheticEvent) => {
     if (!isDisabled) onSearch?.(e, value);
     if (e.isDefaultPrevented() || isDisabled) return;
-    const searchParams = new URLSearchParams({ q: encodeURI(value) });
+    const searchParams = new URLSearchParams({ q: value });
     router.push(`/search?${searchParams.toString()}`);
   };
 
