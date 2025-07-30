@@ -1,8 +1,9 @@
 import { twMerge } from "@/lib/tailwind-merge";
 import { Slot } from "@radix-ui/react-slot";
 import clamp from "lodash/clamp";
-import { CSSProperties } from "react";
+import { ComponentProps, CSSProperties } from "react";
 import { Star_Bold, Star_Outline } from "../icons/Support-Like-Question/Star";
+import { Skeleton } from "../Skeleton";
 import { SingleRateProps } from "./index.types";
 
 const SingleRate = ({
@@ -44,3 +45,13 @@ const SingleRate = ({
 };
 
 export default SingleRate;
+
+export const SingleRateSkeleton = (props: ComponentProps<"div">) => (
+  <Skeleton
+    {...props}
+    className={twMerge("size-6", props.className)}
+    type="text"
+  >
+    <Star_Bold className="size-[inherit]" />
+  </Skeleton>
+);
