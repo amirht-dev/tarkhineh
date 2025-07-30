@@ -14,7 +14,7 @@ import { ProductCardAddToCartButton } from "./client";
 const productCardBaseVariants = tv({
   slots: {
     root: "border-neutral-gray-4 bg-neutral-white w-[168px] overflow-hidden rounded-sm border lg:w-[288px] lg:rounded-lg",
-    image_wrapper: "aspect-168/109 lg:aspect-288/240",
+    image_wrapper: "h-[109px] w-full lg:h-[240px]",
     body: "p-2 pt-1 lg:p-4",
     title: "text-caption-md lg:text-heading-7",
     favorite_discount_wrapper: "mt-1 flex items-center lg:mt-4",
