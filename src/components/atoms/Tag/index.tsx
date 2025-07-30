@@ -1,20 +1,14 @@
 import { tv } from "@/lib/tailwind-variants";
-import { TagProps } from "./index.types";
+import { Skeleton } from "../Skeleton";
+import { TagProps, TagSkeletonProps } from "./index.types";
 
-const tagVariants = tv({
-  base: "inline-flex items-center justify-center font-normal",
+const tagBaseVariants = tv({
   variants: {
     variant: {
       square: "rounded-sm",
       pill: "rounded-full",
     },
-    color: {
-      primary: "text-primary bg-primary-tint-1",
-      neutral: "text-neutral-gray-8 bg-neutral-gray-3",
-      success: "bg-status-success-el text-status-success",
-      warning: "bg-status-warning-el text-status-warning",
-      error: "bg-status-error-el text-status-error",
-    },
+
     size: {
       "16": "text-caption-sm h-4 px-2",
       "22": "text-caption-sm h-5.5 px-2",
@@ -23,8 +17,24 @@ const tagVariants = tv({
   },
   defaultVariants: {
     variant: "square",
-    color: "primary",
     size: "22",
+  },
+});
+
+export const tagVariants = tv({
+  extend: tagBaseVariants,
+  base: "inline-flex items-center justify-center font-normal",
+  variants: {
+    color: {
+      primary: "text-primary bg-primary-tint-1",
+      neutral: "text-neutral-gray-8 bg-neutral-gray-3",
+      success: "bg-status-success-el text-status-success",
+      warning: "bg-status-warning-el text-status-warning",
+      error: "bg-status-error-el text-status-error",
+    },
+  },
+  defaultVariants: {
+    color: "primary",
   },
 });
 
@@ -44,3 +54,20 @@ const Tag = ({
 };
 
 export default Tag;
+
+export const tagSkeletonVariants = tv({
+  extend: tagBaseVariants,
+  base: "inline-block",
+});
+
+export const TagSkeleton = ({
+  size = "22",
+  variant = "square",
+  className,
+  ...props
+}: TagSkeletonProps) => (
+  <Skeleton
+    {...props}
+    className={tagSkeletonVariants({ size, variant, className })}
+  />
+);
