@@ -52,7 +52,9 @@ type NextParamsObject<TParams = never> = [TParams] extends [ParamType]
 
 // components
 export type NextPageProps<TParams extends ParamType = never> =
-  NextParamsObject<TParams>;
+  NextParamsObject<TParams> & {
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  };
 
 export type NextPage<TParams extends ParamType = never> = FC<
   NextPageProps<TParams>
