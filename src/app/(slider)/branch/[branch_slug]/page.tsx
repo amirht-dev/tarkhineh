@@ -13,6 +13,7 @@ import CommentCard from "@/components/molecules/CommentCard";
 import ProductCard from "@/components/molecules/ProductCard";
 import { branches } from "@/constants";
 import { NextPage } from "@/types/next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 const BranchPage: NextPage<"branch_slug"> = async ({ params }) => {
@@ -75,10 +76,11 @@ const BranchPage: NextPage<"branch_slug"> = async ({ params }) => {
       <section className="mt-3 flex justify-center lg:mt-6">
         <ResponsiveButton
           variant="outline"
+          asChild
           size={{ initial: "sm", lg: "md" }}
           prefixIcon={<Note_Outline />}
         >
-          مشاهده منوی کامل
+          <Link href={`${branch_slug}/menu`}>مشاهده منوی کامل</Link>
         </ResponsiveButton>
       </section>
 
