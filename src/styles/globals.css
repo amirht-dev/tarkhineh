@@ -189,9 +189,10 @@
   --text-overline-sm--font-weight: var(--font-weight-bold);
   --text-overline-sm--line-height: auto;
 
-  --animate-accordion-down: accordion-down 300ms ease-out;
+  --animate-accordion-down: accordion-down 180ms ease-out;
   --animate-accordion-up: accordion-up 300ms ease-out;
   --animate-caret-blink: caret-blink 1.2s ease-out infinite;
+  --animate-click: expand 300ms ease-in-out forwards;
 }
 
 @keyframes accordion-down {
@@ -221,6 +222,15 @@
   20%,
   50% {
     opacity: 0;
+  }
+}
+
+@keyframes expand {
+  0% {
+    scale: 0;
+  }
+  100% {
+    scale: 1;
   }
 }
 
