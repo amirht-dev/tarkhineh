@@ -48,7 +48,7 @@ const menuCardBaseVariants = tv({
 export const menuCardVariants = tv({
   extend: menuCardBaseVariants,
   slots: {
-    root: "group",
+    root: "group hover:drop-shadow-2 transition-[filter]",
     image_wrapper: "relative",
     image: "object-cover object-center",
     body: "",
