@@ -41,7 +41,7 @@ const BranchPage: NextPage<"branch_slug"> = async ({ params }) => {
   );
 
   return (
-    <>
+    <div className="my-6 space-y-6 lg:my-12 lg:space-y-12">
       <Section>
         <SectionHeader className="container grid grid-cols-1">
           <SectionTitle className="justify-self-start">
@@ -130,7 +130,7 @@ const BranchPage: NextPage<"branch_slug"> = async ({ params }) => {
           </CardSlider>
         </SectionBody>
       </Section>
-    </>
+    </div>
   );
 };
 
