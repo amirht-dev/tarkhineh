@@ -1,3 +1,5 @@
+"use client";
+
 import { tv } from "@/lib/tailwind-variants";
 import { Star_Bold, Star_Outline } from "../icons/Support-Like-Question/Star";
 import { Skeleton } from "../Skeleton";
