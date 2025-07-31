@@ -111,7 +111,7 @@ const EmblaSlide = forwardRef<HTMLDivElement, EmblaContainerProps>(
         {...props}
         ref={ref}
         className={twMerge(
-          "me-[var(--gap,0px)] min-w-0",
+          "me-[var(--gap,0px)] min-w-0 select-none",
           !(emblaApi?.internalEngine().options.loop ?? loop) && "last:me-0",
           type === "flex"
             ? "flex-[0_0_var(--slide-size,calc(calc(100%/var(--slide-per-view,1))-calc(calc(calc(var(--slide-per-view,1)-1)*var(--gap,0px))/var(--slide-per-view,1))))]"
