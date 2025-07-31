@@ -25,7 +25,7 @@ const TabBarItem = ({ className, ...props }: TabBarListItemProps) => {
       <NavLink
         {...props}
         className={twMerge(
-          "data-[state=active]:text-primary data-[state=active]:text-caption-lg data-[state=active]:border-primary text-caption-md text-neutral-gray-7 lg:text-body-xl lg:data-[state=active]:text-heading-5 block py-1.5 leading-none data-[state=active]:border-b data-[state=active]:font-medium lg:py-4 data-[state=active]:lg:border-b-2",
+          "data-[state=active]:text-primary data-[state=active]:text-caption-lg data-[state=active]:border-primary text-caption-md text-neutral-gray-7 lg:text-body-xl lg:data-[state=active]:text-heading-5 block py-2.5 leading-none data-[state=active]:border-b data-[state=active]:font-medium lg:py-5 data-[state=active]:lg:border-b-2 lg:data-[state=active]:font-bold",
           className,
         )}
       />
