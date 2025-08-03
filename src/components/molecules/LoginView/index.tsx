@@ -1,6 +1,6 @@
 "use client";
 
-import { loginAction, sendOTPAction } from "@/actions/auth";
+import { sendOTPAction } from "@/actions/auth";
 import Button from "@/components/atoms/Button";
 import {
   Dialog,
@@ -43,6 +43,7 @@ import {
   loginFormSchema,
 } from "@/utils/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -226,9 +227,12 @@ function ConfirmOTPForm({ onSuccessfullySubmit }: ConfirmOTPFormProps) {
   const isDisabled = !isDirty || isSubmitting;
 
   const onSubmit: SubmitHandler<LoginConfirmFormType> = async (data, event) => {
-    const res = await loginAction(data);
+    const res = await signIn("credentials", {
+      otpCode: data.otpCode,
+      redirect: false,
+    });
 
-    if (res.success) {
+    if (res.ok) {
       onSuccessfullySubmit?.(data, event);
     } else {
       setError("root", {

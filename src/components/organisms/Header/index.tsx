@@ -6,11 +6,9 @@ import MenuSheet from "@/components/molecules/MenuSheet";
 import NavigationMenu from "@/components/molecules/NavigationMenu";
 import SearchModal from "@/components/molecules/SearchModal";
 import UserDropdown from "@/components/molecules/UserDropdown";
-import { auth } from "@/lib/auth";
+import { SignedIn, SignedOut } from "@/components/utils/Auth";
 
 const Header = async () => {
-  const session = await auth();
-
   return (
     <header className="shadow-neutral-black/5 shadow-md">
       <div className="container flex min-h-16 items-center justify-between lg:min-h-[115px]">
@@ -41,7 +39,13 @@ const Header = async () => {
             </IconButton>
           </>
 
-          {session?.user ? <UserDropdown /> : <LoginView />}
+          <SignedIn>
+            <UserDropdown />
+          </SignedIn>
+
+          <SignedOut>
+            <LoginView />
+          </SignedOut>
         </div>
       </div>
     </header>
