@@ -235,5 +235,5 @@ export const StepsView = ({ index, className, ...props }: StepsViewProps) => {
     (!isNavigating && currentStepIndex === index) ||
     (isNavigating && navigationStepIndex === index)
   )
-    return <div {...props} className={twMerge("mt-10", className)} />;
+    return <div {...props} className={twMerge("mt-6 lg:mt-10", className)} />;
 };
