@@ -12,35 +12,37 @@ const Header = async () => {
   const session = await auth();
 
   return (
-    <header className="container flex min-h-16 items-center justify-between lg:min-h-[115px]">
-      <div className="flex flex-1 items-center">
-        <MenuSheet />
+    <header className="shadow-neutral-black/5 shadow-md">
+      <div className="container flex min-h-16 items-center justify-between lg:min-h-[115px]">
+        <div className="flex flex-1 items-center">
+          <MenuSheet />
 
-        <Logo size="lg" color="primary" className="max-lg:hidden" />
-      </div>
+          <Logo size="lg" color="primary" className="max-lg:hidden" />
+        </div>
 
-      <div className="flex justify-center">
-        <Logo size="sm" color="primary" className="lg:hidden" />
+        <div className="flex justify-center">
+          <Logo size="sm" color="primary" className="lg:hidden" />
 
-        <nav className="max-lg:hidden">
-          <NavigationMenu />
-        </nav>
-      </div>
+          <nav className="max-lg:hidden">
+            <NavigationMenu />
+          </nav>
+        </div>
 
-      <div className="flex flex-1 items-center justify-end gap-1 lg:gap-2">
-        <SearchModal />
+        <div className="flex flex-1 items-center justify-end gap-1 lg:gap-2">
+          <SearchModal />
 
-        <>
-          <IconButton color="white" className="lg:hidden">
-            <ShoppingCard_Outline />
-          </IconButton>
+          <>
+            <IconButton color="white" className="lg:hidden">
+              <ShoppingCard_Outline />
+            </IconButton>
 
-          <IconButton color="white" size="lg" className="max-lg:hidden">
-            <ShoppingCard_Outline />
-          </IconButton>
-        </>
+            <IconButton color="white" size="lg" className="max-lg:hidden">
+              <ShoppingCard_Outline />
+            </IconButton>
+          </>
 
-        {session?.user ? <UserDropdown /> : <LoginView />}
+          {session?.user ? <UserDropdown /> : <LoginView />}
+        </div>
       </div>
     </header>
   );
