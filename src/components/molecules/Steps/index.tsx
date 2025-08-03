@@ -167,10 +167,12 @@ export const StepsPrevButton = ({
   disabled,
   ...props
 }: StepsPrevButtonProps) => {
-  const { currentStepIndex } = useStepsContext();
+  const { currentStepIndex, navigationStepIndex, navigateToStep } =
+    useStepsContext();
 
   const handleClick: MouseEventHandler<HTMLButtonElement> = (e) => {
     props.onClick?.(e);
+    navigateToStep(navigationStepIndex - 1);
   };
 
   const Comp = asChild ? Slot : "button";
@@ -183,7 +185,9 @@ export const StepsPrevButton = ({
         "disabled:cursor-not-allowed disabled:opacity-50",
         className,
       )}
-      disabled={disabled ?? currentStepIndex === 0}
+      disabled={
+        disabled ?? (currentStepIndex === 0 || navigationStepIndex === 0)
+      }
     >
       {children ?? <ChevronRight_Outline />}
     </Comp>
@@ -222,7 +226,7 @@ export const StepsNextButton = ({
   );
 };
 
-export const StepsView = ({ index, ...props }: StepsViewProps) => {
+export const StepsView = ({ index, className, ...props }: StepsViewProps) => {
   const { currentStepIndex, navigationStepIndex } = useStepsContext();
 
   const isNavigating = currentStepIndex !== navigationStepIndex;
@@ -231,5 +235,5 @@ export const StepsView = ({ index, ...props }: StepsViewProps) => {
     (!isNavigating && currentStepIndex === index) ||
     (isNavigating && navigationStepIndex === index)
   )
-    return <div {...props} />;
+    return <div {...props} className={twMerge("mt-10", className)} />;
 };
