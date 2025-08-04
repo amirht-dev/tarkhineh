@@ -1,8 +1,11 @@
+"use client";
+
 import { tv } from "@/lib/tailwind-variants";
 import { Slot } from "@radix-ui/react-slot";
 import { forwardRef } from "react";
 import Badge from "../Badge";
 import { IconButtonProps } from "./index.types";
+import { withResponsive } from "@/components/utils/Responsive";
 
 export const iconButtonVariants = tv(
   {
@@ -77,3 +80,5 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
 IconButton.displayName = "IconButton";
 
 export default IconButton;
+
+export const ResponsiveIconButton = withResponsive(IconButton);
