@@ -1,7 +1,10 @@
-import IconButton from "@/components/atoms/IconButton";
+import IconButton, {
+  ResponsiveIconButton,
+} from "@/components/atoms/IconButton";
 import { ShoppingCard_Outline } from "@/components/atoms/icons/Shop/ShoppingCard";
+import { User_Outline } from "@/components/atoms/icons/Users/User";
 import Logo from "@/components/atoms/Logo";
-import LoginView from "@/components/molecules/LoginView";
+import LoginPopup from "@/components/molecules/LoginPopup";
 import MenuSheet from "@/components/molecules/MenuSheet";
 import NavigationMenu from "@/components/molecules/NavigationMenu";
 import SearchModal from "@/components/molecules/SearchModal";
@@ -44,7 +47,16 @@ const Header = async () => {
           </SignedIn>
 
           <SignedOut>
-            <LoginView />
+            <LoginPopup
+              trigger={
+                <ResponsiveIconButton
+                  size={{ initial: "md", lg: "lg" }}
+                  color="white"
+                >
+                  <User_Outline />
+                </ResponsiveIconButton>
+              }
+            />
           </SignedOut>
         </div>
       </div>
