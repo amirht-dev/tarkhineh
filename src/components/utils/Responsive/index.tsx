@@ -1,10 +1,15 @@
 "use client";
 
 import { breakpoint, breakpointEntires } from "@/constants";
+import { useBreakpointContext } from "@/contexts/breakpoint";
 import useCurrentBreakpoint from "@/hooks/useCurrentBreakpoint";
 import { ComponentType, FC, useMemo } from "react";
 import { Entries } from "type-fest";
-import { ResponsiveComponentProps, ResponsiveProps } from "./index.types";
+import {
+  ResponsiveComponentProps,
+  ResponsiveProps,
+  VisibleProps,
+} from "./index.types";
 
 function resolveResponsiveProps(props: object) {
   return (
@@ -68,6 +73,19 @@ const Responsive = <TProps extends object>({
 };
 
 export default Responsive;
+
+export function Visible({ on, children }: VisibleProps) {
+  const {
+    currentBreakpoint: [currentBreakpoint],
+  } = useBreakpointContext();
+
+  if (
+    typeof on === "string"
+      ? on === currentBreakpoint
+      : on.some((bp) => bp === currentBreakpoint)
+  )
+    return children;
+}
 
 export function withResponsive<TProps extends object>(
   Component: ComponentType<TProps>,

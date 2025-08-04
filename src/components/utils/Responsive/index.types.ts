@@ -1,6 +1,6 @@
-import { breakpoint } from "@/constants";
-import { UnSimplifiedMerge } from "@/types/utils";
-import { ComponentType } from "react";
+import { Breakpoint, breakpoint } from "@/constants";
+import { OneOrMore, UnSimplifiedMerge } from "@/types/utils";
+import { ComponentType, PropsWithChildren } from "react";
 import type { RequiredKeysOf, SetRequired } from "type-fest";
 
 export type ResponsiveValueObject<T> = Partial<
@@ -23,3 +23,5 @@ export type ResponsiveProps<TProps extends object> = UnSimplifiedMerge<
     component: ComponentType<TProps>;
   }
 >;
+
+export type VisibleProps = PropsWithChildren<{ on: OneOrMore<Breakpoint> }>;
