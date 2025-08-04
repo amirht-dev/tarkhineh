@@ -1,4 +1,5 @@
 import type { Preview } from "@storybook/react";
+import { SessionProvider } from "next-auth/react";
 import "../src/styles/globals.css";
 
 const preview: Preview = {
@@ -28,7 +29,10 @@ const preview: Preview = {
     dir: "rtl",
   },
   tags: ["autodocs"],
-  decorators: [(Story, { globals }) => <div dir={globals.dir}>{Story()}</div>],
+  decorators: [
+    (Story) => <SessionProvider>{Story()}</SessionProvider>,
+    (Story, { globals }) => <div dir={globals.dir}>{Story()}</div>,
+  ],
 };
 
 export default preview;
