@@ -17,10 +17,14 @@ import {
   StepsProps,
   StepsSeparatorProps,
   StepsViewProps,
+  StepViewContextType,
 } from "./index.types";
 
-const { context: StepsContext, hook: useStepsContext } =
+export const { context: StepsContext, hook: useStepsContext } =
   createCTX<StepsContextType>("Steps");
+
+export const { context: StepViewContext, hook: useStepViewContext } =
+  createCTX<StepViewContextType>("StepView");
 
 export const Steps = ({
   stepsCount,
@@ -226,14 +230,39 @@ export const StepsNextButton = ({
   );
 };
 
-export const StepsView = ({ index, className, ...props }: StepsViewProps) => {
-  const { currentStepIndex, navigationStepIndex } = useStepsContext();
+export const StepsView = ({
+  index,
+  className,
+  children,
+  ...props
+}: StepsViewProps) => {
+  const { currentStepIndex, navigationStepIndex, goToNextSiblingStep } =
+    useStepsContext();
 
   const isNavigating = currentStepIndex !== navigationStepIndex;
 
   if (
-    (!isNavigating && currentStepIndex === index) ||
-    (isNavigating && navigationStepIndex === index)
+    !(
+      (!isNavigating && currentStepIndex === index) ||
+      (isNavigating && navigationStepIndex === index)
+    )
   )
-    return <div {...props} className={twMerge("mt-6 lg:mt-10", className)} />;
+    return null;
+
+  const _goToNextSiblingStep = () => goToNextSiblingStep(index);
+
+  const context: StepViewContextType = {
+    goToNextSiblingStep: _goToNextSiblingStep,
+    stepIndex: index,
+  };
+
+  if (typeof children === "function") return children(context);
+
+  return (
+    <StepViewContext.Provider value={context}>
+      <div {...props} className={twMerge("mt-6 lg:mt-10", className)}>
+        {children}
+      </div>
+    </StepViewContext.Provider>
+  );
 };

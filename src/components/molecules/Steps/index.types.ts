@@ -3,7 +3,12 @@ import {
   PropsWithAsChild,
   PropsWithComponentPropsWithRef,
 } from "@/types/utils";
-import { ComponentProps, MouseEvent, PropsWithChildren } from "react";
+import {
+  ComponentProps,
+  MouseEvent,
+  PropsWithChildren,
+  ReactNode,
+} from "react";
 
 export type StepInfo = { disabled: boolean; id: string };
 
@@ -16,6 +21,11 @@ export type StepsContextType = {
   navigationStepIndex: number;
   navigateToStep: (index: number) => void;
   isNavigating: boolean;
+};
+
+export type StepViewContextType = {
+  goToNextSiblingStep: () => void;
+  stepIndex: number;
 };
 
 export type StepsProps = PropsWithChildren<{
@@ -58,5 +68,6 @@ export type StepsViewProps = PropsWithComponentPropsWithRef<
   "div",
   {
     index: number;
+    children?: ReactNode | ((ctx: StepViewContextType) => ReactNode);
   }
 >;
