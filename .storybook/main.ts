@@ -19,5 +19,8 @@ const config: StorybookConfig = {
     },
     "..\\public",
   ],
+  features: {
+    backgroundsStoryGlobals: true,
+  },
 };
 export default config;
