@@ -157,6 +157,8 @@ export const breakpoint = {
   lg: 1024,
 };
 
+export type Breakpoint = keyof typeof breakpoint;
+
 export const breakpointEntires = Object.entries(breakpoint) as Entries<
   typeof breakpoint
 >;
