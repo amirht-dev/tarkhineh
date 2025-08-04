@@ -1,42 +1,42 @@
-import { T } from '@/utils/storybook';
-import type { Meta, StoryObj } from '@storybook/react';
-import { fn } from '@storybook/test';
-import Button from '.';
-import { ShoppingCard_Outline } from '../icons/Shop/ShoppingCard';
+import { T } from "@/utils/storybook";
+import type { Meta, StoryObj } from "@storybook/react";
+import { fn } from "@storybook/test";
+import Button from ".";
+import { ShoppingCard_Outline } from "../icons/Shop/ShoppingCard";
 import {
   BUTTON_COLORS,
   BUTTON_SIZES,
   BUTTON_VARIANTS,
-} from './index.constants';
+} from "./index.constants";
 
 const meta = {
   component: Button,
   args: {
-    variant: 'fill',
-    children: 'سفارش غذا',
-    color: 'primary',
-    size: 'md',
+    variant: "fill",
+    children: "سفارش غذا",
+    color: "primary",
+    size: "md",
     disabled: false,
     loading: false,
     onClick: fn(),
   },
   argTypes: {
     variant: {
-      control: 'inline-radio',
+      control: "inline-radio",
       options: BUTTON_VARIANTS,
       table: {
         type: {
           summary: T.union(...BUTTON_VARIANTS),
         },
       },
-      description: 'style of button',
+      description: "style of button",
     },
     prefixIcon: {
-      control: 'boolean',
+      control: "boolean",
       mapping: {
         true: <ShoppingCard_Outline />,
       },
-      description: 'prefix icon. left side if ltr and right side if rtl',
+      description: "prefix icon. left side if ltr and right side if rtl",
       table: {
         type: {
           summary: T.react.ReactNode,
@@ -44,11 +44,11 @@ const meta = {
       },
     },
     suffixIcon: {
-      control: 'boolean',
+      control: "boolean",
       mapping: {
         true: <ShoppingCard_Outline />,
       },
-      description: 'suffix icon. right side if ltr and left side if rtl',
+      description: "suffix icon. right side if ltr and left side if rtl",
       table: {
         type: {
           summary: T.react.ReactNode,
@@ -56,7 +56,7 @@ const meta = {
       },
     },
     color: {
-      control: 'inline-radio',
+      control: "inline-radio",
       options: BUTTON_COLORS,
       table: {
         type: {
@@ -65,7 +65,7 @@ const meta = {
       },
     },
     size: {
-      control: 'inline-radio',
+      control: "inline-radio",
       options: BUTTON_SIZES,
       table: {
         type: {
@@ -79,8 +79,8 @@ const meta = {
       },
     },
     loading: {
-      control: 'boolean',
-      type: 'boolean',
+      control: "boolean",
+      type: "boolean",
     },
   },
 } satisfies Meta<typeof Button>;
@@ -93,61 +93,72 @@ export const Default = {} satisfies Story;
 
 export const Primary = {
   args: {
-    color: 'primary',
+    color: "primary",
   },
 } satisfies Story;
 
 export const White = {
+  globals: {
+    backgrounds: {
+      value: "dark",
+    },
+  },
   args: {
-    color: 'white',
+    color: "white",
   },
 } satisfies Story;
 
 export const Black = {
   args: {
-    color: 'black',
+    color: "black",
   },
 } satisfies Story;
 
 export const Fill = {
   args: {
-    variant: 'fill',
+    variant: "fill",
   },
 } satisfies Story;
 
 export const Outline = {
   args: {
-    variant: 'outline',
+    variant: "outline",
   },
 } satisfies Story;
 
 export const Text = {
   args: {
-    variant: 'text',
+    variant: "text",
+  },
+} satisfies Story;
+
+export const Twotone = {
+  args: {
+    variant: "twotone",
   },
 } satisfies Story;
 
 export const Small = {
   args: {
-    size: 'sm',
+    size: "sm",
   },
 } satisfies Story;
 
 export const Medium = {
   args: {
-    size: 'md',
+    size: "md",
   },
 } satisfies Story;
 
 export const Large = {
   args: {
-    size: 'lg',
+    size: "lg",
   },
 } satisfies Story;
 
 export const ExtraLarge = {
   args: {
-    size: 'xl',
+    size: "xl",
   },
 } satisfies Story;
 
