@@ -9,7 +9,7 @@ import { ButtonProps } from "./index.types";
 export const buttonVariants = tv(
   {
     slots: {
-      root: "group inline-flex items-center rounded-sm transition-colors disabled:cursor-not-allowed",
+      root: "group inline-flex items-center justify-center rounded-sm transition-colors disabled:cursor-not-allowed",
       icon: "",
       loadingIndicator:
         "group-disabled:border-neutral-gray-4 animate-spin rounded-full border-t-transparent [animation-duration:500ms] group-disabled:border-t-transparent",
