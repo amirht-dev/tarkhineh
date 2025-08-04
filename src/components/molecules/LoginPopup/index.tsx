@@ -41,6 +41,7 @@ import {
   useStepViewContext,
 } from "../Steps";
 import { LoginPopupContextType, LoginPopupProps } from "./index.types";
+import { useRouter } from "next/navigation";
 
 const { context: LoginPopupContext, hook: useLoginPopupContext } =
   createCTX<LoginPopupContextType>("LoginPopupContext");
@@ -227,6 +228,8 @@ function ConfirmForm() {
 
   const [timerFinished, setTimerFinished] = useState(false);
 
+  const router = useRouter();
+
   const onConfirmSubmit: SubmitHandler<LoginConfirmFormType> = async (data) => {
     const res = await signIn("credentials", { ...data, redirect: false });
 
@@ -236,6 +239,7 @@ function ConfirmForm() {
       return;
     }
 
+    router.refresh();
     setOpen(false);
   };
 
