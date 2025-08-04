@@ -11,7 +11,13 @@ export type LogoColorImageMap = Record<
 >;
 
 export type LogoOwnProps = {
+  /**
+   * @default "primary"
+   */
   color?: LogoColor;
+  /**
+   * @default "lg"
+   */
   size?: LogoSize;
 };
 
