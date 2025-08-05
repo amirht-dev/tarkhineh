@@ -14,6 +14,7 @@ import {
   SectionTitle,
 } from "@/components/atoms/Section";
 import Factor from "@/components/molecules/Factor";
+import ClearShoppingCartPopup from "@/components/molecules/ClearShoppingCartPopup";
 import ShoppingCard from "@/components/molecules/ShoppingCard";
 import {
   Steps,
@@ -35,6 +36,7 @@ const step = {
 };
 
 export default function CheckoutPage() {
+  // TODO: add control state of steps to set step to 0 when user signed out during making order
   return (
     <div className="container my-6 lg:my-10 lg:mb-12">
       <Steps stepsCount={3}>
@@ -46,7 +48,13 @@ export default function CheckoutPage() {
           ))}
         </StepsBar>
 
-        <StepViewContent index={0} label={step.cart.label}>
+        <StepViewContent
+          index={0}
+          label={step.cart.label}
+          sectionActionButton={
+            <ClearShoppingCartPopup triggerClassName="justify-self-end" />
+          }
+        >
           <ShoppingCartView />
         </StepViewContent>
 

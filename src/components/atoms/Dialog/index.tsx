@@ -4,6 +4,7 @@ import { twMerge } from "@/lib/tailwind-merge";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import * as React from "react";
 import { Close_Outline } from "../icons/Essential/Close";
+import { Slottable } from "@radix-ui/react-slot";
 
 function Dialog({
   ...props
@@ -32,11 +33,11 @@ function DialogClose({
       data-slot="dialog-close"
       {...props}
       className={twMerge(
-        "text-neutral-gray-7 [&>svg]:size-6 lg:[&>svg]:size-10",
+        "text-neutral-gray-7 [&>svg]:size-4 lg:[&>svg]:size-6",
         props.className,
       )}
     >
-      {children ?? <Close_Outline />}
+      {children ? <Slottable>{children}</Slottable> : <Close_Outline />}
       <span className="sr-only">Close</span>
     </DialogPrimitive.Close>
   );
@@ -98,10 +99,7 @@ function DialogHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="dialog-header"
-      className={twMerge(
-        "bg-neutral-gray-3 mb-4 p-4 text-center lg:mb-10 lg:p-6",
-        className,
-      )}
+      className={twMerge("bg-neutral-gray-3 p-3 text-center lg:p-4", className)}
       {...props}
     />
   );
@@ -112,7 +110,7 @@ function DialogFooter({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="dialog-footer"
       className={twMerge(
-        "flex flex-col-reverse gap-2 sm:flex-row sm:justify-end",
+        // "flex flex-col-reverse gap-2 sm:flex-row sm:justify-end",
         className,
       )}
       {...props}
@@ -128,7 +126,7 @@ function DialogTitle({
     <DialogPrimitive.Title
       data-slot="dialog-title"
       className={twMerge(
-        "text-caption-lg text-neutral-gray-8 lg:text-heading-7 font-medium",
+        "text-caption-lg text-neutral-gray-8 lg:text-heading-7 font-medium lg:font-semibold",
         className,
       )}
       {...props}

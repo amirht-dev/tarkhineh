@@ -1,13 +1,11 @@
-"use client";
-
 import { ResponsiveButton } from "@/components/atoms/Button";
 import Counter from "@/components/atoms/Counter";
-import { Trash_Outline } from "@/components/atoms/icons/Essential/Trash";
 import { WarningHexagon_Outline } from "@/components/atoms/icons/Essential/WarningHexagon";
 import { User_Outline } from "@/components/atoms/icons/Users/User";
 import { SignedIn, SignedOut } from "@/components/utils/Auth";
 import { ReactNode } from "react";
 import LoginPopup from "../LoginPopup";
+import ClearShoppingCartPopup from "../ClearShoppingCartPopup";
 
 type FactorProps = { buttonAction: ReactNode; showList?: boolean };
 
@@ -17,9 +15,7 @@ const Factor = ({ buttonAction, showList = false }: FactorProps) => {
       <div className="flex items-center justify-between max-lg:hidden">
         <span className="text-body-md text-neutral-gray-8">(۴) سبد خرید</span>
 
-        <button className="text-neutral-gray-8 hover:text-status-error transition-colors">
-          <Trash_Outline className="size-6" />
-        </button>
+        <ClearShoppingCartPopup />
       </div>
 
       {showList && (
