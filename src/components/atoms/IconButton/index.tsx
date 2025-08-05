@@ -1,11 +1,11 @@
 "use client";
 
+import { withResponsive } from "@/components/utils/Responsive";
 import { tv } from "@/lib/tailwind-variants";
-import { Slot } from "@radix-ui/react-slot";
+import { Slot, Slottable } from "@radix-ui/react-slot";
 import { forwardRef } from "react";
 import Badge from "../Badge";
 import { IconButtonProps } from "./index.types";
-import { withResponsive } from "@/components/utils/Responsive";
 
 export const iconButtonVariants = tv(
   {
@@ -67,7 +67,7 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
 
     return (
       <Comp {...props} ref={ref} className={cns.button({ className })}>
-        {children}
+        <Slottable>{children}</Slottable>
         {badge != null && (
           <Badge color={color} className={cns.badge()}>
             {badge}
