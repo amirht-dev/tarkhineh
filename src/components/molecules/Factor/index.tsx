@@ -1,3 +1,5 @@
+"use client";
+
 import { ResponsiveButton } from "@/components/atoms/Button";
 import Counter from "@/components/atoms/Counter";
 import { WarningHexagon_Outline } from "@/components/atoms/icons/Essential/WarningHexagon";
@@ -6,14 +8,19 @@ import { SignedIn, SignedOut } from "@/components/utils/Auth";
 import { ReactNode } from "react";
 import LoginPopup from "../LoginPopup";
 import ClearShoppingCartPopup from "../ClearShoppingCartPopup";
+import { useGlobalStore } from "@/Providers/global-store";
 
 type FactorProps = { buttonAction: ReactNode; showList?: boolean };
 
 const Factor = ({ buttonAction, showList = false }: FactorProps) => {
+  const shoppingCart = useGlobalStore((state) => state.shoppingCart);
+
   return (
     <div className="bg-neutral-white border-neutral-gray-4 divide-neutral-gray-4 max-w-[496px] divide-y rounded-lg border p-6 [&>*]:py-3 [&>*]:first:pt-0">
       <div className="flex items-center justify-between max-lg:hidden">
-        <span className="text-body-md text-neutral-gray-8">(۴) سبد خرید</span>
+        <span className="text-body-md text-neutral-gray-8">
+          ({shoppingCart.length}) سبد خرید
+        </span>
 
         <ClearShoppingCartPopup />
       </div>
@@ -21,7 +28,7 @@ const Factor = ({ buttonAction, showList = false }: FactorProps) => {
       {showList && (
         <div>
           <ul className="max-h-[187px] overflow-y-auto">
-            {Array.from({ length: 10 }, (_, idx) => (
+            {Array.from({ length: shoppingCart.length }, (_, idx) => (
               <li
                 key={idx}
                 className="bg-neutral-gray-1 even:bg-neutral-gray-3 flex items-center justify-between p-2"

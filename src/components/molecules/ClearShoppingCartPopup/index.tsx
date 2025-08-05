@@ -13,6 +13,7 @@ import {
 } from "@/components/atoms/Dialog";
 import { Trash_Outline } from "@/components/atoms/icons/Essential/Trash";
 import { twMerge } from "@/lib/tailwind-merge";
+import { useGlobalStore } from "@/Providers/global-store";
 import { useState } from "react";
 
 const ClearShoppingCartPopup = ({
@@ -22,10 +23,12 @@ const ClearShoppingCartPopup = ({
 }) => {
   const [open, setOpen] = useState(false);
 
+  const clearShoppingCart = useGlobalStore((state) => state.clearShoppingCart);
+
   const handleCloseDialog = () => setOpen(false);
 
-  const handleDelete = () => {
-    // TODO: implement delete cart items
+  const handleClear = () => {
+    clearShoppingCart();
     handleCloseDialog();
   };
   return (
@@ -66,7 +69,7 @@ const ClearShoppingCartPopup = ({
             color="error"
             size={{ initial: "sm", lg: "md" }}
             className="w-full max-w-[117px]"
-            onClick={handleDelete}
+            onClick={handleClear}
           >
             حذف
           </ResponsiveButton>

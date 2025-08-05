@@ -28,6 +28,7 @@ import Responsive, { Visible } from "@/components/utils/Responsive";
 import Image from "next/image";
 import { ComponentProps, PropsWithChildren, ReactNode } from "react";
 import { ValueOf } from "type-fest";
+import { useGlobalStore } from "@/Providers/global-store";
 
 const step = {
   cart: { label: "سبد خرید", icon: <ShoppingCard_Outline /> },
@@ -68,13 +69,14 @@ export default function CheckoutPage() {
 
 function ShoppingCartView() {
   const { goToNextSiblingStep } = useStepViewContext();
-  const cart = 10;
 
-  if (cart > 0)
+  const shoppingCart = useGlobalStore((state) => state.shoppingCart);
+
+  if (shoppingCart.length)
     return (
       <div className="flex items-start gap-6">
         <div className="border-neutral-gray-4 flex max-h-[554px] flex-1 flex-col gap-4 overflow-auto rounded-lg border p-6 max-lg:hidden">
-          {Array.from({ length: cart }, (_, idx) => (
+          {Array.from({ length: shoppingCart.length }, (_, idx) => (
             <ShoppingCard fullWidth key={idx} />
           ))}
         </div>
