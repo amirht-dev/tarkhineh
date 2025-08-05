@@ -2,8 +2,7 @@
 
 import { breakpoint, breakpointEntires } from "@/constants";
 import { useBreakpointContext } from "@/contexts/breakpoint";
-import useCurrentBreakpoint from "@/hooks/useCurrentBreakpoint";
-import { ComponentType, FC, useMemo } from "react";
+import { ComponentType, FC } from "react";
 import { Entries } from "type-fest";
 import {
   ResponsiveComponentProps,
@@ -61,15 +60,13 @@ const Responsive = <TProps extends object>({
   component: Comp,
   ...props
 }: ResponsiveProps<TProps>) => {
-  const [bp] = useCurrentBreakpoint();
-
-  const resolvedProps = useMemo(() => {
-    return resolveResponsiveProps(props);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [bp]);
+  const {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    currentBreakpoint: [bp],
+  } = useBreakpointContext();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return <Comp {...(resolvedProps as any)} />;
+  return <Comp {...(resolveResponsiveProps(props) as any)} />;
 };
 
 export default Responsive;
