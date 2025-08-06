@@ -25,7 +25,7 @@ const Factor = ({ buttonAction, showList = false }: FactorProps) => {
         <ClearShoppingCartPopup />
       </div>
 
-      {showList && (
+      {showList && !!shoppingCart.length && (
         <div>
           <ul className="max-h-[187px] overflow-y-auto">
             {Array.from({ length: shoppingCart.length }, (_, idx) => (
