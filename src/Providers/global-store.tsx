@@ -6,7 +6,7 @@ import {
   createGlobalStore,
 } from "@/stores/global-store";
 import { createCTX } from "@/utils/clientHelpers";
-import { PropsWithChildren, useRef } from "react";
+import { PropsWithChildren, useEffect, useRef } from "react";
 import { useStore } from "zustand";
 
 const { context: GlobalStoreContext, hook: useGlobalStoreContext } =
@@ -17,6 +17,10 @@ export const GlobalStoreProvider = ({ children }: PropsWithChildren) => {
 
   if (globalStoreRef.current === null)
     globalStoreRef.current = createGlobalStore();
+
+  useEffect(() => {
+    globalStoreRef.current?.persist.rehydrate();
+  }, []);
 
   return (
     <GlobalStoreContext.Provider value={globalStoreRef.current}>
