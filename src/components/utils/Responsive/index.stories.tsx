@@ -13,7 +13,7 @@ type Story<T = typeof meta> = StoryObj<T>;
 
 export const ResponsiveButton = {
   args: {
-    component: <Button variant="text">button</Button>,
+    component: Button,
   },
   render(args) {
     return (
@@ -30,7 +30,9 @@ export const ResponsiveButton = {
         color={{
           lg: "black",
         }}
-      />
+      >
+        button
+      </Responsive>
     );
   },
 } satisfies Story;
