@@ -1,21 +1,23 @@
-import { breakpoint } from "@/constants";
+import { Breakpoint, breakpoint } from "@/constants";
 import { getCurrentBreakpoint } from "@/utils";
 import { useEffect, useState } from "react";
 
 function useBreakpoint() {
-  const [value, setValue] = useState(getCurrentBreakpoint);
+  const [value, setValue] = useState<Breakpoint>();
 
   useEffect(() => {
-    const listener = () => setValue(getCurrentBreakpoint);
+    const setBreakpoint = () => setValue(getCurrentBreakpoint());
 
-    window.addEventListener("resize", listener);
+    setBreakpoint();
+
+    window.addEventListener("resize", setBreakpoint);
 
     return () => {
-      window.removeEventListener("resize", listener);
+      window.removeEventListener("resize", setBreakpoint);
     };
   }, []);
 
-  return [value, breakpoint[value]] as const;
+  if (value) return [value, breakpoint[value]] as const;
 }
 
 export default useBreakpoint;

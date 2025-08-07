@@ -2,6 +2,7 @@
 
 import { breakpoint, breakpointEntires } from "@/constants";
 import { useBreakpointContext } from "@/contexts/breakpoint";
+import useDefferRendering from "@/hooks/useDefferRendering";
 import { ComponentType, FC } from "react";
 import { Entries } from "type-fest";
 import {
@@ -62,24 +63,25 @@ const Responsive = <TProps extends object>({
 }: ResponsiveProps<TProps>) => {
   const {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    currentBreakpoint: [bp],
+    currentBreakpoint,
   } = useBreakpointContext();
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return <Comp {...(resolveResponsiveProps(props) as any)} />;
+  const isRenderingDeferred = useDefferRendering();
+
+  if (!isRenderingDeferred)
+    return <Comp {...(resolveResponsiveProps(props) as TProps)} />;
 };
 
 export default Responsive;
 
 export function Visible({ on, children }: VisibleProps) {
-  const {
-    currentBreakpoint: [currentBreakpoint],
-  } = useBreakpointContext();
+  const { currentBreakpoint } = useBreakpointContext();
 
   if (
-    typeof on === "string"
-      ? on === currentBreakpoint
-      : on.some((bp) => bp === currentBreakpoint)
+    currentBreakpoint &&
+    (typeof on === "string"
+      ? on === currentBreakpoint[0]
+      : on.some((bp) => bp === currentBreakpoint[0]))
   )
     return children;
 }
