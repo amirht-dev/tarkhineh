@@ -4,6 +4,7 @@ import { withResponsive } from "@/components/utils/Responsive";
 import { tv } from "@/lib/tailwind-variants";
 import { Slot, Slottable } from "@radix-ui/react-slot";
 import { forwardRef } from "react";
+import LoadingSpinner from "../LoadingSpinner";
 import { ButtonProps } from "./index.types";
 
 export const buttonVariants = tv(
@@ -12,7 +13,7 @@ export const buttonVariants = tv(
       root: "group inline-flex items-center justify-center rounded-sm transition-colors disabled:cursor-not-allowed",
       icon: "",
       loadingIndicator:
-        "group-disabled:border-neutral-gray-4 animate-spin rounded-full border-[inherit] border-t-transparent [animation-duration:500ms] group-disabled:border-t-transparent",
+        "group-disabled:border-neutral-gray-4 border-[inherit] group-disabled:border-t-transparent",
     },
     variants: {
       variant: {
@@ -334,7 +335,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     if (loading)
       return (
         <button ref={ref} {...props} className={cns.root({ className })}>
-          <span className={cns.loadingIndicator()} />
+          <LoadingSpinner className={cns.loadingIndicator()} />
         </button>
       );
 
