@@ -85,7 +85,12 @@ export type FormServerAction<
   TReturn = void,
 > = ServerFunction<[...TParams, formData: FormData], TReturn>;
 
-export type UseActionStateFunction<T = void> = FormServerAction<
-  [currentState: T],
-  T
->;
+export type UseActionStateServerActionFunction<
+  T = void,
+  TParams extends unknown[] = [],
+> = FormServerAction<[currentState: T, ...TParams], T>;
+
+export type UseActionStateServerFunctionFunction<
+  T = void,
+  TParams extends unknown[] = [],
+> = ServerFunction<[currentState: T, ...TParams], T>;
