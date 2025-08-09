@@ -16,7 +16,7 @@ export const convertGeolocationToAddressAction: UseActionStateServerFunctionFunc
   | null,
   [location: LatLng]
 > = async () => {
-  await wait();
+  await wait(500);
 
   // TODO: implement reverse geolocation with address
 
