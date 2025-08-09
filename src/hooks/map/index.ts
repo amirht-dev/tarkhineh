@@ -70,15 +70,24 @@ export function useMap(id: string, options: L.MapOptions) {
 
 export function useMarker<P = unknown>(
   mapRef: ReturnType<typeof useMap>,
-  ...args: Parameters<typeof L.marker>
+  latlng: L.LatLngExpression,
+  {
+    showOnMap = true,
+    ...options
+  }: L.MarkerOptions & { showOnMap?: boolean } = {},
 ) {
   const markerRef = useRef<L.Marker<P>>(null);
 
   useEffect(() => {
-    const marker = (markerRef.current ??= L.marker(...args));
+    markerRef.current ??= L.marker(latlng, options);
+  }, [latlng, options, mapRef]);
 
-    if (mapRef.current) marker.addTo(mapRef.current);
-  }, [args, mapRef]);
+  useEffect(() => {
+    if (!mapRef.current) return;
+
+    if (showOnMap) markerRef.current?.addTo(mapRef.current);
+    else markerRef.current?.removeFrom(mapRef.current);
+  }, [showOnMap, markerRef, mapRef]);
 
   return markerRef;
 }
