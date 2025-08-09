@@ -19,7 +19,7 @@ function resolveResponsiveProps(props: object) {
     >
   ).reduce(
     (resolvedProps, [propName, propResponsiveObj]) => {
-      if (!propResponsiveObj) return resolvedProps;
+      if (propResponsiveObj === undefined) return resolvedProps;
 
       let propValue: unknown = propResponsiveObj;
 
