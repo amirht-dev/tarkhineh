@@ -32,11 +32,16 @@ export type FieldInputProps = FieldInputTextTypeProps | FieldInputOTPTypeProps;
 
 export type FieldErrorMessageProps = PropsWithAsChild<ComponentProps<"p">>;
 
-export type FieldProps = DistributedMerge<
-  FieldInputProps,
-  {
-    error?: boolean | string;
-    rootClassName?: string;
-    errorMessageClassName?: string;
-  }
+type FieldSharedProps = {
+  error?: boolean | string;
+  rootClassName?: string;
+  errorMessageClassName?: string;
+};
+
+export type FieldTextTypeProps = Merge<
+  FieldInputTextTypeProps,
+  FieldSharedProps
 >;
+export type FieldOTPTypeProps = Merge<FieldInputOTPTypeProps, FieldSharedProps>;
+
+export type FieldProps = DistributedMerge<FieldInputProps, FieldSharedProps>;
