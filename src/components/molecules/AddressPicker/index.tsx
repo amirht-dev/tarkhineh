@@ -2,7 +2,7 @@
 
 import { convertGeolocationToAddressAction } from "@/actions/location";
 import locationSignImage from "@/assets/images/location-sign.svg";
-import Button from "@/components/atoms/Button";
+import Button, { ResponsiveButton } from "@/components/atoms/Button";
 import IconButton from "@/components/atoms/IconButton";
 import { Add_Outline } from "@/components/atoms/icons/Essential/Add";
 import { Minus_Outline } from "@/components/atoms/icons/Essential/Minus";
@@ -142,14 +142,14 @@ export default function AddressPicker({
           loading={isReversingGeolocation}
         />
       )}
-      <Button
-        size="sm"
-        className="font-estedad absolute bottom-6 left-1/2 z-1000 w-[152px] -translate-x-1/2"
+      <ResponsiveButton
+        size={{ initial: "sm", lg: "md" }}
+        className="font-estedad absolute bottom-6 left-1/2 z-1000 w-[152px] -translate-x-1/2 lg:w-[266px]"
         onClick={handleSetClick}
         disabled={isReversingGeolocation || !geolocationReverseState?.success}
       >
         ثبت موقعیت
-      </Button>
+      </ResponsiveButton>
     </div>
   );
 }
@@ -188,15 +188,15 @@ function SuggestionAddress({
   loading?: boolean;
 }) {
   return (
-    <div className="bg-neutral-gray-1 drop-shadow-4 font-estedad text-neutral-gray-8 absolute bottom-17 left-1/2 z-1000 flex h-8 w-full max-w-[320px] -translate-x-1/2 items-center gap-1 rounded-sm p-2">
+    <div className="bg-neutral-gray-1 drop-shadow-4 font-estedad text-neutral-gray-8 absolute bottom-17 left-1/2 z-1000 flex h-8 w-full max-w-[320px] -translate-x-1/2 items-center gap-1 rounded-sm p-2 lg:bottom-22 lg:h-10 lg:max-w-[409px]">
       {loading ? (
-        <LoadingSpinner className="size-4" />
+        <LoadingSpinner className="size-4 lg:size-6" />
       ) : (
-        <Location_Outline className="size-4 shrink-0" />
+        <Location_Outline className="size-4 shrink-0 lg:size-6" />
       )}
       {address && (
         <span
-          className="text-caption-md line-clamp-1 leading-none"
+          className="text-caption-md lg:text-body-sm line-clamp-1 leading-none"
           title={address}
         >
           {address}
