@@ -9,11 +9,9 @@ import {
 import MenuCard from "@/components/molecules/MenuCard";
 import { NextPageProps } from "@/types/next";
 
-export default async function MenuCategory({
-  params,
-}: NextPageProps<"branch_slug" | "category_slug">) {
-  const { category_slug } = await params;
-
+export default async function MenuCategory({}: NextPageProps<
+  "branch_slug" | "category_slug"
+>) {
   return (
     <div className="my-6 space-y-6 lg:my-12 lg:space-y-12">
       <Section className="container">

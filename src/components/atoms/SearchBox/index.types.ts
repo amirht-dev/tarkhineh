@@ -7,4 +7,5 @@ export type SearchBoxProps = {
   fullWidth?: boolean;
   className?: string;
   initialValue?: string;
+  disabled?: boolean;
 };
