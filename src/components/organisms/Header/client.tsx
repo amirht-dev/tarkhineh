@@ -15,7 +15,7 @@ export const ShoppingCardIconButton = () => {
       asChild
       color={shoppingCartCount ? "primary" : "white"}
       size={{ initial: "md", lg: "lg" }}
-      badge={shoppingCartCount}
+      badge={shoppingCartCount > 0 ? shoppingCartCount : undefined}
     >
       <Link href="/checkout">
         <ShoppingCard_Outline data-slot="icon" />
