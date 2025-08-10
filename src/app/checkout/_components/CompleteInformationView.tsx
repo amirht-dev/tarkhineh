@@ -11,17 +11,24 @@ import { Truck_Outline } from "@/components/atoms/icons/Delivery/Truck";
 import { CheckCircle_Outline } from "@/components/atoms/icons/Essential/CheckCircle";
 import { Location_Outline } from "@/components/atoms/icons/Location/Location";
 import { ShoppingBag_Outline } from "@/components/atoms/icons/Shop/ShoppingBag";
+import { Skeleton } from "@/components/atoms/Skeleton";
 import Textarea from "@/components/atoms/Textarea";
 import AddressCard from "@/components/molecules/AdressCard";
 import Factor from "@/components/molecules/Factor";
 import { useStepViewContext } from "@/components/molecules/Steps";
 import Responsive from "@/components/utils/Responsive";
 import { useGlobalStore } from "@/Providers/global-store";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useState } from "react";
 import { ArrayValues } from "type-fest";
 import AddAddressPopup from "./AddAddressPopup";
 import PageSection from "./PageSection";
+
+const StaticMap = dynamic(() => import("@/components/molecules/StaticMap"), {
+  ssr: false,
+  loading: () => <Skeleton className="h-[205px] w-[264px] max-lg:hidden" />,
+});
 
 const deliveryTypes = [
   {
@@ -167,10 +174,12 @@ export default function CompleteInformationView() {
               </Button>
             </div>
 
-            <div className="bg-neutral-gray-2 flex h-[205px] w-[264px] items-center justify-center max-lg:hidden">
-              {/* TODO: add branch map address location */}
-              <span className="text-body-lg text-neutral-gray-7">map</span>
-            </div>
+            <StaticMap
+              center={[35.7219, 51.3347]}
+              className="h-[205px] w-[264px] max-lg:hidden"
+              hasMarker
+              zoom={13}
+            />
           </PageSection>
         )}
 
