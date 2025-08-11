@@ -49,7 +49,7 @@ const Footer = () => {
             <Input
               placeholder="نام و نام خانوادگی"
               size="sm"
-              mode="light"
+              color="light"
               containerProps={{
                 style: { gridArea: "name" },
               }}
@@ -57,7 +57,7 @@ const Footer = () => {
             <Input
               placeholder="شماره تماس"
               size="sm"
-              mode="light"
+              color="light"
               containerProps={{
                 style: { gridArea: "phone" },
               }}
@@ -66,7 +66,7 @@ const Footer = () => {
               placeholder="آدرس ایمیل (اختیاری)"
               type="email"
               size="sm"
-              mode="light"
+              color="light"
               containerProps={{
                 style: { gridArea: "email" },
               }}
@@ -97,7 +97,7 @@ const Footer = () => {
             <Input
               placeholder="نام و نام خانوادگی"
               size="md"
-              mode="light"
+              color="light"
               containerProps={{
                 style: { gridArea: "name" },
               }}
@@ -105,7 +105,7 @@ const Footer = () => {
             <Input
               placeholder="شماره تماس"
               size="md"
-              mode="light"
+              color="light"
               containerProps={{
                 style: { gridArea: "phone" },
               }}
@@ -114,7 +114,7 @@ const Footer = () => {
               placeholder="آدرس ایمیل (اختیاری)"
               type="email"
               size="md"
-              mode="light"
+              color="light"
               containerProps={{
                 style: { gridArea: "email" },
               }}

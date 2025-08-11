@@ -1,5 +1,6 @@
 import { DistributedMerge } from "@/types/utils";
 import { ArrayValues, DistributedOmit, Merge } from "type-fest";
+import { INPUT_COLORS } from "../Input/index.constants";
 import { INPUT_OTP_GROUP_VARIANTS } from "./index.constants";
 
 type OTPInputBaseProps = Merge<
@@ -18,7 +19,7 @@ type OTPInputBaseProps = Merge<
 >;
 
 export type InputOTPContextType = {
-  error: boolean;
+  color: ArrayValues<typeof INPUT_COLORS>;
   fullWidth: boolean;
 };
 
@@ -26,7 +27,7 @@ export type InputOTPRootProps = Merge<
   OTPInputBaseProps,
   {
     containerClassName?: string;
-    error?: boolean;
+    color?: ArrayValues<typeof INPUT_COLORS>;
     fullWidth?: boolean;
   }
 >;

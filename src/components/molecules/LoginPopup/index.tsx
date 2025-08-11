@@ -8,7 +8,7 @@ import {
   DialogContent,
   DialogTrigger,
 } from "@/components/atoms/Dialog";
-import { Field, FieldErrorMessage, FieldInput } from "@/components/atoms/Field";
+import Field from "@/components/atoms/Field";
 import { Clock_Outline } from "@/components/atoms/icons/Time/Clock";
 import Logo from "@/components/atoms/Logo";
 import {
@@ -32,6 +32,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Dispatch, PropsWithChildren, SetStateAction, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import {
@@ -41,7 +42,6 @@ import {
   useStepViewContext,
 } from "../Steps";
 import { LoginPopupContextType, LoginPopupProps } from "./index.types";
-import { useRouter } from "next/navigation";
 
 const { context: LoginPopupContext, hook: useLoginPopupContext } =
   createCTX<LoginPopupContextType>("LoginPopupContext");
@@ -180,15 +180,22 @@ function LoginForm() {
           control={control}
           name="phoneNumber"
           render={({ field, fieldState: { error } }) => (
-            <Field error={!!error}>
-              <FieldInput
-                {...field}
-                label="شماره همراه"
-                placeholder="09123456789"
-                autoFocus
-              />
-              <FieldErrorMessage>{error?.message}</FieldErrorMessage>
-            </Field>
+            <Field
+              {...field}
+              error={error?.message}
+              label="شماره همراه"
+              placeholder="09123456789"
+              autoFocus
+            />
+            // <Field error={!!error}>
+            //   <FieldInput
+            //     {...field}
+            //     label="شماره همراه"
+            //     placeholder="09123456789"
+            //     autoFocus
+            //   />
+            //   <FieldErrorMessage>{error?.message}</FieldErrorMessage>
+            // </Field>
           )}
         />
 
@@ -266,17 +273,28 @@ function ConfirmForm() {
         control={control}
         name="otpCode"
         render={({ field, fieldState, formState }) => (
-          <Field
-            error={!!fieldState.error || !!formState.errors.root}
-            className="mb-0"
-          >
-            <div dir="ltr">
-              <FieldInput type="otp" autoFocus fullWidth {...field} />
-            </div>
-            <FieldErrorMessage>
-              {fieldState.error?.message || formState.errors.root?.message}
-            </FieldErrorMessage>
-          </Field>
+          <div dir="ltr" className="mb-0">
+            <Field
+              {...field}
+              error={
+                fieldState.error?.message || formState.errors.root?.message
+              }
+              type="otp"
+              autoFocus
+              fullWidth
+            />
+          </div>
+          // <Field
+          //   error={fieldState.error?.message || formState.errors.root?.message}
+          //   className="mb-0"
+          // >
+          //   <div dir="ltr">
+          //     <FieldInput type="otp" autoFocus fullWidth {...field} />
+          //   </div>
+          //   <FieldErrorMessage>
+          //     {fieldState.error?.message || formState.errors.root?.message}
+          //   </FieldErrorMessage>
+          // </Field>
         )}
       />
 

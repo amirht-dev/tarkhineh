@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+import { T } from "@/utils/storybook";
 import { useArgs } from "@storybook/preview-api";
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
@@ -8,7 +9,7 @@ import InputOTP, {
   InputOTPSeparator,
   InputOTPSlot,
 } from ".";
-import { INPUT_OTP_GROUP_VARIANTS } from "./index.constants";
+import { INPUT_OTP_COLORS, INPUT_OTP_GROUP_VARIANTS } from "./index.constants";
 import { InputOTPProps } from "./index.types";
 
 const meta = {
@@ -25,13 +26,22 @@ const meta = {
     value: "",
     variant: "separate",
     onChange: fn(),
-    error: false,
+    color: "dark",
     fullWidth: false,
   },
   argTypes: {
     variant: {
       control: "inline-radio",
       options: INPUT_OTP_GROUP_VARIANTS,
+    },
+    color: {
+      control: "inline-radio",
+      options: INPUT_OTP_COLORS,
+      table: {
+        type: {
+          summary: T.union(...INPUT_OTP_COLORS),
+        },
+      },
     },
   },
   render(args) {
@@ -89,8 +99,32 @@ export const Disabled = {
   },
 } satisfies Story;
 
+export const Dark = {
+  args: {
+    color: "dark",
+  },
+} satisfies Story;
+
+export const Primary = {
+  args: {
+    color: "primary",
+  },
+} satisfies Story;
+
 export const Error = {
   args: {
-    error: true,
+    color: "error",
+  },
+} satisfies Story;
+
+export const Success = {
+  args: {
+    color: "success",
+  },
+} satisfies Story;
+
+export const Warning = {
+  args: {
+    color: "warning",
   },
 } satisfies Story;

@@ -1,6 +1,7 @@
 "use client";
 
 import { twMerge } from "@/lib/tailwind-merge";
+import { tv } from "@/lib/tailwind-variants";
 import { lastIndex } from "@/utils";
 import { createCTX } from "@/utils/clientHelpers";
 import { OTPInput, OTPInputContext } from "input-otp";
@@ -22,13 +23,13 @@ const { context: InputOTPContext, hook: useInputOTPContext } =
 function InputOTPRoot({
   className,
   containerClassName,
-  error = false,
+  color = "dark",
   fullWidth = false,
   children,
   ...props
 }: InputOTPRootProps) {
   return (
-    <InputOTPContext value={{ error, fullWidth }}>
+    <InputOTPContext value={{ color, fullWidth }}>
       <OTPInput
         data-slot="input-otp"
         containerClassName={twMerge(
@@ -64,63 +65,107 @@ function InputOTPGroup({
   );
 }
 
+const inputOTPSlotVariants = tv({
+  slots: {
+    slot: [
+      "relative flex h-8 items-center justify-center shadow-xs transition-all outline-none data-[active=true]:z-10 lg:h-10",
+      "text-caption-md lg:text-body-sm group-has-disabled/root:text-neutral-gray-4",
+      "group-data-[variant=separate]/slotsGroup:rounded-sm group-data-[variant=sticky]/slotsGroup:first:rounded-s-sm group-data-[variant=sticky]/slotsGroup:last:rounded-e-sm",
+      [
+        "group-has-disabled/root:border-neutral-gray-4",
+        ["group-data-[variant=separate]/slotsGroup:border"],
+        [
+          "group-data-[variant=sticky]/slotsGroup:border-y group-data-[variant=sticky]/slotsGroup:border-e group-data-[variant=sticky]/slotsGroup:first:border-s",
+        ],
+      ],
+      "data-[active=true]:ring-[3px]",
+    ],
+    caret:
+      "animate-caret-blink data-[error=true]:group-not-has-disabled/root:bg-status-error h-4 w-px duration-1000",
+  },
+  variants: {
+    fullWidth: {
+      true: {
+        slot: "flex-1",
+      },
+      false: {
+        slot: "w-12 lg:w-14",
+      },
+    },
+    color: {
+      dark: {
+        slot: "text-neutral-gray-8 border-neutral-gray-7 hover:border-neutral-gray-8 data-[active=true]:border-primary ring-primary",
+        caret: "bg-neutral-gray-8",
+      },
+      light: "",
+      primary: {
+        slot: "text-primary border-primary hover:border-primary-shade-2",
+        caret: "bg-primary",
+      },
+      error: {
+        slot: "text-status-error border-status-error hover:border-status-error",
+        caret: "bg-status-error",
+      },
+      success: {
+        slot: "text-status-success border-status-success hover:border-status-success",
+        caret: "bg-status-success",
+      },
+      warning: {
+        slot: "text-status-warning border-status-warning hover:border-status-warning",
+        caret: "bg-status-warning",
+      },
+    },
+  },
+});
+
 function InputOTPSlot({ index, className, ...props }: InputOTPSlotProps) {
   const inputOTPContext = React.useContext(OTPInputContext);
   const { char, hasFakeCaret, isActive } = inputOTPContext?.slots[index] ?? {};
-  const { error, fullWidth } = useInputOTPContext();
+  const { color, fullWidth } = useInputOTPContext();
+
+  const cns = inputOTPSlotVariants({ color, fullWidth });
 
   return (
     <div
       data-slot="input-otp-slot"
-      data-error={error}
+      data-color={color}
       data-active={isActive}
-      className={twMerge(
-        "relative flex h-8 items-center justify-center shadow-xs transition-all outline-none data-[active=true]:z-10 lg:h-10",
-        fullWidth ? "flex-1" : "w-12 lg:w-14",
-        // text
-        "text-caption-md lg:text-body-sm text-neutral-gray-8 group-has-disabled/root:text-neutral-gray-4 data-[error=true]:group-not-has-disabled/root:text-status-error",
-        // rounded
-        "group-data-[variant=separate]/slotsGroup:rounded-sm group-data-[variant=sticky]/slotsGroup:first:rounded-s-sm group-data-[variant=sticky]/slotsGroup:last:rounded-e-sm",
-        // border
-        [
-          "border-neutral-gray-7 hover:border-neutral-gray-8 data-[active=true]:border-primary group-has-disabled/root:border-neutral-gray-4 data-[error=true]:group-not-has-disabled/root:border-status-error",
-          ["group-data-[variant=separate]/slotsGroup:border"],
-          [
-            "group-data-[variant=sticky]/slotsGroup:border-y group-data-[variant=sticky]/slotsGroup:border-e group-data-[variant=sticky]/slotsGroup:first:border-s",
-          ],
-        ],
-        // ring
-        "ring-primary data-[error=true]:ring-status-error data-[active=true]:ring-[3px]",
-        className,
-      )}
+      className={cns.slot({ className })}
       {...props}
     >
       {char}
       {hasFakeCaret && (
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-          <div
-            data-error={error}
-            className="animate-caret-blink bg-neutral-gray-8 data-[error=true]:group-not-has-disabled/root:bg-status-error h-4 w-px duration-1000"
-          />
+          <div className={cns.caret()} />
         </div>
       )}
     </div>
   );
 }
 
+const InputOTPSeparatorVariants = tv({
+  base: "group-has-disabled/root:text-neutral-gray-4",
+  variants: {
+    color: {
+      dark: "text-neutral-gray-8",
+      light: "",
+      primary: "text-primary",
+      error: "text-status-error",
+      success: "text-status-success",
+      warning: "text-status-warning",
+    },
+  },
+});
+
 function InputOTPSeparator(props: InputOTPSeparatorProps) {
-  const { error } = useInputOTPContext();
+  const { color } = useInputOTPContext();
 
   return (
     <div
       data-slot="input-otp-separator"
-      data-error={error}
       role="separator"
       {...props}
-      className={twMerge(
-        "text-neutral-gray-8 group-has-disabled/root:text-neutral-gray-4 data-[error=true]:group-not-has-disabled/root:text-status-error",
-        props.className,
-      )}
+      className={InputOTPSeparatorVariants({ color })}
     >
       <Minus_Outline />
     </div>
