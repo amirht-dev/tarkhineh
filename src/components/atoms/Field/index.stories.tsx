@@ -3,7 +3,14 @@ import { T } from "@/utils/storybook";
 import { useArgs } from "@storybook/preview-api";
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
-import Field, { FieldErrorMessage, FieldInput, Field as FieldRoot } from ".";
+import Field, {
+  FieldDescription,
+  FieldErrorMessage,
+  FieldInput,
+  Field as FieldRoot,
+  FieldSuccessMessage,
+} from ".";
+import { INPUT_COLORS } from "../Input/index.constants";
 import { FIELD_TYPES } from "./index.constants";
 import {
   FieldInputOTPTypeProps,
@@ -13,7 +20,13 @@ import {
 
 const meta = {
   component: Field,
-  subcomponents: { FieldRoot, FieldInput, FieldErrorMessage },
+  subcomponents: {
+    FieldRoot,
+    FieldInput,
+    FieldDescription,
+    FieldErrorMessage,
+    FieldSuccessMessage,
+  },
   argTypes: {
     type: {
       control: "select",
@@ -28,12 +41,30 @@ const meta = {
       control: "object",
       if: { arg: "type", eq: "otp" },
     },
-    error: {
-      control: "boolean",
-      mapping: { true: "پر کردن این فیلد الزامی است!" },
+    color: {
+      control: "inline-radio",
+      options: INPUT_COLORS,
       table: {
         type: {
-          summary: T.union(T.primitive.string, T.primitive.boolean),
+          summary: T.union(...INPUT_COLORS),
+        },
+      },
+    },
+    error: {
+      control: "text",
+      if: { arg: "success", truthy: false },
+      table: {
+        type: {
+          summary: T.primitive.string,
+        },
+      },
+    },
+    success: {
+      control: "text",
+      if: { arg: "error", truthy: false },
+      table: {
+        type: {
+          summary: T.primitive.string,
         },
       },
     },
@@ -41,7 +72,7 @@ const meta = {
   args: {
     value: "",
     onChange: fn(),
-    error: false,
+    color: "dark",
     type: "text",
   },
   render(args) {
@@ -99,8 +130,23 @@ export const Disabled = {
   },
 } satisfies Story<FieldProps>;
 
+export const Description = {
+  args: {
+    label: "ایمیل",
+    description: "لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت",
+  },
+} satisfies Story<FieldProps>;
+
 export const Error = {
   args: {
-    error: true,
+    label: "ایمیل",
+    error: "لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت",
+  },
+} satisfies Story<FieldProps>;
+
+export const Success = {
+  args: {
+    label: "ایمیل",
+    success: "لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت",
   },
 } satisfies Story<FieldProps>;

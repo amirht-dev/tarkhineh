@@ -3,15 +3,20 @@ import {
   PropsWithAsChild,
   UnwrapLiteralUnion,
 } from "@/types/utils";
-import { ComponentProps, HTMLInputTypeAttribute } from "react";
-import { Merge } from "type-fest";
+import { ComponentProps, HTMLInputTypeAttribute, ReactNode } from "react";
+import { Except, Merge } from "type-fest";
 import { InputProps } from "../Input/index.types";
 import { InputOTPProps } from "../InputOTP/index.types";
 
-export type FieldContextType = { error: boolean };
+export type FieldContextType = { color: InputProps["color"] };
 
 export type FieldRootProps = PropsWithAsChild<
-  Merge<ComponentProps<"div">, { error?: boolean }>
+  Merge<
+    ComponentProps<"div">,
+    {
+      color?: InputProps["color"];
+    }
+  >
 >;
 
 export type FieldInputTextTypeProps = Merge<
@@ -30,12 +35,28 @@ export type FieldInputOTPTypeProps = Merge<
 
 export type FieldInputProps = FieldInputTextTypeProps | FieldInputOTPTypeProps;
 
-export type FieldErrorMessageProps = PropsWithAsChild<ComponentProps<"p">>;
+export type FieldDescriptionProps = PropsWithAsChild<ComponentProps<"p">>;
+
+export type FieldErrorMessageProps = Merge<
+  FieldDescriptionProps,
+  {
+    icon?: ReactNode;
+  }
+>;
+
+export type FieldSuccessMessageProps = Merge<
+  FieldDescriptionProps,
+  {
+    icon?: ReactNode;
+  }
+>;
 
 type FieldSharedProps = {
-  error?: boolean | string;
+  description?: ReactNode;
+  error?: string;
+  success?: string;
   rootClassName?: string;
-  errorMessageClassName?: string;
+  descriptionClassName?: string;
 };
 
 export type FieldTextTypeProps = Merge<
@@ -44,4 +65,7 @@ export type FieldTextTypeProps = Merge<
 >;
 export type FieldOTPTypeProps = Merge<FieldInputOTPTypeProps, FieldSharedProps>;
 
-export type FieldProps = DistributedMerge<FieldInputProps, FieldSharedProps>;
+export type FieldProps = Except<
+  DistributedMerge<FieldInputProps, FieldSharedProps>,
+  "children"
+>;

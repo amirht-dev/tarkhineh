@@ -1,74 +1,134 @@
 "use client";
 
 import { twMerge } from "@/lib/tailwind-merge";
+import { tv } from "@/lib/tailwind-variants";
 import { createCTX } from "@/utils/clientHelpers";
 import { Slot } from "@radix-ui/react-slot";
+import { CheckCircle_Outline } from "../icons/Essential/CheckCircle";
 import { InfoCircle_Outline } from "../icons/Essential/InfoCircle";
 import Input from "../Input";
 import InputOTP from "../InputOTP";
 import {
   FieldContextType,
+  FieldDescriptionProps,
   FieldErrorMessageProps,
   FieldInputProps,
   FieldProps,
   FieldRootProps,
+  FieldSuccessMessageProps,
 } from "./index.types";
 
 const { context: FieldContext, hook: useFieldContext } =
   createCTX<FieldContextType>("Field");
 
-const FieldRoot = ({ asChild, error = false, ...props }: FieldRootProps) => {
+const FieldRoot = ({ asChild, color = "dark", ...props }: FieldRootProps) => {
   const Comp = asChild ? Slot : "div";
 
   return (
-    <FieldContext.Provider value={{ error }}>
+    <FieldContext.Provider value={{ color }}>
       <Comp {...props} />
     </FieldContext.Provider>
   );
 };
 
 const FieldInput = (props: FieldInputProps) => {
-  const { error } = useFieldContext();
+  const { color } = useFieldContext();
 
-  if (props.type === "otp") return <InputOTP error={error} {...props} />;
-  return <Input error={error} {...props} />;
+  if (props.type === "otp")
+    return <InputOTP color={props.color ?? color} {...props} />;
+  return <Input color={props.color ?? color} {...props} />;
 };
 
-const FieldErrorMessage = ({ children, ...props }: FieldErrorMessageProps) => {
-  const { error } = useFieldContext();
+const fieldDescriptionVariants = tv({
+  base: "text-caption-sm mt-1 font-normal",
+  variants: {
+    color: {
+      dark: "text-neutral-gray-6",
+      light: "",
+      primary: "text-primary",
+      error: "text-status-error",
+      success: "text-status-success",
+      warning: "text-status-warning",
+    },
+  },
+});
 
-  if (!error) return null;
+const FieldDescription = ({ className, ...props }: FieldDescriptionProps) => {
+  const { color } = useFieldContext();
 
   return (
-    <div
+    <p {...props} className={fieldDescriptionVariants({ color, className })} />
+  );
+};
+
+const FieldErrorMessage = ({
+  children,
+  icon = <InfoCircle_Outline />,
+  className,
+  ...props
+}: FieldErrorMessageProps) => {
+  return (
+    <FieldDescription
       {...props}
-      className={twMerge(
-        "text-status-error mt-1 flex items-center gap-1",
-        props.className,
-      )}
+      className={twMerge("flex items-center gap-1", className)}
     >
-      <InfoCircle_Outline className="size-4" />
-      <p className="text-caption-sm font-normal">{children}</p>
-    </div>
+      <Slot className="size-4">{icon}</Slot>
+      {children}
+    </FieldDescription>
+  );
+};
+
+const FieldSuccessMessage = ({
+  children,
+  icon = <CheckCircle_Outline />,
+  className,
+  ...props
+}: FieldSuccessMessageProps) => {
+  return (
+    <FieldDescription
+      {...props}
+      className={twMerge("flex items-center gap-1", className)}
+    >
+      <Slot className="size-4">{icon}</Slot>
+      {children}
+    </FieldDescription>
   );
 };
 
 export default function Field({
-  error,
+  color = "dark",
+  description,
   rootClassName,
-  errorMessageClassName,
+  descriptionClassName,
+  error,
+  success,
   ...props
 }: FieldProps) {
   return (
-    <FieldRoot error={!!error} className={rootClassName}>
+    <FieldRoot
+      color={!!error ? "error" : !!success ? "success" : color}
+      className={rootClassName}
+    >
       <FieldInput {...props} />
-      {typeof error === "string" && (
-        <FieldErrorMessage className={errorMessageClassName}>
-          {error}
-        </FieldErrorMessage>
+      {!!error ? (
+        <FieldErrorMessage>{error}</FieldErrorMessage>
+      ) : !!success ? (
+        <FieldSuccessMessage>{success}</FieldSuccessMessage>
+      ) : (
+        description && (
+          <FieldDescription className={descriptionClassName}>
+            {description}
+          </FieldDescription>
+        )
       )}
     </FieldRoot>
   );
 }
 
-export { FieldRoot as Field, FieldErrorMessage, FieldInput };
+export {
+  FieldRoot as Field,
+  FieldDescription,
+  FieldErrorMessage,
+  FieldInput,
+  FieldSuccessMessage,
+};
