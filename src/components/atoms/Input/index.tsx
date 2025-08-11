@@ -8,13 +8,13 @@ import { InputProps } from "./index.types";
 export const inputVariants = tv(
   {
     slots: {
-      root: "group flex items-center gap-1 rounded-sm border px-4 transition-colors has-[input:disabled]:[&,&_*]:cursor-not-allowed",
-      icon: "shrink-0 transition-colors",
+      root: "group has-disabled:border-neutral-gray-3 flex items-center gap-1 rounded-sm border px-4 transition-colors has-[input:disabled]:[&,&_*]:cursor-not-allowed",
+      icon: "group-has-[input:disabled]:text-neutral-gray-3 shrink-0 transition-colors",
       inputLabelWrapper: "relative flex-1",
       input:
-        "w-full border-none bg-transparent outline-none placeholder:opacity-0 placeholder:transition-opacity group-has-focus-within:placeholder:opacity-100",
+        "disabled:text-neutral-gray-3 w-full border-none bg-transparent outline-none placeholder:transition-opacity group-has-focus-within:placeholder:opacity-100 data-[has-label=true]:group-not-has-focus-within:placeholder:opacity-0",
       label:
-        "group-focus-within:text-caption-md data-[has-value=true]:text-caption-md pointer-events-none absolute -translate-y-1/2 px-1 leading-none text-nowrap transition-all select-none rtl:top-1/2 rtl:right-0",
+        "group-focus-within:text-caption-md data-[has-value=true]:text-caption-md group-has-[input:disabled]:text-neutral-gray-3 pointer-events-none absolute -translate-y-1/2 px-1 leading-none text-nowrap transition-all select-none rtl:top-1/2 rtl:right-0",
     },
     variants: {
       size: {
@@ -40,53 +40,54 @@ export const inputVariants = tv(
           label: "group-focus-within:-top-4 data-[has-value=true]:-top-4",
         },
       },
-      mode: {
+      color: {
+        primary: {
+          root: "border-primary hover:border-primary-shade-2 data-[has-value=true]:not-has-[input:disabled]:border-primary-shade-2",
+          icon: "text-primary group-hover:text-primary-shade-2 data-[has-value=true]:group-not-has-[input:disabled]:text-primary-shade-2",
+          input:
+            "text-primary group-hover:text-primary-shade-2 data-[has-value=true]:not-disabled:text-primary-shade-2",
+          label:
+            "text-primary group-hover:text-primary-shade-2 data-[has-value=true]:group-not-has-[input:disabled]:text-primary-shade-2",
+        },
+        error: {
+          root: "border-status-error-l hover:border-status-error data-[has-value=true]:not-has-[input:disabled]:border-status-error",
+          icon: "text-status-error-l group-hover:text-status-error data-[has-value=true]:group-not-has-[input:disabled]:text-status-error",
+          input:
+            "text-status-error-l group-hover:text-status-error data-[has-value=true]:not-disabled:text-status-error",
+          label:
+            "text-status-error-l group-hover:text-status-error data-[has-value=true]:group-not-has-[input:disabled]:text-status-error",
+        },
+        success: {
+          root: "border-status-success-l hover:border-status-success data-[has-value=true]:not-has-[input:disabled]:border-status-success",
+          icon: "text-status-success-l group-hover:text-status-success data-[has-value=true]:group-not-has-[input:disabled]:text-status-success",
+          input:
+            "text-status-success-l group-hover:text-status-success data-[has-value=true]:not-disabled:text-status-success",
+          label:
+            "text-status-success-l group-hover:text-status-success data-[has-value=true]:group-not-has-[input:disabled]:text-status-success",
+        },
+        warning: {
+          root: "border-status-warning-l hover:border-status-warning data-[has-value=true]:not-has-[input:disabled]:border-status-warning",
+          icon: "text-status-warning-l group-hover:text-status-warning data-[has-value=true]:group-not-has-[input:disabled]:text-status-warning",
+          input:
+            "text-status-warning-l group-hover:text-status-warning data-[has-value=true]:not-disabled:text-status-warning",
+          label:
+            "text-status-warning-l group-hover:text-status-warning data-[has-value=true]:group-not-has-[input:disabled]:text-status-warning",
+        },
         light: {
-          root: [
-            "border-neutral-gray-7 not-[:focus-within]:data-[has-value=false]:not-[:has(input:disabled)]:data-[error=false]:hover:border-neutral-gray-1",
-            "focus-within:border-primary",
-            "data-[has-value=true]:not-[:focus-within]:data-[error=false]:not-[:has(input:disabled)]:border-neutral-gray-1",
-            "has-[input:disabled]:border-neutral-gray-7",
-            "data-[error=true]:border-status-error",
-          ],
-          label: [
-            "bg-[var(--label-bg,var(--color-neutral-black))]",
-            "text-neutral-gray-4 group-[:not(:focus-within)]:data-[has-value=false]:group-[:not(:has(input:disabled))]:data-[error=false]:group-hover:text-neutral-gray-1",
-            "group-focus-within:text-primary",
-            "data-[has-value=true]:group-[:not(:focus-within)]:data-[error=false]:group-[:not(:has(input:disabled))]:text-neutral-gray-1",
-            "group-[:has(input:disabled)]:text-neutral-gray-7",
-            "data-[error=true]:text-status-error",
-          ],
-          icon: [
-            "text-neutral-gray-4 group-hover:text-neutral-gray-1",
-            "group-focus-within:text-neutral-gray-1",
-            "data-[has-value=true]:text-neutral-gray-1",
-            "group-[:has(input:disabled)]:text-neutral-gray-7",
-          ],
-          input: "text-neutral-gray-1 disabled:text-neutral-gray-7",
+          root: "border-neutral-gray-6 hover:border-neutral-white data-[has-value=true]:not-has-[input:disabled]:border-neutral-white",
+          icon: "text-neutral-gray-6 group-hover:text-neutral-white data-[has-value=true]:group-not-has-[input:disabled]:text-neutral-white",
+          input:
+            "text-neutral-gray-6 group-hover:text-neutral-white data-[has-value=true]:not-disabled:text-neutral-white",
+          label:
+            "text-neutral-gray-6 group-hover:text-neutral-white data-[has-value=true]:group-not-has-[input:disabled]:text-neutral-white bg-[var(--label-bg,#333)]",
         },
         dark: {
-          root: [
-            "border-neutral-gray-4 not-[:focus-within]:data-[has-value=false]:not-[:has(input:disabled)]:data-[error=false]:hover:border-neutral-gray-8",
-            "focus-within:border-primary",
-            "data-[has-value=true]:not-[:focus-within]:data-[error=false]:border-neutral-gray-8",
-            "has-[input:disabled]:border-neutral-gray-4",
-            "data-[error=true]:border-status-error",
-          ],
-          label: [
-            "bg-[var(--label-bg,var(--color-neutral-white))]",
-            "text-neutral-gray-7 group-[:not(:focus-within)]:data-[has-value=false]:group-[:not(:has(input:disabled))]:data-[error=false]:group-hover:text-neutral-gray-8",
-            "group-focus-within:text-primary",
-            "data-[has-value=true]:group-[:not(:focus-within)]:data-[error=false]:text-neutral-gray-8",
-            "group-[:has(input:disabled)]:text-neutral-gray-4",
-            "data-[error=true]:text-status-error",
-          ],
-          icon: [
-            "text-neutral-gray-7 group-hover:text-neutral-gray-8",
-            "group-focus-within:text-neutral-gray-8",
-            "data-[has-value=true]:text-neutral-gray-8",
-            "group-[:has(input:disabled)]:text-neutral-gray-4",
-          ],
+          root: "border-neutral-gray-4 hover:border-neutral-gray-8 data-[has-value=true]:not-has-[input:disabled]:border-neutral-gray-8",
+          icon: "text-neutral-gray-4 group-hover:text-neutral-gray-8 data-[has-value=true]:group-not-has-[input:disabled]:text-neutral-gray-8",
+          input:
+            "text-neutral-gray-4 group-hover:text-neutral-gray-8 data-[has-value=true]:not-disabled:text-neutral-gray-8",
+          label:
+            "text-neutral-gray-4 group-hover:text-neutral-gray-8 data-[has-value=true]:group-not-has-[input:disabled]:text-neutral-gray-8",
         },
       },
     },
@@ -98,10 +99,17 @@ export const inputVariants = tv(
             "rtl:group-focus-within:data-[has-prefix-icon=true]:-right-7 rtl:data-[has-prefix-icon=true]:data-[has-value=true]:-right-7",
         },
       },
+      {
+        color: ["dark", "primary", "success", "error", "warning"],
+        className: {
+          label: "bg-[var(--label-bg,theme(colors.neutral.white))]",
+        },
+      },
     ],
     defaultVariants: {
       mode: "dark",
       size: "md",
+      color: "dark",
     },
   },
   {
@@ -112,7 +120,6 @@ export const inputVariants = tv(
 const Input = forwardRef<HTMLInputElement, InputProps>(
   (
     {
-      mode = "dark",
       size = "md",
       label,
       prefixIcon,
@@ -120,14 +127,14 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       className,
       onChange,
       value,
-      error = false,
       containerProps,
+      color = "dark",
       ...props
     },
     ref,
   ) => {
     const cns = inputVariants({
-      mode,
+      color,
       size,
       className,
     });
@@ -139,13 +146,11 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         data-has-value={!!value}
         data-has-prefix-icon={!!prefixIcon}
         aria-disabled={!!props.disabled}
-        data-error={error}
       >
         <Slot
           className={cns.icon()}
           data-has-value={!!value}
           aria-disabled={!!props.disabled}
-          data-error={error}
         >
           {prefixIcon}
         </Slot>
@@ -160,7 +165,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             value={value}
             data-has-value={!!value}
             data-has-prefix-icon={!!prefixIcon}
-            data-error={error}
+            data-has-label={!!label}
           />
           {!!label && (
             <span
@@ -168,7 +173,6 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
               data-has-value={!!value}
               data-has-prefix-icon={!!prefixIcon}
               aria-disabled={!!props.disabled}
-              data-error={error}
             >
               {label}
             </span>
@@ -178,7 +182,6 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           className={cns.icon()}
           data-has-value={!!value}
           aria-disabled={!!props.disabled}
-          data-error={error}
         >
           {suffixIcon}
         </Slot>

@@ -6,7 +6,7 @@ import { fn } from "@storybook/test";
 import Input from ".";
 import { Eye_Outline } from "../icons/Security/Eye";
 import { Lock_Outline } from "../icons/Security/Lock";
-import { INPUT_MODES, INPUT_SIZES, INPUT_TYPES } from "./index.constants";
+import { INPUT_COLORS, INPUT_SIZES, INPUT_TYPES } from "./index.constants";
 import { InputProps } from "./index.types";
 
 const meta = {
@@ -14,7 +14,7 @@ const meta = {
   args: {
     label: "رمز عبور",
     size: "md",
-    mode: "dark",
+    color: "dark",
     error: false,
     disabled: false,
     prefixIcon: false,
@@ -32,12 +32,12 @@ const meta = {
         },
       },
     },
-    mode: {
+    color: {
       control: "inline-radio",
-      options: INPUT_MODES,
+      options: INPUT_COLORS,
       table: {
         type: {
-          summary: T.union(...INPUT_MODES),
+          summary: T.union(...INPUT_COLORS),
         },
       },
     },
@@ -118,24 +118,52 @@ export default meta;
 
 type Story<T = typeof meta> = StoryObj<T>;
 
-export const Default = {} satisfies Story;
-
-export const Dark = {
+export const Default = {
   args: {
-    mode: "dark",
+    label: undefined,
+    placeholder: "رمز عبور",
+  },
+} satisfies Story;
+
+export const Primary = {
+  args: {
+    color: "primary",
+  },
+} satisfies Story;
+
+export const Error = {
+  args: {
+    color: "error",
+  },
+} satisfies Story;
+
+export const Success = {
+  args: {
+    color: "success",
+  },
+} satisfies Story;
+
+export const Warning = {
+  args: {
+    color: "warning",
   },
 } satisfies Story;
 
 export const Light = {
-  parameters: {
+  args: {
+    color: "light",
+  },
+  globals: {
     backgrounds: {
-      default: "dark",
+      value: "dark",
     },
   },
+} satisfies Story;
+
+export const Dark = {
   args: {
-    mode: "light",
+    color: "dark",
   },
-  decorators: [(Story) => <div className="[--label-bg:#333]">{Story()}</div>],
 } satisfies Story;
 
 export const Small = {
@@ -177,11 +205,5 @@ export const SuffixIcon = {
 export const Disabled = {
   args: {
     disabled: true,
-  },
-} satisfies Story;
-
-export const Error = {
-  args: {
-    error: true,
   },
 } satisfies Story;
