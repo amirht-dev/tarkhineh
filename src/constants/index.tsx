@@ -1,3 +1,6 @@
+import samanBankImage from "@/assets/images/banks/bank-saman1.svg";
+import mellatBankImage from "@/assets/images/banks/Mellat.svg";
+import persianBankImage from "@/assets/images/banks/Parsian-Bank-Logo.svg";
 import branch1 from "@/assets/images/branches/branch-1.jpg";
 import branch2 from "@/assets/images/branches/branch-2.jpg";
 import branch3 from "@/assets/images/branches/branch-3.jpg";
@@ -16,6 +19,8 @@ import { CallCalling_Outline } from "@/components/atoms/icons/Call/CallCalling";
 import { MenuBoard_Outline } from "@/components/atoms/icons/Content-Edit/MenuBoard";
 import { Home_Outline } from "@/components/atoms/icons/Essential/Home";
 import { HomeHashtag_Outline } from "@/components/atoms/icons/Essential/HomeHashtag";
+import { CardPos_Outline } from "@/components/atoms/icons/Money/CardPos";
+import { Wallet2_Outline } from "@/components/atoms/icons/Money/Wallet2";
 import { Instagram_Outline } from "@/components/atoms/icons/SocialMedia/Instagram";
 import { Telegram_Outline } from "@/components/atoms/icons/SocialMedia/Telegram";
 import { Twitter_Outline } from "@/components/atoms/icons/SocialMedia/Twitter";
@@ -164,3 +169,35 @@ export const breakpointEntires = Object.entries(breakpoint) as Entries<
 >;
 
 export const TEST_OTP_CODE = "11111";
+
+export const paymentMethods = [
+  {
+    type: "internet" as const,
+    label: "پرداخت اینترنتی",
+    subLabel: "پرداخت اینترنتی",
+    icon: <CardPos_Outline />,
+  },
+  {
+    type: "on-site" as const,
+    label: "پرداخت در محل",
+    subLabel: "پرداخت در محل",
+    icon: <Wallet2_Outline />,
+  },
+];
+
+export type PaymentMethod = (typeof paymentMethods)[number]["type"];
+
+export const paymentGateways = [
+  {
+    name: "saman-bank",
+    image: samanBankImage,
+  },
+  {
+    name: "mellat-bank",
+    image: mellatBankImage,
+  },
+  {
+    name: "persian-bank",
+    image: persianBankImage,
+  },
+];
