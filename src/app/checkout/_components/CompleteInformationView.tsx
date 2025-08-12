@@ -2,10 +2,7 @@
 
 import emptyDesktopImage from "@/assets/images/vectors/empty-desktop.png";
 import Button, { ResponsiveButton } from "@/components/atoms/Button";
-import {
-  CustomRadio,
-  CustomRadioIndicator,
-} from "@/components/atoms/CustomRadio";
+import { CustomRadio } from "@/components/atoms/CustomRadio";
 import { DocumentNormal_Outline } from "@/components/atoms/icons/Content-Edit/DocumentNormal";
 import { Truck_Outline } from "@/components/atoms/icons/Delivery/Truck";
 import { CheckCircle_Outline } from "@/components/atoms/icons/Essential/CheckCircle";
@@ -15,6 +12,7 @@ import { Skeleton } from "@/components/atoms/Skeleton";
 import Textarea from "@/components/atoms/Textarea";
 import AddressCard from "@/components/molecules/AdressCard";
 import Factor from "@/components/molecules/Factor";
+import Radio from "@/components/molecules/Radio";
 import { useStepViewContext } from "@/components/molecules/Steps";
 import Responsive from "@/components/utils/Responsive";
 import { useGlobalStore } from "@/Providers/global-store";
@@ -35,13 +33,13 @@ const deliveryTypes = [
     type: "courier",
     label: "ارسال توسط پیک",
     subLabel: "توسط پیک رستوران ارسال شود.",
-    icon: Truck_Outline,
+    icon: <Truck_Outline />,
   },
   {
     type: "in-person",
     label: "تحویل حضوری",
     subLabel: "توسط پیک رستوران ارسال شود.",
-    icon: ShoppingBag_Outline,
+    icon: <ShoppingBag_Outline />,
   },
 ] as const;
 
@@ -72,32 +70,20 @@ export default function CompleteInformationView() {
           </div>
 
           <div className="flex flex-col gap-2 lg:flex-row lg:gap-10">
-            {deliveryTypes.map(({ type, label, subLabel, icon: Icon }) => {
+            {deliveryTypes.map(({ type, label, subLabel, icon }) => {
               const isChecked = deliveryType === type;
 
               return (
-                <CustomRadio
+                <Radio
+                  label={label}
+                  subLabel={subLabel}
+                  icon={icon}
                   key={type}
                   name="deliveryType"
+                  checked={isChecked}
                   value={type}
                   onChange={(e) => e.target.checked && setDeliveryType(type)}
-                  checked={isChecked}
-                >
-                  <div className="text-neutral-gray-7 flex items-center">
-                    <CustomRadioIndicator className="mt-0.5" />
-
-                    <div className="ms-2 lg:flex lg:flex-col">
-                      <span className="text-caption-md lg:text-body-sm">
-                        {label}
-                      </span>
-                      <span className="text-caption-sm font-normal max-lg:hidden">
-                        {subLabel}
-                      </span>
-                    </div>
-
-                    <Icon className="ms-1 size-4 lg:size-6" />
-                  </div>
-                </CustomRadio>
+                />
               );
             })}
           </div>
