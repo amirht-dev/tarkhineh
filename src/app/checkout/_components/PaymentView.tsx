@@ -1,10 +1,10 @@
 "use client";
 
+import { validateDiscountCodeAction } from "@/actions/user";
 import { ResponsiveButton } from "@/components/atoms/Button";
 import Field from "@/components/atoms/Field";
 import { FieldTextTypeProps } from "@/components/atoms/Field/index.types";
 import GatewayRadio from "@/components/atoms/GatewayRadio";
-import { CheckCircle_Outline } from "@/components/atoms/icons/Essential/CheckCircle";
 import { WarningHexagon_Outline } from "@/components/atoms/icons/Essential/WarningHexagon";
 import { Card_Outline } from "@/components/atoms/icons/Money/Card";
 import { DiscountShape_Outline } from "@/components/atoms/icons/Money/DiscountShape";
@@ -12,13 +12,34 @@ import { WalletMoney_Outline } from "@/components/atoms/icons/Money/WalletMoney"
 import Factor from "@/components/molecules/Factor";
 import Radio from "@/components/molecules/Radio";
 import Responsive from "@/components/utils/Responsive";
-import { paymentGateways, PaymentMethod, paymentMethods } from "@/constants";
-import { useState } from "react";
+import { paymentGateways, paymentMethods } from "@/constants";
+import { startTransition, useActionState } from "react";
+import { Controller } from "react-hook-form";
+import { PropsWithCheckoutFormProps } from "../page";
 import PageSection from "./PageSection";
 
-export default function PaymentView() {
-  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("internet");
-  const [paymentGateway, setPaymentGateway] = useState<string | null>(null);
+export default function PaymentView({
+  checkoutForm,
+}: PropsWithCheckoutFormProps) {
+  const [
+    isDiscountCodeValidated,
+    validateDiscountCode,
+    isValidatingDiscountCode,
+  ] = useActionState(validateDiscountCodeAction, null);
+
+  const {
+    register,
+    control,
+    watch,
+    getValues,
+    formState: { isValid },
+  } = checkoutForm;
+
+  const paymentMethod = watch("paymentMethod");
+
+  const handleValidateDiscountCode = () =>
+    startTransition(() => validateDiscountCode(getValues("discountCode")));
+
   return (
     <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:gap-6">
       <div className="flex flex-col gap-3 lg:flex-1 lg:gap-6">
@@ -30,16 +51,38 @@ export default function PaymentView() {
           </div>
 
           <div className="flex w-full max-w-[400px] gap-4">
-            <Responsive<FieldTextTypeProps>
-              component={Field}
-              label="کد تخفیف"
-              // error="کد تخفیف نامعتبر!"
-              // success="کد تخفیف با موفقیت اعمال شد!"
-              spellCheck={false}
-              size={{ initial: "sm", lg: "md" }}
-              rootClassName="flex-1"
+            <Controller
+              control={control}
+              name="discountCode"
+              disabled={isValidatingDiscountCode}
+              render={({ field }) => (
+                <Responsive<FieldTextTypeProps>
+                  component={Field}
+                  label="کد تخفیف"
+                  description="کد تست code است"
+                  error={
+                    isDiscountCodeValidated === false && "کد تخفیف نامعتبر!"
+                  }
+                  success={
+                    isDiscountCodeValidated === true &&
+                    "کد تخفیف با موفقیت اعمال شد!"
+                  }
+                  spellCheck={false}
+                  size={{ initial: "sm", lg: "md" }}
+                  rootClassName="flex-1"
+                  onKeyDown={(e) =>
+                    e.key.toLowerCase() === "enter" &&
+                    handleValidateDiscountCode()
+                  }
+                  {...field}
+                />
+              )}
             />
-            <ResponsiveButton size={{ initial: "sm", lg: "md" }}>
+            <ResponsiveButton
+              size={{ initial: "sm", lg: "md" }}
+              onClick={handleValidateDiscountCode}
+              disabled={isValidatingDiscountCode}
+            >
               ثبت کد
             </ResponsiveButton>
           </div>
@@ -54,17 +97,14 @@ export default function PaymentView() {
 
           <div className="flex gap-6 lg:flex-row lg:gap-12">
             {paymentMethods.map(({ type, label, subLabel, icon }) => {
-              const isChecked = paymentMethod === type;
-
               return (
                 <Radio
                   key={type}
                   value={type}
-                  checked={isChecked}
-                  onChange={(e) => e.target.checked && setPaymentMethod(type)}
                   label={label}
                   subLabel={subLabel}
                   icon={icon}
+                  {...register("paymentMethod")}
                 />
               );
             })}
@@ -82,13 +122,17 @@ export default function PaymentView() {
             <div className="flex flex-col items-center gap-2">
               <div className="flex gap-2 lg:gap-4">
                 {paymentGateways.map((gateway) => {
-                  const isChecked = paymentGateway === gateway.name;
                   return (
                     <GatewayRadio
                       key={gateway.name}
                       gateway={gateway}
-                      checked={isChecked}
-                      onChecked={setPaymentGateway}
+                      value={gateway.name}
+                      {...register("paymentGateway", {
+                        validate: (value, { paymentMethod }) => {
+                          if (paymentMethod === "internet" && !value)
+                            return "درگاه پرداخت اجباری است";
+                        },
+                      })}
                     />
                   );
                 })}
@@ -128,9 +172,10 @@ export default function PaymentView() {
       <Factor
         buttonAction={
           <ResponsiveButton
-            suffixIcon={<CheckCircle_Outline />}
+            suffixIcon={<Card_Outline />}
             size={{ initial: "sm", lg: "md" }}
             className="w-full"
+            disabled={!isValid}
           >
             {paymentMethod === "internet" ? "تایید و پرداخت" : "ثبت سفارش"}
           </ResponsiveButton>

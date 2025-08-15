@@ -1,6 +1,10 @@
 "use server";
 
-import { ServerFunction } from "@/types/next";
+import {
+  ServerFunction,
+  UseActionStateServerActionFunction,
+  UseActionStateServerFunctionFunction,
+} from "@/types/next";
 import { wait } from "@/utils";
 import { AddAddressFormType } from "@/utils/schemas";
 
@@ -22,4 +26,13 @@ export const addAddressAction: ServerFunction<
     success: false,
     error: "failed to add address",
   };
+};
+
+export const validateDiscountCodeAction: UseActionStateServerFunctionFunction<
+  boolean | null,
+  [code: string]
+> = async (_, code) => {
+  await wait();
+
+  return code === "code";
 };

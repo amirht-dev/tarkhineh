@@ -19,7 +19,9 @@ import { useGlobalStore } from "@/Providers/global-store";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useState } from "react";
+import { Controller } from "react-hook-form";
 import { ArrayValues } from "type-fest";
+import { PropsWithCheckoutFormProps } from "../page";
 import AddAddressPopup from "./AddAddressPopup";
 import PageSection from "./PageSection";
 
@@ -43,19 +45,36 @@ const deliveryTypes = [
   },
 ] as const;
 
-export default function CompleteInformationView() {
+export type DeliveryType = ArrayValues<typeof deliveryTypes>["type"];
+
+export default function CompleteInformationView({
+  checkoutForm,
+}: PropsWithCheckoutFormProps) {
   const { goToNextSiblingStep } = useStepViewContext();
 
   const shoppingCartCount = useGlobalStore(
     (state) => state.shoppingCart.length,
   );
 
-  const [deliveryType, setDeliveryType] =
-    useState<ArrayValues<typeof deliveryTypes>["type"]>("courier");
-
   const [addresses, setAddresses] = useState([{}, {}]);
 
   const handleAddAddress = () => setAddresses((prev) => [...prev, {}]);
+
+  const {
+    control,
+    register,
+    watch,
+    trigger,
+    formState: { isValid },
+  } = checkoutForm;
+
+  const deliveryType = watch("deliveryType");
+
+  const handleNextStepClick = async () => {
+    const isValid = await trigger(["items", "address"]);
+
+    if (isValid) goToNextSiblingStep();
+  };
 
   return (
     <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:gap-6">
@@ -70,22 +89,16 @@ export default function CompleteInformationView() {
           </div>
 
           <div className="flex flex-col gap-2 lg:flex-row lg:gap-10">
-            {deliveryTypes.map(({ type, label, subLabel, icon }) => {
-              const isChecked = deliveryType === type;
-
-              return (
-                <Radio
-                  label={label}
-                  subLabel={subLabel}
-                  icon={icon}
-                  key={type}
-                  name="deliveryType"
-                  checked={isChecked}
-                  value={type}
-                  onChange={(e) => e.target.checked && setDeliveryType(type)}
-                />
-              );
-            })}
+            {deliveryTypes.map(({ type, label, subLabel, icon }) => (
+              <Radio
+                key={type}
+                label={label}
+                subLabel={subLabel}
+                icon={icon}
+                value={type}
+                {...register("deliveryType")}
+              />
+            ))}
           </div>
         </PageSection>
 
@@ -104,7 +117,15 @@ export default function CompleteInformationView() {
             {!!addresses.length ? (
               <div className="mt-4 grid grid-cols-1 gap-2 lg:grid-cols-2 lg:gap-4">
                 {Array.from({ length: addresses.length }, (_, idx) => (
-                  <CustomRadio key={idx} name="address">
+                  <CustomRadio
+                    {...register("address", {
+                      required:
+                        "در صورت انتخاب ارسال توسط پیک انتخاب آدرس الزامی است",
+                      deps: "deliveryType",
+                    })}
+                    key={idx}
+                    value={`address-${idx}`}
+                  >
                     <AddressCard
                       key={idx}
                       className="peer-checked:border-primary"
@@ -169,30 +190,37 @@ export default function CompleteInformationView() {
           </PageSection>
         )}
 
-        <Responsive
-          component={Textarea}
-          size={{ initial: "md", lg: "xl" }}
-          containerProps={{
-            className: "rounded-lg h-[141px] lg:h-[169px]",
-          }}
-          maxLength={200}
-          label={
-            <span className="-mb-2 flex items-center gap-1">
-              <DocumentNormal_Outline className="size-4 lg:size-6" />
-              <span>توضیحات سفارش (اختیاری)</span>
-            </span>
-          }
+        <Controller
+          control={control}
+          name="orderDescription"
+          render={({ field }) => (
+            <Responsive
+              component={Textarea}
+              size={{ initial: "md", lg: "xl" }}
+              containerProps={{
+                className: "rounded-lg h-[141px] lg:h-[169px]",
+              }}
+              maxLength={200}
+              label={
+                <span className="-mb-2 flex items-center gap-1">
+                  <DocumentNormal_Outline className="size-4 lg:size-6" />
+                  <span>توضیحات سفارش (اختیاری)</span>
+                </span>
+              }
+              {...field}
+            />
+          )}
         />
       </div>
 
       <Factor
         buttonAction={
           <ResponsiveButton
-            onClick={goToNextSiblingStep}
+            onClick={handleNextStepClick}
             suffixIcon={<CheckCircle_Outline />}
             size={{ initial: "sm", lg: "md" }}
             className="w-full"
-            disabled={!shoppingCartCount}
+            disabled={!isValid}
           >
             ثبت سفارش
           </ResponsiveButton>

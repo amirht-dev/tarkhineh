@@ -53,8 +53,8 @@ export type FieldSuccessMessageProps = Merge<
 
 type FieldSharedProps = {
   description?: ReactNode;
-  error?: string;
-  success?: string;
+  error?: string | false | null;
+  success?: string | false | null;
   rootClassName?: string;
   descriptionClassName?: string;
 };
