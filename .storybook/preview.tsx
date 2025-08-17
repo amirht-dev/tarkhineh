@@ -1,6 +1,7 @@
 import type { Preview } from "@storybook/react";
 import { SessionProvider } from "next-auth/react";
 import BreakpointProvider from "../src/contexts/breakpoint";
+import { StorybookGlobalStoreProvider } from "../src/Providers/global-store";
 import "../src/styles/globals.css";
 
 const preview: Preview = {
@@ -13,6 +14,9 @@ const preview: Preview = {
     },
     nextjs: {
       appDirectory: true,
+    },
+    globalState: {
+      resetStorage: true,
     },
   },
   globalTypes: {
@@ -31,6 +35,14 @@ const preview: Preview = {
   },
   tags: ["autodocs"],
   decorators: [
+    (Story, { parameters }) => (
+      <StorybookGlobalStoreProvider
+        resetStorage={parameters.globalState?.resetStorage}
+        initialState={parameters.globalState?.initialState}
+      >
+        {Story()}
+      </StorybookGlobalStoreProvider>
+    ),
     (Story) => <SessionProvider>{Story()}</SessionProvider>,
     (Story) => <BreakpointProvider>{Story()}</BreakpointProvider>,
     (Story, { globals }) => <div dir={globals.dir}>{Story()}</div>,

@@ -16,11 +16,12 @@ export type GLobalStoreAction = {
 
 export type GlobalStore = GlobalStoreState & GLobalStoreAction;
 
-export const createGlobalStore = () =>
+export const createGlobalStore = (initialState?: Partial<GlobalStoreState>) =>
   createStore(
     persist<GlobalStore, [], [], Partial<GlobalStoreState>>(
       (set) => ({
         shoppingCart: [],
+        ...initialState,
         addToShoppingCart: (foodId) =>
           set((state) => {
             const index = state.shoppingCart.findIndex(
