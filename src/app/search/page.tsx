@@ -1,5 +1,6 @@
 import SearchBox from "@/components/atoms/SearchBox";
 import ProductCard from "@/components/molecules/ProductCard";
+import { foods } from "@/constants";
 import { NextPageProps } from "@/types/next";
 import { wait } from "@/utils";
 import clamp from "lodash/clamp";
@@ -14,9 +15,9 @@ export default async function SearchPage({ searchParams }: NextPageProps) {
     ? searchTermQuery[0]
     : (searchTermQuery ?? "");
 
-  const products = await getProductsByName(searchTerm);
+  const filteredFoods = await getProductsByName(searchTerm);
 
-  if (!searchTerm || !searchTerm.length || !products.length)
+  if (!searchTerm || !searchTerm.length || !filteredFoods.length)
     return (
       <div className="container my-6 flex flex-col items-center lg:my-12">
         <h4 className="text-body-xl">موردی با این مشخصات پیدا نکردیم!</h4>
@@ -44,12 +45,12 @@ export default async function SearchPage({ searchParams }: NextPageProps) {
           className="grid grid-cols-2 gap-3 lg:grid-cols-(--grid-cols) lg:gap-6"
           style={
             {
-              "--grid-cols": `repeat(${clamp(products.length, 0, 3)}, minmax(0, 1fr))`,
+              "--grid-cols": `repeat(${clamp(filteredFoods.length, 0, 3)}, minmax(0, 1fr))`,
             } as CSSProperties
           }
         >
-          {Array.from({ length: products.length }, (_, idx) => (
-            <ProductCard key={idx} />
+          {filteredFoods.map((food) => (
+            <ProductCard key={food.id} food={food} />
           ))}
         </div>
       </div>
@@ -59,5 +60,5 @@ export default async function SearchPage({ searchParams }: NextPageProps) {
 
 async function getProductsByName(name: string) {
   await wait(2000);
-  return Array(name === "پاستا" ? 3 : 0).fill(undefined);
+  return foods.filter((food) => food.name.includes(name));
 }
