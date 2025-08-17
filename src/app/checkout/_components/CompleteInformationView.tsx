@@ -15,7 +15,6 @@ import Factor from "@/components/molecules/Factor";
 import Radio from "@/components/molecules/Radio";
 import { useStepViewContext } from "@/components/molecules/Steps";
 import Responsive from "@/components/utils/Responsive";
-import { useGlobalStore } from "@/Providers/global-store";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useState } from "react";
@@ -49,10 +48,6 @@ export type DeliveryType = ArrayValues<typeof deliveryTypes>["type"];
 
 export default function CompleteInformationView() {
   const { goToNextSiblingStep } = useStepViewContext();
-
-  const shoppingCartCount = useGlobalStore(
-    (state) => state.shoppingCart.length,
-  );
 
   const [addresses, setAddresses] = useState([{}, {}]);
 
