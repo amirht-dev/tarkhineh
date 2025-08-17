@@ -1,4 +1,4 @@
-import Button from "@/components/atoms/Button";
+import { ResponsiveButton } from "@/components/atoms/Button";
 import { ShoppingCard_Outline } from "@/components/atoms/icons/Shop/ShoppingCard";
 import {
   Section,
@@ -7,41 +7,39 @@ import {
   SectionTitle,
 } from "@/components/atoms/Section";
 import MenuCard from "@/components/molecules/MenuCard";
+import { foods, menus } from "@/constants";
 import { NextPageProps } from "@/types/next";
+import Link from "next/link";
 
-export default async function MenuCategory({}: NextPageProps<
-  "branch_slug" | "category_slug"
->) {
+export default async function MenuCategory({
+  params,
+}: NextPageProps<"branch_slug" | "category_slug">) {
+  const { category_slug } = await params;
+
+  const menu = Object.values(menus).find((menu) => menu.slug === category_slug);
+
+  const menuFoods = foods
+    .filter((food) => food.menuId === menu?.id)
+    .map((food) => <MenuCard fullWidth key={food.id} food={food} />);
+
   return (
     <div className="my-6 space-y-6 lg:my-12 lg:space-y-12">
       <Section className="container">
         <SectionHeader className="flex items-center justify-between">
           <SectionTitle>غذاهای ایرانی</SectionTitle>
 
-          <>
-            <Button
-              variant="outline"
-              size="sm"
-              className="lg:hidden"
-              prefixIcon={<ShoppingCard_Outline />}
-            >
-              تکمیل خرید
-            </Button>
-            <Button
-              variant="outline"
-              size="md"
-              className="max-lg:hidden"
-              prefixIcon={<ShoppingCard_Outline />}
-            >
-              تکمیل خرید
-            </Button>
-          </>
+          <ResponsiveButton
+            asChild
+            variant="outline"
+            size={{ initial: "sm", lg: "md" }}
+            prefixIcon={<ShoppingCard_Outline />}
+          >
+            <Link href="/checkout">تکمیل خرید</Link>
+          </ResponsiveButton>
         </SectionHeader>
 
         <SectionBody className="grid grid-cols-1 gap-3 lg:grid-cols-2 lg:gap-6">
-          {Array.from({ length: 5 }, (_, idx) => (
-            <MenuCard fullWidth key={idx} />
-          ))}
+          {menuFoods}
         </SectionBody>
       </Section>
 
@@ -51,9 +49,7 @@ export default async function MenuCategory({}: NextPageProps<
         </SectionHeader>
 
         <SectionBody className="grid grid-cols-1 gap-3 lg:grid-cols-2 lg:gap-6">
-          {Array.from({ length: 5 }, (_, idx) => (
-            <MenuCard fullWidth key={idx} />
-          ))}
+          {menuFoods}
         </SectionBody>
       </Section>
 
@@ -63,9 +59,7 @@ export default async function MenuCategory({}: NextPageProps<
         </SectionHeader>
 
         <SectionBody className="grid grid-cols-1 gap-3 lg:grid-cols-2 lg:gap-6">
-          {Array.from({ length: 5 }, (_, idx) => (
-            <MenuCard fullWidth key={idx} />
-          ))}
+          {menuFoods}
         </SectionBody>
       </Section>
 
@@ -75,9 +69,7 @@ export default async function MenuCategory({}: NextPageProps<
         </SectionHeader>
 
         <SectionBody className="grid grid-cols-1 gap-3 lg:grid-cols-2 lg:gap-6">
-          {Array.from({ length: 5 }, (_, idx) => (
-            <MenuCard fullWidth key={idx} />
-          ))}
+          {menuFoods}
         </SectionBody>
       </Section>
     </div>

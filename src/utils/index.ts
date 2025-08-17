@@ -6,6 +6,8 @@ import {
   Duration,
   intervalToDuration,
 } from "date-fns";
+import clamp from "lodash/clamp";
+import sum from "lodash/sum";
 
 export function lastIndex(target: { length: number }) {
   return target.length - 1;
@@ -57,4 +59,16 @@ export function getCurrentBreakpoint() {
 
 export function addToArrayAt<T>(array: Array<T>, index: number, value: T) {
   return [...array.slice(0, index), value, ...array.slice(index, array.length)];
+}
+
+export function average(...numbers: number[]) {
+  return sum(numbers) / numbers.length;
+}
+
+export function calcPercentOf(value: number, percent: number) {
+  return (value * clamp(percent, 0, 100)) / 100;
+}
+
+export function discountedPrice(price: number, discount: number) {
+  return calcPercentOf(price, 100 - discount);
 }

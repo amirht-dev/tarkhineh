@@ -53,8 +53,8 @@ function ShoppingCartView({ checkoutForm }: PropsWithCheckoutFormProps) {
   return (
     <div className="flex items-start gap-6">
       <PageSection className="flex max-h-[554px] flex-1 flex-col gap-4 overflow-auto max-lg:hidden">
-        {Array.from({ length: shoppingCart.length }, (_, idx) => (
-          <ShoppingCard fullWidth key={idx} />
+        {shoppingCart.map((cart) => (
+          <ShoppingCard fullWidth key={cart.foodId} cart={cart} />
         ))}
       </PageSection>
 

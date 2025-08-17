@@ -1,12 +1,16 @@
+import { Food } from "@/constants";
 import { persist } from "zustand/middleware";
 import { createStore } from "zustand/vanilla";
 
+export type Cart = { foodId: Food["id"]; count: number };
+
 export type GlobalStoreState = {
-  shoppingCart: unknown[];
+  shoppingCart: Cart[];
 };
 
 export type GLobalStoreAction = {
-  addToShoppingCart: (item: unknown) => void;
+  addToShoppingCart: (foodId: Food["id"]) => void;
+  removeFromShoppingCart: (foodId: Food["id"], count?: number | "all") => void;
   clearShoppingCart: () => void;
 };
 
@@ -17,9 +21,40 @@ export const createGlobalStore = () =>
     persist<GlobalStore, [], [], Partial<GlobalStoreState>>(
       (set) => ({
         shoppingCart: [],
-        addToShoppingCart: (item) =>
-          set((state) => ({ shoppingCart: [...state.shoppingCart, item] })),
+        addToShoppingCart: (foodId) =>
+          set((state) => {
+            const index = state.shoppingCart.findIndex(
+              (item) => item.foodId === foodId,
+            );
+
+            const newShoppingCart: GlobalStoreState["shoppingCart"] =
+              index === -1
+                ? [...state.shoppingCart, { foodId, count: 1 }]
+                : state.shoppingCart.map((item, idx) =>
+                    idx === index ? { ...item, count: item.count + 1 } : item,
+                  );
+
+            return { shoppingCart: newShoppingCart };
+          }),
         clearShoppingCart: () => set(() => ({ shoppingCart: [] })),
+        removeFromShoppingCart: (foodId, count = 1) =>
+          set(({ shoppingCart }) => {
+            const cartIndex = shoppingCart.findIndex(
+              (cart) => cart.foodId === foodId,
+            );
+
+            if (cartIndex === -1) return { shoppingCart };
+
+            const newShoppingCart = shoppingCart.slice();
+
+            const cart = newShoppingCart[cartIndex];
+
+            if (count === "all" || count >= cart.count)
+              newShoppingCart.splice(cartIndex, 1);
+            else newShoppingCart[cartIndex].count -= count;
+
+            return { shoppingCart: newShoppingCart };
+          }),
       }),
       {
         name: "store",

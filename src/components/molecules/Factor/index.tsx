@@ -1,19 +1,45 @@
 "use client";
 
+import { useGlobalStore } from "@/Providers/global-store";
 import { ResponsiveButton } from "@/components/atoms/Button";
 import Counter from "@/components/atoms/Counter";
 import { WarningHexagon_Outline } from "@/components/atoms/icons/Essential/WarningHexagon";
 import { User_Outline } from "@/components/atoms/icons/Users/User";
 import { SignedIn, SignedOut } from "@/components/utils/Auth";
+import { foods } from "@/constants";
+import { calcPercentOf, discountedPrice } from "@/utils";
 import { ReactNode } from "react";
-import LoginPopup from "../LoginPopup";
 import ClearShoppingCartPopup from "../ClearShoppingCartPopup";
-import { useGlobalStore } from "@/Providers/global-store";
+import LoginPopup from "../LoginPopup";
 
 type FactorProps = { buttonAction: ReactNode; showList?: boolean };
 
 const Factor = ({ buttonAction, showList = false }: FactorProps) => {
   const shoppingCart = useGlobalStore((state) => state.shoppingCart);
+  const addToShoppingCart = useGlobalStore((state) => state.addToShoppingCart);
+  const removeFromShoppingCart = useGlobalStore(
+    (state) => state.removeFromShoppingCart,
+  );
+
+  if (!shoppingCart.length) return;
+
+  const totalAmount = shoppingCart.reduce((total, cart) => {
+    const food = foods.find((food) => food.id === cart.foodId);
+
+    if (!food) return total;
+
+    return total + food.price * cart.count;
+  }, 0);
+
+  const totalDiscountedAmount = shoppingCart.reduce((total, cart) => {
+    const food = foods.find((food) => food.id === cart.foodId);
+
+    if (!food || !food.discount) return total;
+
+    return total + calcPercentOf(food.price, food.discount) * cart.count;
+  }, 0);
+
+  const payableAmount = totalAmount - totalDiscountedAmount;
 
   return (
     <div className="bg-neutral-white border-neutral-gray-4 divide-neutral-gray-4 max-w-[496px] divide-y rounded-lg border p-6 [&>*]:py-3 [&>*]:first:pt-0">
@@ -25,26 +51,58 @@ const Factor = ({ buttonAction, showList = false }: FactorProps) => {
         <ClearShoppingCartPopup />
       </div>
 
-      {showList && !!shoppingCart.length && (
+      {showList && (
         <div>
           <ul className="max-h-[187px] overflow-y-auto">
-            {Array.from({ length: shoppingCart.length }, (_, idx) => (
-              <li
-                key={idx}
-                className="bg-neutral-gray-1 even:bg-neutral-gray-3 flex items-center justify-between p-2"
-              >
-                <div className="flex flex-col items-start">
-                  <span className="text-neutral-gray-8 text-caption-md lg:text-body-sm">
-                    پاستا سبزیجات
-                  </span>
-                  <span className="text-neutral-gray-7 text-caption-sm lg:text-caption-md font-normal">
-                    تومان ۱۷۵.۰۰۰
-                  </span>
-                </div>
+            {shoppingCart.map((cart) => {
+              const food = foods.find((food) => food.id === cart.foodId);
 
-                <Counter value={1} />
-              </li>
-            ))}
+              if (!food) return;
+
+              const price = !!food.discount
+                ? discountedPrice(food.price, food.discount)
+                : food.price;
+
+              return (
+                <li
+                  key={cart.foodId}
+                  className="bg-neutral-gray-1 even:bg-neutral-gray-3 flex items-center justify-between p-2"
+                >
+                  <div className="flex flex-col items-start">
+                    <span className="text-neutral-gray-8 text-caption-md lg:text-body-sm">
+                      {food.name}
+                    </span>
+
+                    {food.discount ? (
+                      <div className="flex gap-2">
+                        <span className="text-neutral-gray-4 text-caption-sm lg:text-caption-md font-normal line-through">
+                          {food.price.toLocaleString("fa")}
+                        </span>
+
+                        <span className="text-neutral-gray-7 text-caption-sm lg:text-caption-md font-normal">
+                          {discountedPrice(
+                            food.price,
+                            food.discount,
+                          ).toLocaleString("fa")}{" "}
+                          <span>تومان</span>
+                        </span>
+                      </div>
+                    ) : (
+                      <span className="text-neutral-gray-7 text-caption-sm lg:text-caption-md font-normal">
+                        {price.toLocaleString("fa")} <span>تومان</span>
+                      </span>
+                    )}
+                  </div>
+
+                  <Counter
+                    value={cart.count}
+                    onIncrement={() => addToShoppingCart(food.id)}
+                    onDecrement={() => removeFromShoppingCart(food.id)}
+                    onDelete={() => removeFromShoppingCart(food.id, "all")}
+                  />
+                </li>
+              );
+            })}
           </ul>
         </div>
       )}
@@ -52,7 +110,9 @@ const Factor = ({ buttonAction, showList = false }: FactorProps) => {
       <div className="flex items-center justify-between">
         <span className="text-body-sm text-neutral-gray-8">تخفیف محصولات</span>
 
-        <span className="text-body-sm text-neutral-gray-7">۶۳٬۰۰۰ تومان</span>
+        <span className="text-body-sm text-neutral-gray-7">
+          {totalDiscountedAmount.toLocaleString("fa")} <span>تومان</span>
+        </span>
       </div>
 
       <div>
@@ -77,7 +137,9 @@ const Factor = ({ buttonAction, showList = false }: FactorProps) => {
           مبلغ قابل پرداخت
         </span>
 
-        <span className="text-body-sm text-primary">۵۴۲٬۰۰۰ تومان</span>
+        <span className="text-body-sm text-primary">
+          {payableAmount.toLocaleString("fa")} <span>تومان</span>
+        </span>
       </div>
 
       <SignedIn>{buttonAction}</SignedIn>

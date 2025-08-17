@@ -1,9 +1,14 @@
+"use client";
+
 import Counter, { CounterSkeleton } from "@/components/atoms/Counter";
 import { Trash_Outline } from "@/components/atoms/icons/Essential/Trash";
 import Ratting, { RattingSkeleton } from "@/components/atoms/Ratting";
 import { Skeleton } from "@/components/atoms/Skeleton";
 import Tag, { TagSkeleton } from "@/components/atoms/Tag";
+import { foods } from "@/constants";
 import { tv } from "@/lib/tailwind-variants";
+import { useGlobalStore } from "@/Providers/global-store";
+import { average, discountedPrice } from "@/utils";
 import Image from "next/image";
 import { ShoppingCardProps, ShoppingCardSkeletonProps } from "./index.types";
 
@@ -62,15 +67,28 @@ export const shoppingCardVariants = tv({
   },
 });
 
-const ShoppingCard = ({ fullWidth }: ShoppingCardProps) => {
+const ShoppingCard = ({ fullWidth, cart }: ShoppingCardProps) => {
+  const { foodId, count } = cart;
+
+  const addToShoppingCart = useGlobalStore((state) => state.addToShoppingCart);
+  const removeFromShoppingCart = useGlobalStore(
+    (state) => state.removeFromShoppingCart,
+  );
+
+  const food = foods.find((food) => food.id === foodId);
+
+  if (!food) return;
+
+  const averageRate = Math.floor(average(...food.rates));
+
   const cns = shoppingCardVariants({ fullWidth });
 
   return (
     <div className={cns.root()}>
       <div className={cns.image_wrapper()}>
         <Image
-          src="/images/products/demo.jpg"
-          alt=""
+          src={food.images[0]}
+          alt={food.name}
           fill
           className={cns.image()}
         />
@@ -78,38 +96,55 @@ const ShoppingCard = ({ fullWidth }: ShoppingCardProps) => {
 
       <div className={cns.body()}>
         <div className={cns.top_wrapper()}>
-          <h5 className={cns.title()}>پاستا سبزیجات</h5>
+          <h5 className={cns.title()}>{food.name}</h5>
 
-          <button className={cns.deleteButton()}>
+          <button
+            className={cns.deleteButton()}
+            onClick={() => removeFromShoppingCart(food.id, "all")}
+          >
             <Trash_Outline />
           </button>
         </div>
 
         <div className={cns.middle_wrapper()}>
-          <p className={cns.ingredients()}>
-            پاستا، قارچ، گوجه، کدوی خوردشده، پیاز خلالی‌شده
-          </p>
+          <p className={cns.ingredients()}>{food.ingredients}</p>
 
-          <div className={cns.discount_wrapper()}>
-            <span className={cns.discount_price()}>۱۷۵٬۰۰۰</span>
+          {!!food.discount && (
+            <div className={cns.discount_wrapper()}>
+              <span className={cns.discount_price()}>
+                {food.price.toLocaleString("fa")}
+              </span>
 
-            <Tag size="22" color="error" variant="pill">
-              %۲۰
-            </Tag>
-          </div>
+              <Tag size="22" color="error" variant="pill">
+                {food.discount.toLocaleString("fa")}%
+              </Tag>
+            </div>
+          )}
         </div>
 
         <div className={cns.bottom_wrapper()}>
           <Ratting
-            value={3}
+            value={averageRate}
             readonly
             iconClassName={cns.rate_icon()}
             containerClassName={cns.rate()}
           />
 
-          <Counter value={2} wrapperClassName={cns.counter()} />
+          <Counter
+            value={count}
+            wrapperClassName={cns.counter()}
+            onIncrement={() => addToShoppingCart(food.id)}
+            onDecrement={() => removeFromShoppingCart(food.id)}
+            onDelete={() => removeFromShoppingCart(food.id, "all")}
+          />
 
-          <span className={cns.price()}>۱۵۰٬۰۰۰ تومان</span>
+          <span className={cns.price()}>
+            {(!!food.discount
+              ? discountedPrice(food.price, food.discount)
+              : food.price
+            ).toLocaleString("fa")}{" "}
+            <span>تومان</span>
+          </span>
         </div>
       </div>
     </div>

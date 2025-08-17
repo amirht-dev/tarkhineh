@@ -25,30 +25,44 @@ import { Instagram_Outline } from "@/components/atoms/icons/SocialMedia/Instagra
 import { Telegram_Outline } from "@/components/atoms/icons/SocialMedia/Telegram";
 import { Twitter_Outline } from "@/components/atoms/icons/SocialMedia/Twitter";
 import { Profile2Users_Outline } from "@/components/atoms/icons/Users/Profile2Users";
+import random from "lodash/random";
+import times from "lodash/times";
+import { StaticImageData } from "next/image";
 import { Entries } from "type-fest";
+
+type Menu = {
+  id: string;
+  label: string;
+  imageSrc: StaticImageData;
+  slug: string;
+};
 
 export const menus = {
   mainFood: {
+    id: "0",
     label: "غذای اصلی",
     imageSrc: mainFood,
     slug: "main-food",
   },
   appetizer: {
+    id: "1",
     label: "پیش غذا",
     imageSrc: appetizer,
     slug: "appetizer",
   },
   dessert: {
+    id: "2",
     label: "دسر",
     imageSrc: dessert,
     slug: "dessert",
   },
   drink: {
+    id: "3",
     label: "نوشیدنی",
     imageSrc: drink,
     slug: "drink",
   },
-};
+} satisfies Record<string, Menu>;
 
 export const branches = {
   ekbatan: {
@@ -201,3 +215,25 @@ export const paymentGateways = [
     image: persianBankImage,
   },
 ];
+
+export type Food = {
+  menuId: Menu["id"];
+  id: string;
+  name: string;
+  discount: number | null;
+  price: number;
+  rates: number[];
+  images: string[];
+  ingredients: string;
+};
+
+export const foods = times<Food>(20, (idx) => ({
+  id: idx.toString(),
+  menuId: random(0, Object.values(menus).length).toString(),
+  name: "دلمه برگ کلم",
+  discount: Math.random() > 0.5 ? random(5, 30) : null,
+  price: random(100, 200) * 1000,
+  rates: times(random(10, 40), () => random(1, 5)),
+  images: times(5, () => "/images/products/demo.jpg"),
+  ingredients: "پاستا، قارچ، گوجه، کدوی خوردشده، پیاز خلالی‌شده",
+}));

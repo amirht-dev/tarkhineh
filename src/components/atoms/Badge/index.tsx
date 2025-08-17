@@ -23,7 +23,11 @@ const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
         ref={ref}
         className={badgeVariants({ color, className })}
       >
-        {children ? (children > 9 ? "+9" : children) : null}
+        {children
+          ? children > 9
+            ? "۹+"
+            : children.toLocaleString("fa")
+          : null}
       </span>
     );
   },

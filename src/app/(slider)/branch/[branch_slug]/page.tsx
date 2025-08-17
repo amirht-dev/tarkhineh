@@ -11,7 +11,7 @@ import BranchInfo from "@/components/molecules/BranchInfo";
 import { CardSlider, CardSliderSlide } from "@/components/molecules/CardSlider";
 import CommentCard from "@/components/molecules/CommentCard";
 import ProductCard from "@/components/molecules/ProductCard";
-import { branches } from "@/constants";
+import { branches, foods } from "@/constants";
 import { NextPage } from "@/types/next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -30,12 +30,12 @@ const BranchPage: NextPage<"branch_slug"> = async ({ params }) => {
       sidesNavigation
       sidesNavigationClassName="max-lg:hidden"
       emblaProps={{
-        inViewThreshold: 0.9,
+        inViewThreshold: 0,
       }}
     >
-      {Array.from({ length: 10 }, (_, idx) => (
-        <CardSliderSlide key={idx}>
-          <ProductCard />
+      {foods.map((food) => (
+        <CardSliderSlide key={food.id} asChild>
+          <ProductCard food={food} />
         </CardSliderSlide>
       ))}
     </CardSlider>

@@ -7,7 +7,9 @@ import {
 import Ratting, { RattingSkeleton } from "@/components/atoms/Ratting";
 import { Skeleton } from "@/components/atoms/Skeleton";
 import Tag, { TagSkeleton } from "@/components/atoms/Tag";
+import { ResponsiveAddToShoppingCartButton } from "@/components/utils/AddToShoppingCartButton";
 import { tv } from "@/lib/tailwind-variants";
+import { average, discountedPrice } from "@/utils";
 import Image from "next/image";
 import { MenuCardProps, MenuCardSkeletonProps } from "./index.types";
 
@@ -24,8 +26,7 @@ const menuCardBaseVariants = tv({
     middle_Wrapper: "mt-2 flex items-center justify-between gap-4",
     ingredients: "text-caption-sm lg:text-body-sm",
     desktop_discount_wrapper: "flex items-center gap-2 max-lg:hidden",
-    discount_price_price_wrapper:
-      "flex shrink-0 flex-col items-end gap-1 max-lg:hidden",
+    discount_price_price_wrapper: "flex shrink-0 flex-col items-end gap-1",
     price: "text-caption-sm lg:text-body-lg",
     bottom_wrapper: "mt-auto flex items-center",
     mobile_favorite: "size-4 lg:hidden",
@@ -76,15 +77,15 @@ export const menuCardVariants = tv({
   },
 });
 
-const MenuCard = ({ fullWidth = false }: MenuCardProps) => {
+const MenuCard = ({ fullWidth = false, food }: MenuCardProps) => {
   const cns = menuCardVariants({ fullWidth });
 
   return (
     <div className={cns.root()}>
       <div className={cns.image_wrapper()}>
         <Image
-          src="/images/products/demo.jpg"
-          alt=""
+          src={food.images[0]}
+          alt={food.name}
           fill
           className={cns.image()}
         />
@@ -92,7 +93,7 @@ const MenuCard = ({ fullWidth = false }: MenuCardProps) => {
 
       <div className={cns.body()}>
         <div className={cns.top_wrapper()}>
-          <h5 className={cns.title()}>پاستا سبزیجات</h5>
+          <h5 className={cns.title()}>{food.name}</h5>
 
           <Checkbox
             checkedIcon={<Heart_Bold className="text-status-error" />}
@@ -100,30 +101,41 @@ const MenuCard = ({ fullWidth = false }: MenuCardProps) => {
             className={cns.desktop_favorite()}
           />
 
-          <div className={cns.mobile_discount_wrapper()}>
-            <span className={cns.discount_price()}>۱۷۵٬۰۰۰</span>
+          {!!food.discount && (
+            <div className={cns.mobile_discount_wrapper()}>
+              <span className={cns.discount_price()}>
+                {food.price.toLocaleString("fa")}
+              </span>
 
-            <Tag size="22" color="error" variant="pill">
-              %۲۰
-            </Tag>
-          </div>
+              <Tag size="22" color="error" variant="pill">
+                {food.discount.toLocaleString("fa")}%
+              </Tag>
+            </div>
+          )}
         </div>
 
         <div className={cns.middle_Wrapper()}>
-          <p className={cns.ingredients()}>
-            پاستا، قارچ، گوجه، کدوی خوردشده، پیاز خلالی‌شده
-          </p>
+          <p className={cns.ingredients()}>{food.ingredients}</p>
 
           <div className={cns.discount_price_price_wrapper()}>
-            <div className={cns.desktop_discount_wrapper()}>
-              <span className={cns.discount_price()}>۱۷۵٬۰۰۰</span>
+            {!!food.discount && (
+              <div className={cns.desktop_discount_wrapper()}>
+                <span className={cns.discount_price()}>
+                  {food.price.toLocaleString("fa")}
+                </span>
 
-              <Tag size="22" color="error" variant="pill">
-                %۲۰
-              </Tag>
-            </div>
-
-            <span className={cns.price()}>۱۵۰٬۰۰۰ تومان</span>
+                <Tag size="22" color="error" variant="pill">
+                  {food.discount?.toLocaleString("fa")}%
+                </Tag>
+              </div>
+            )}
+            <span className={cns.price()}>
+              {(!!food.discount
+                ? discountedPrice(food.price, food.discount)
+                : food.price
+              ).toLocaleString("fa")}{" "}
+              <span>تومان</span>
+            </span>
           </div>
         </div>
 
@@ -135,23 +147,16 @@ const MenuCard = ({ fullWidth = false }: MenuCardProps) => {
           />
 
           <Ratting
-            value={3}
+            value={Math.floor(average(...food.rates))}
             readonly
             iconClassName={cns.rate_icon()}
             containerClassName={cns.rate()}
           />
 
-          <Button size="sm" className={cns.button({ className: "lg:hidden" })}>
-            افزودن به سبد خرید
-          </Button>
-          <Button
-            size="md"
-            className={cns.button({
-              className: "w-[244px] justify-center max-lg:hidden",
-            })}
-          >
-            افزودن به سبد خرید
-          </Button>
+          <ResponsiveAddToShoppingCartButton
+            foodId={food.id}
+            className="ms-auto lg:w-[244px]"
+          />
         </div>
       </div>
     </div>

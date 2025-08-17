@@ -25,6 +25,7 @@ function resolveResponsiveProps(props: object) {
 
       if (
         typeof propResponsiveObj === "object" &&
+        propResponsiveObj &&
         Object.keys(breakpoint).some((bpName) =>
           Object.keys(propResponsiveObj).includes(bpName),
         )

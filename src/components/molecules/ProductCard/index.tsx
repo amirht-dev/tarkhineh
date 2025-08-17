@@ -6,10 +6,12 @@ import {
 import SingleRate, { SingleRateSkeleton } from "@/components/atoms/SingleRate";
 import { Skeleton } from "@/components/atoms/Skeleton";
 import Tag, { TagSkeleton } from "@/components/atoms/Tag";
+import { ResponsiveAddToShoppingCartButton } from "@/components/utils/AddToShoppingCartButton";
+import { SignedIn } from "@/components/utils/Auth";
+import { Food } from "@/constants";
 import { tv } from "@/lib/tailwind-variants";
-import { localizeNumber } from "@/utils";
+import { average, localizeNumber } from "@/utils";
 import Image from "next/image";
-import { ProductCardAddToCartButton } from "./client";
 
 const productCardBaseVariants = tv({
   slots: {
@@ -35,75 +37,87 @@ const productCardBaseVariants = tv({
 const productCardVariants = tv({
   extend: productCardBaseVariants,
   slots: {
-    image_wrapper: "relative",
+    root: "flex flex-col",
+    image_wrapper: "relative shrink-0",
     image: "object-cover object-center",
+    body: "flex flex-1 flex-col",
     title: "text-center leading-none",
     favorite_text: "text-neutral-gray-5 font-normal",
     discount_price: "text-neutral-gray-5 leading-none font-normal line-through",
+    rate_price_wrapper: "flex-1 items-end",
     rate: "text-neutral-gray-8 leading-none font-normal",
     votes: "text-neutral-gray-5 leading-none font-normal",
     price: "text-neutral-gray-8 leading-none font-normal",
   },
 });
 
-const ProductCard = () => {
-  const discount = true;
+const ProductCard = ({ food }: { food: Food }) => {
+  const { id, name, price, rates, discount, images } = food;
+  const averageRate = Math.floor(average(...rates));
+
   const cns = productCardVariants();
   return (
     <div className={cns.root()}>
       <div className={cns.image_wrapper()}>
-        <Image
-          src="/images/products/demo.jpg"
-          alt=""
-          fill
-          className={cns.image()}
-        />
+        <Image src={images[0]} alt={name} fill className={cns.image()} />
       </div>
 
       <div className={cns.body()}>
-        <h4 className={cns.title()}>غذای گیاهی</h4>
+        <h4 className={cns.title()}>{name}</h4>
 
         <div className={cns.favorite_discount_wrapper()}>
-          <label className={cns.favorite_wrapper()}>
-            <Checkbox
-              checkedIcon={<Heart_Bold className="text-status-error" />}
-              uncheckedIcon={<Heart_Outline className="text-neutral-gray-5" />}
-              className={cns.favorite_icon()}
-            />
-            <span className={cns.favorite_text()}>افزودن به علاقمندی‌ها</span>
-          </label>
+          <SignedIn>
+            <label className={cns.favorite_wrapper()}>
+              <Checkbox
+                checkedIcon={<Heart_Bold className="text-status-error" />}
+                uncheckedIcon={
+                  <Heart_Outline className="text-neutral-gray-5" />
+                }
+                className={cns.favorite_icon()}
+              />
+              <span className={cns.favorite_text()}>افزودن به علاقمندی‌ها</span>
+            </label>
+          </SignedIn>
 
-          {discount && (
+          {!!discount && (
             <div className={cns.discount_wrapper()}>
               <span className={cns.discount_price()}>
                 {localizeNumber(175000)}
               </span>
 
               <Tag variant="pill" color="error" size="16">
-                ٪۲۰
+                {discount.toLocaleString("fa")}%
               </Tag>
             </div>
           )}
         </div>
 
         <div className={cns.rate_price_wrapper()}>
-          <div className={cns.rate_wrapper()}>
-            <SingleRate
-              direction="y"
-              containerProps={{
-                className: cns.rate_icon(),
-              }}
-              value={(1 * 3) / 5}
-            />
-            <span className={cns.rate()}>۳</span>
-            <span className={cns.votes()}>(۶۲ امتیاز)</span>
-          </div>
+          {!!rates.length && (
+            <div className={cns.rate_wrapper()}>
+              <SingleRate
+                direction="y"
+                containerProps={{
+                  className: cns.rate_icon(),
+                }}
+                value={averageRate / 5}
+              />
+              <span className={cns.rate()}>
+                {averageRate.toLocaleString("fa")}
+              </span>
+              <span className={cns.votes()}>({rates.length} امتیاز)</span>
+            </div>
+          )}
 
           <span className={cns.price()}>
-            <span>{localizeNumber(150000)}</span> <span>تومان</span>
+            <span>{price.toLocaleString("fa")}</span> <span>تومان</span>
           </span>
         </div>
-        <ProductCardAddToCartButton />
+
+        <ResponsiveAddToShoppingCartButton
+          className="mt-3 w-full lg:mt-4"
+          foodId={id}
+        />
       </div>
     </div>
   );
@@ -160,7 +174,11 @@ export const ProductCardSkeleton = () => {
 
           <Skeleton size="text" className={cns.price()} />
         </div>
-        <ProductCardAddToCartButton disabled />
+        <ResponsiveAddToShoppingCartButton
+          className="mt-3 w-full lg:mt-4"
+          disabled
+          foodId=""
+        />
       </div>
     </div>
   );
