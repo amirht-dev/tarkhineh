@@ -5,12 +5,18 @@ import { Wallet2_Outline } from "@/components/atoms/icons/Money/Wallet2";
 import { ShoppingCard_Outline } from "@/components/atoms/icons/Shop/ShoppingCard";
 import ClearShoppingCartPopup from "@/components/molecules/ClearShoppingCartPopup";
 import { Steps, StepsBar, StepsBarItem } from "@/components/molecules/Steps";
-import { DevTool } from "@hookform/devtools";
+import { DevTool as ActualDevTool } from "@hookform/devtools";
+import dynamic from "next/dynamic";
 import { FormProvider, useForm } from "react-hook-form";
 import CompleteInformationView from "./_components/CompleteInformationView";
 import PaymentView from "./_components/PaymentView";
 import ShoppingCartView from "./_components/ShoppingCartView";
 import StepViewContent from "./_components/StepViewContent";
+
+const DevTool = dynamic(
+  async () => (await import("@hookform/devtools")).DevTool,
+  { ssr: false },
+) as typeof ActualDevTool;
 
 const step = {
   cart: { label: "سبد خرید", icon: <ShoppingCard_Outline /> },
