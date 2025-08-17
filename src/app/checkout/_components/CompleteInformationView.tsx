@@ -19,9 +19,9 @@ import { useGlobalStore } from "@/Providers/global-store";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useState } from "react";
-import { Controller } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 import { ArrayValues } from "type-fest";
-import { PropsWithCheckoutFormProps } from "../page";
+import { CheckoutFormType } from "../page";
 import AddAddressPopup from "./AddAddressPopup";
 import PageSection from "./PageSection";
 
@@ -47,9 +47,7 @@ const deliveryTypes = [
 
 export type DeliveryType = ArrayValues<typeof deliveryTypes>["type"];
 
-export default function CompleteInformationView({
-  checkoutForm,
-}: PropsWithCheckoutFormProps) {
+export default function CompleteInformationView() {
   const { goToNextSiblingStep } = useStepViewContext();
 
   const shoppingCartCount = useGlobalStore(
@@ -66,7 +64,7 @@ export default function CompleteInformationView({
     watch,
     trigger,
     formState: { isValid },
-  } = checkoutForm;
+  } = useFormContext<CheckoutFormType>();
 
   const deliveryType = watch("deliveryType");
 

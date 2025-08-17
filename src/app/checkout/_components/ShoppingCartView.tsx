@@ -10,15 +10,18 @@ import Responsive from "@/components/utils/Responsive";
 import { useGlobalStore } from "@/Providers/global-store";
 import Image from "next/image";
 import { useEffect } from "react";
-import { PropsWithCheckoutFormProps } from "../page";
+import { useFormContext } from "react-hook-form";
+import { CheckoutFormType } from "../page";
 import PageSection from "./PageSection";
 
-function ShoppingCartView({ checkoutForm }: PropsWithCheckoutFormProps) {
+function ShoppingCartView() {
   const { goToNextSiblingStep } = useStepViewContext();
 
   const shoppingCart = useGlobalStore((state) => state.shoppingCart);
 
-  const { setValue, register } = checkoutForm;
+  // const { setValue, register } = checkoutForm;
+
+  const { setValue, register } = useFormContext<CheckoutFormType>();
 
   const handleNextStepClick = () => {
     setValue("items", shoppingCart);

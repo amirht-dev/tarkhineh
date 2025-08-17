@@ -6,8 +6,7 @@ import { ShoppingCard_Outline } from "@/components/atoms/icons/Shop/ShoppingCard
 import ClearShoppingCartPopup from "@/components/molecules/ClearShoppingCartPopup";
 import { Steps, StepsBar, StepsBarItem } from "@/components/molecules/Steps";
 import { DevTool } from "@hookform/devtools";
-import { useForm, UseFormReturn } from "react-hook-form";
-import { Merge } from "type-fest";
+import { FormProvider, useForm } from "react-hook-form";
 import CompleteInformationView from "./_components/CompleteInformationView";
 import PaymentView from "./_components/PaymentView";
 import ShoppingCartView from "./_components/ShoppingCartView";
@@ -42,11 +41,6 @@ export type CheckoutFormType = {
       }
   );
 
-export type PropsWithCheckoutFormProps<P = unknown> = Merge<
-  P,
-  { checkoutForm: UseFormReturn<CheckoutFormType, unknown, CheckoutFormType> }
->;
-
 export default function CheckoutPage() {
   // TODO: add control state of steps to set step to 0 when user signed out during making order
 
@@ -73,23 +67,25 @@ export default function CheckoutPage() {
             ))}
           </StepsBar>
 
-          <StepViewContent
-            index={0}
-            label={step.cart.label}
-            sectionActionButton={
-              <ClearShoppingCartPopup triggerClassName="justify-self-end" />
-            }
-          >
-            <ShoppingCartView checkoutForm={checkoutForm} />
-          </StepViewContent>
+          <FormProvider {...checkoutForm}>
+            <StepViewContent
+              index={0}
+              label={step.cart.label}
+              sectionActionButton={
+                <ClearShoppingCartPopup triggerClassName="justify-self-end" />
+              }
+            >
+              <ShoppingCartView />
+            </StepViewContent>
 
-          <StepViewContent index={1} label={step.information.label}>
-            <CompleteInformationView checkoutForm={checkoutForm} />
-          </StepViewContent>
+            <StepViewContent index={1} label={step.information.label}>
+              <CompleteInformationView />
+            </StepViewContent>
 
-          <StepViewContent index={2} label={step.payment.label}>
-            <PaymentView checkoutForm={checkoutForm} />
-          </StepViewContent>
+            <StepViewContent index={2} label={step.payment.label}>
+              <PaymentView />
+            </StepViewContent>
+          </FormProvider>
         </Steps>
       </div>
 

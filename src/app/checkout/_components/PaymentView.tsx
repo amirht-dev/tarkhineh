@@ -14,13 +14,11 @@ import Radio from "@/components/molecules/Radio";
 import Responsive from "@/components/utils/Responsive";
 import { paymentGateways, paymentMethods } from "@/constants";
 import { startTransition, useActionState } from "react";
-import { Controller } from "react-hook-form";
-import { PropsWithCheckoutFormProps } from "../page";
+import { Controller, useFormContext } from "react-hook-form";
+import { CheckoutFormType } from "../page";
 import PageSection from "./PageSection";
 
-export default function PaymentView({
-  checkoutForm,
-}: PropsWithCheckoutFormProps) {
+export default function PaymentView() {
   const [
     isDiscountCodeValidated,
     validateDiscountCode,
@@ -33,7 +31,7 @@ export default function PaymentView({
     watch,
     getValues,
     formState: { isValid },
-  } = checkoutForm;
+  } = useFormContext<CheckoutFormType>();
 
   const paymentMethod = watch("paymentMethod");
 
