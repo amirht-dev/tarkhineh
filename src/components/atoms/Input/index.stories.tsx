@@ -15,7 +15,6 @@ const meta = {
     label: "رمز عبور",
     size: "md",
     color: "dark",
-    error: false,
     disabled: false,
     prefixIcon: false,
     suffixIcon: false,
@@ -75,14 +74,6 @@ const meta = {
     disabled: {
       control: "boolean",
       type: "boolean",
-    },
-    error: {
-      control: "boolean",
-      table: {
-        type: {
-          summary: T.primitive.boolean,
-        },
-      },
     },
     onChange: {
       control: false,
