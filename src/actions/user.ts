@@ -2,7 +2,6 @@
 
 import {
   ServerFunction,
-  UseActionStateServerActionFunction,
   UseActionStateServerFunctionFunction,
 } from "@/types/next";
 import { wait } from "@/utils";
