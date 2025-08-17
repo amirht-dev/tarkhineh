@@ -2,16 +2,16 @@
 import { paymentGateways } from "@/constants";
 import { useArgs } from "@storybook/preview-api";
 import type { Meta, StoryObj } from "@storybook/react";
+import { fn } from "@storybook/test";
 import GatewayRadio from ".";
 import { GatewayRadioProps } from "./index.types";
-import { fn } from "@storybook/test";
 
 const meta = {
   component: GatewayRadio,
   args: {
     gateway: paymentGateways[0],
     checked: false,
-    onChecked: fn(),
+    onChange: fn(),
   },
   render(args) {
     const [{ checked }, updateArgs] = useArgs<GatewayRadioProps>();
@@ -19,9 +19,9 @@ const meta = {
       <GatewayRadio
         {...args}
         checked={checked}
-        onChecked={(checked) => {
-          args.onChecked?.(checked);
-          updateArgs({ checked: true });
+        onChange={(e) => {
+          args.onChange?.(e);
+          updateArgs({ checked: e.target.checked });
         }}
       />
     );
