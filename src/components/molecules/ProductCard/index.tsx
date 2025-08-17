@@ -8,10 +8,10 @@ import { Skeleton } from "@/components/atoms/Skeleton";
 import Tag, { TagSkeleton } from "@/components/atoms/Tag";
 import { ResponsiveAddToShoppingCartButton } from "@/components/utils/AddToShoppingCartButton";
 import { SignedIn } from "@/components/utils/Auth";
-import { Food } from "@/constants";
 import { tv } from "@/lib/tailwind-variants";
 import { average, localizeNumber } from "@/utils";
 import Image from "next/image";
+import { ProductCartProps } from "./index.types";
 
 const productCardBaseVariants = tv({
   slots: {
@@ -51,7 +51,7 @@ const productCardVariants = tv({
   },
 });
 
-const ProductCard = ({ food }: { food: Food }) => {
+const ProductCard = ({ food }: ProductCartProps) => {
   const { id, name, price, rates, discount, images } = food;
   const averageRate = Math.floor(average(...rates));
 

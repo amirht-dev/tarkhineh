@@ -1,3 +1,4 @@
+import { foods } from "@/constants";
 import type { Meta, StoryObj } from "@storybook/react";
 import MenuCard, { MenuCardSkeleton } from ".";
 
@@ -5,6 +6,7 @@ const meta = {
   component: MenuCard,
   args: {
     fullWidth: false,
+    food: foods[0],
   },
 } satisfies Meta<typeof MenuCard>;
 

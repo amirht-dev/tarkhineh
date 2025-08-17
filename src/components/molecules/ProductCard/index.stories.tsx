@@ -1,3 +1,4 @@
+import { foods } from "@/constants";
 import type { Meta, StoryObj } from "@storybook/react";
 import ProductCard, { ProductCardSkeleton } from ".";
 
@@ -11,8 +12,12 @@ export default meta;
 
 type Story<T = typeof meta> = StoryObj<T>;
 
-export const Default = {} satisfies Story;
+export const Default = {
+  args: {
+    food: foods[0],
+  },
+} satisfies Story<typeof ProductCard>;
 
 export const Skeleton = {
   render: () => <ProductCardSkeleton />,
-} satisfies Story;
+} satisfies Story<typeof ProductCardSkeleton>;
