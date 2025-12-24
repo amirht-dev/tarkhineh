@@ -39,6 +39,11 @@ export const buttonVariants = tv(
         warning: "",
       },
       size: {
+        responsive: {
+          root: "text-caption-md lg:text-button-lg h-8 px-2 lg:h-10 lg:px-4",
+          icon: "size-4 lg:size-6",
+          loadingIndicator: "size-3 border lg:size-4 lg:border-2",
+        },
         sm: {
           root: "text-caption-md h-8 px-2",
           icon: "size-4",
@@ -262,6 +267,13 @@ export const buttonVariants = tv(
         className: {
           root: "text-status-warning-l bg-status-warning-el hover:text-status-warning hover:bg-status-warning-l/15 focus:text-status-warning focus:bg-status-warning-l/15",
           loadingIndicator: "",
+        },
+      },
+      {
+        icon: true,
+        size: "responsive",
+        className: {
+          root: "gap-1 lg:gap-2",
         },
       },
       {

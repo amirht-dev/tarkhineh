@@ -18,6 +18,12 @@ export const inputVariants = tv(
     },
     variants: {
       size: {
+        responsive: {
+          root: "text-caption-md lg:text-body-sm h-8 lg:h-10",
+          icon: "size-4 lg:size-6",
+          label:
+            "group-focus-within:-top-2 data-[has-value=true]:-top-2 lg:group-focus-within:-top-2 lg:data-[has-value=true]:-top-2 rtl:group-focus-within:data-[has-prefix-icon=true]:-right-5 rtl:data-[has-prefix-icon=true]:data-[has-value=true]:-right-5",
+        },
         sm: {
           root: "text-caption-md h-8",
           icon: "size-4",

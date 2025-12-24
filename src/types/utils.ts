@@ -2,6 +2,7 @@ import {
   ComponentPropsWithoutRef,
   ComponentPropsWithRef,
   ElementType,
+  PropsWithChildren,
 } from "react";
 import {
   Merge,
@@ -13,9 +14,9 @@ import { SimpleMerge } from "type-fest/source/merge";
 
 export type PropsWithAsChild<P = object> = Merge<
   P,
-  {
+  PropsWithChildren<{
     asChild?: boolean;
-  }
+  }>
 >;
 
 export type PropsWithComponentPropsWithoutRef<

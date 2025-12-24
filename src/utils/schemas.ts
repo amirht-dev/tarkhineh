@@ -80,3 +80,15 @@ export const addAddressFormSchema = z
   );
 
 export type AddAddressFormType = z.output<typeof addAddressFormSchema>;
+
+export const editUserProfileFormSchema = z.object({
+  name: z.string().trim(),
+  fname: z.string().trim(),
+  email: z.email().trim(),
+  phoneNumber: phoneNumberSchema,
+  birthday: z.iso.datetime().nullable(),
+  displayName: z.string(),
+});
+export type editUserProfileFormSchema = z.infer<
+  typeof editUserProfileFormSchema
+>;

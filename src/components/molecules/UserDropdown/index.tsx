@@ -42,7 +42,7 @@ const UserDropdown = () => {
       <PopoverContent align="end" sideOffset={8} className="w-40">
         <List>
           <ListItem passClassName>
-            <Link href="">
+            <Link href="/dashboard/profile">
               <ListIcon>
                 <User_Outline />
               </ListIcon>

@@ -115,6 +115,10 @@ export const StepsBarItem = ({
       {index !== 0 && <StepsSeparator active={isCurrentStep || isPassedStep} />}
       <Button
         variant="text"
+        data-state={isCurrentStep ? "active" : "disactive"}
+        data-position={
+          isPassedStep ? "passed" : isFutureStep ? "future" : "current"
+        }
         {...props}
         onClick={(e) => {
           onClick?.(e, index);
