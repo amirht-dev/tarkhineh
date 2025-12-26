@@ -51,7 +51,7 @@ const UserDropdown = () => {
           </ListItem>
 
           <ListItem passClassName>
-            <Link href="">
+            <Link href="/dashboard/order-tracking">
               <ListIcon>
                 <Wallet2_Outline />
               </ListIcon>
@@ -60,7 +60,7 @@ const UserDropdown = () => {
           </ListItem>
 
           <ListItem passClassName>
-            <Link href="">
+            <Link href="/dashboard/favorites">
               <ListIcon>
                 <Heart_Outline />
               </ListIcon>
@@ -69,7 +69,7 @@ const UserDropdown = () => {
           </ListItem>
 
           <ListItem passClassName>
-            <Link href="">
+            <Link href="/dashboard/addresses">
               <ListIcon>
                 <Location_Outline />
               </ListIcon>

@@ -7,7 +7,7 @@ const DashboardLayout = ({ children }: NextLayoutProps) => {
       <div className="border-neutral-gray-4 sticky top-4 w-full max-w-xs shrink-0 rounded-xl border max-lg:hidden">
         <UserDashboardPanel name="" phone="" />
       </div>
-      <div className="flex-1">{children}</div>
+      <div className="min-w-0 flex-1">{children}</div>
     </div>
   );
 };

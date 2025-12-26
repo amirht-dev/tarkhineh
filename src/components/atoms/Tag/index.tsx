@@ -25,7 +25,7 @@ const tagBaseVariants = tv({
 
 export const tagVariants = tv({
   extend: tagBaseVariants,
-  base: "inline-flex items-center justify-center gap-1 font-normal [&_svg]:size-3 lg:[&_svg]:size-4",
+  base: "inline-flex items-center justify-center gap-1 font-normal text-nowrap [&_svg]:size-3 lg:[&_svg]:size-4",
   variants: {
     color: {
       primary: "text-primary bg-primary-tint-1",
