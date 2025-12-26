@@ -23,7 +23,6 @@ import Field from "@/components/atoms/Field";
 import { FieldTextTypeProps } from "@/components/atoms/Field/index.types";
 import IconButton from "@/components/atoms/IconButton";
 import { Edit2_Outline } from "@/components/atoms/icons/Content-Edit/Edit2";
-import { AddCircle_Outline } from "@/components/atoms/icons/Essential/AddCircle";
 import { Skeleton } from "@/components/atoms/Skeleton";
 import Textarea from "@/components/atoms/Textarea";
 import { AddressValue } from "@/components/molecules/AddressPicker/index.types";
@@ -31,7 +30,7 @@ import Responsive, { Visible } from "@/components/utils/Responsive";
 import { addAddressFormSchema, AddAddressFormType } from "@/utils/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import dynamic from "next/dynamic";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 
 const AddressPicker = dynamic(
@@ -47,11 +46,15 @@ const StaticMap = dynamic(() => import("@/components/molecules/StaticMap"), {
   loading: () => <Skeleton className="h-[247px] lg:hidden" />,
 });
 
+type AddAddressPopupProps = {
+  onSuccessfullySubmit?: (data: AddAddressFormType) => void;
+  trigger: ReactNode;
+};
+
 export default function AddAddressPopup({
   onSuccessfullySubmit,
-}: {
-  onSuccessfullySubmit?: (data: AddAddressFormType) => void;
-}) {
+  trigger,
+}: AddAddressPopupProps) {
   const [open, setOpen] = useState(false);
 
   const form = (
@@ -68,16 +71,7 @@ export default function AddAddressPopup({
     <>
       <Visible on="initial">
         <Drawer handleOnly open={open} onOpenChange={setOpen}>
-          <DrawerTrigger asChild>
-            <Button
-              variant="text"
-              className="h-auto"
-              size="sm"
-              prefixIcon={<AddCircle_Outline />}
-            >
-              افزودن آدرس
-            </Button>
-          </DrawerTrigger>
+          <DrawerTrigger asChild>{trigger}</DrawerTrigger>
 
           <DrawerContent className="flex flex-col">
             <DrawerHeader>
@@ -96,16 +90,7 @@ export default function AddAddressPopup({
 
       <Visible on="lg">
         <Dialog open={open} onOpenChange={setOpen}>
-          <DialogTrigger asChild>
-            <Button
-              variant="text"
-              className="h-auto"
-              size="sm"
-              prefixIcon={<AddCircle_Outline />}
-            >
-              افزودن آدرس
-            </Button>
-          </DialogTrigger>
+          <DialogTrigger asChild>{trigger}</DialogTrigger>
 
           <DialogContent className="max-w-[600px] overflow-hidden lg:p-0">
             <DialogHeader className="grid grid-cols-3 items-center lg:p-6">

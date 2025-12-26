@@ -21,8 +21,9 @@ import { useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { ArrayValues } from "type-fest";
 import { CheckoutFormType } from "../page";
-import AddAddressPopup from "./AddAddressPopup";
 import PageSection from "./PageSection";
+import AddAddressPopup from "@/components/molecules/AddAddressPopup";
+import { AddCircle_Outline } from "@/components/atoms/icons/Essential/AddCircle";
 
 const StaticMap = dynamic(() => import("@/components/molecules/StaticMap"), {
   ssr: false,
@@ -104,7 +105,19 @@ export default function CompleteInformationView() {
                 <span className="text-body-sm lg:text-body-md">آدرس‌ها</span>
               </div>
 
-              <AddAddressPopup onSuccessfullySubmit={handleAddAddress} />
+              <AddAddressPopup
+                onSuccessfullySubmit={handleAddAddress}
+                trigger={
+                  <Button
+                    variant="text"
+                    className="h-auto"
+                    size="sm"
+                    prefixIcon={<AddCircle_Outline />}
+                  >
+                    افزودن آدرس
+                  </Button>
+                }
+              />
             </div>
 
             {!!addresses.length ? (
