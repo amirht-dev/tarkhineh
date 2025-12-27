@@ -116,7 +116,7 @@ export const navLinks = {
   },
   grantingRepresentation: {
     label: "اعطای نمایندگی",
-    href: "/granting-representation",
+    href: "/franchise",
     icon: <Building_Outline />,
   },
   aboutUs: {
