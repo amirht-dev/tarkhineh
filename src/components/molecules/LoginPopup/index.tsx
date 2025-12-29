@@ -42,6 +42,7 @@ import {
   useStepViewContext,
 } from "../Steps";
 import { LoginPopupContextType, LoginPopupProps } from "./index.types";
+import { TEST_OTP_CODE } from "@/constants";
 
 const { context: LoginPopupContext, hook: useLoginPopupContext } =
   createCTX<LoginPopupContextType>("LoginPopupContext");
@@ -268,6 +269,10 @@ function ConfirmForm() {
         کد تایید پنج‌رقمی به شماره <span>{localizeNumber(phoneNumber)}</span>{" "}
         ارسال شد.
       </SheetDescription>
+
+      <div className="border-status-warning text-caption-md text-status-warning bg-status-warning-el rounded-md border p-2">
+        کد تست برای ورود <strong>{TEST_OTP_CODE}</strong> می‌باشد
+      </div>
 
       <Controller
         control={control}
