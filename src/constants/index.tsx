@@ -102,6 +102,7 @@ export const navLinks = {
     icon: <MenuBoard_Outline />,
     items: Object.values(menus).map((item) => ({
       label: item.label,
+      slug: item.slug,
       href: `/menu/${item.slug}`,
     })),
   },

@@ -1,14 +1,15 @@
 import SearchBox from "@/components/atoms/SearchBox";
 import ProductCard from "@/components/molecules/ProductCard";
 import { foods } from "@/constants";
-import { NextPageProps } from "@/types/next";
 import { wait } from "@/utils";
 import clamp from "lodash/clamp";
 import Image from "next/image";
 import { CSSProperties } from "react";
 import SearchResultTitle from "./_components/SearchResultTitle";
 
-export default async function SearchPage({ searchParams }: NextPageProps) {
+export default async function SearchPage({
+  searchParams,
+}: PageProps<"/search">) {
   const searchTermQuery = (await searchParams).q;
 
   const searchTerm = Array.isArray(searchTermQuery)

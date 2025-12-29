@@ -5,12 +5,11 @@ import { estedad } from "@/lib/font";
 import { GlobalStoreProvider } from "@/Providers/global-store";
 import "@/styles/globals.css";
 import { SessionProvider } from "next-auth/react";
+import dynamic from "next/dynamic";
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+const BranchModal = dynamic(() => import("@/components/molecules/BranchModal"));
+
+export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${estedad.variable}`} dir="rtl">
       <head>
@@ -25,6 +24,7 @@ export default function RootLayout({
         <GlobalStoreProvider>
           <SessionProvider>
             <BreakpointProvider>
+              <BranchModal />
               <Header />
               <main className="relative flex-1">{children}</main>
               <Footer />

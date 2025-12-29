@@ -1,14 +1,9 @@
-import { useLocalStorage } from "@uidotdev/usehooks";
+import useLocalStorageState from "./useLocalStorageState";
 
 export const LOCAL_STORAGE_BRANCH_KEY = "branch";
 
 function useBranchLocalStorage() {
-  const branchState = useLocalStorage<string | null>(
-    LOCAL_STORAGE_BRANCH_KEY,
-    null,
-  );
-
-  return branchState;
+  return useLocalStorageState<string | null>(LOCAL_STORAGE_BRANCH_KEY, null);
 }
 
 export default useBranchLocalStorage;

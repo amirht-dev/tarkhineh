@@ -55,7 +55,7 @@ const BranchModal = () => {
               slug={branch.slug}
               fullWidth
               popup
-              onClick={() => handleClick(branch.name)}
+              onClick={() => handleClick(branch.slug)}
             />
           ))}
         </div>

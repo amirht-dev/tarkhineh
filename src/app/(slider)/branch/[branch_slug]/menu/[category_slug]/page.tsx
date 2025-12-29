@@ -8,12 +8,11 @@ import {
 } from "@/components/atoms/Section";
 import MenuCard from "@/components/molecules/MenuCard";
 import { foods, menus } from "@/constants";
-import { NextPageProps } from "@/types/next";
 import Link from "next/link";
 
 export default async function MenuCategory({
   params,
-}: NextPageProps<"branch_slug" | "category_slug">) {
+}: PageProps<"/branch/[branch_slug]/menu/[category_slug]">) {
   const { category_slug } = await params;
 
   const menu = Object.values(menus).find((menu) => menu.slug === category_slug);

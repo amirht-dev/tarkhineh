@@ -28,6 +28,12 @@ export const iconButtonVariants = tv(
             "h-10 w-10 [&_[data-slot=icon]]:size-6 [&_svg:only-child]:size-6",
           badge: "rtl:top-1 rtl:right-1",
         },
+        responsive: {
+          icon: "h-4 w-4 lg:h-6 lg:w-6",
+          button:
+            "h-6 w-6 lg:h-10 lg:w-10 [&_[data-slot=icon]]:size-4 lg:[&_[data-slot=icon]]:size-6 [&_svg:only-child]:size-4 lg:[&_svg:only-child]:size-6",
+          badge: "rtl:-top-1 rtl:-right-1 lg:rtl:top-1 lg:rtl:right-1",
+        },
       },
       color: {
         primary: {

@@ -1,7 +1,6 @@
 import HeroSlider from "@/components/organisms/HeroSlider";
-import { NextLayout } from "@/types/next";
 
-const SliderLayout: NextLayout = ({ children }) => {
+const SliderLayout = ({ children }: LayoutProps<"/">) => {
   return (
     <>
       <HeroSlider />

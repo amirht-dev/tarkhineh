@@ -2,12 +2,11 @@ import SearchBox from "@/components/atoms/SearchBox";
 import { ChipsList, ChipsListItem } from "@/components/molecules/ChipsList";
 import { TabBar, TabBarItem, TabBarList } from "@/components/molecules/TabBar";
 import { menus } from "@/constants";
-import { NextLayoutProps } from "@/types/next";
 
 export default async function BranchMenuLayout({
   children,
   params,
-}: NextLayoutProps<"branch_slug">) {
+}: LayoutProps<"/branch/[branch_slug]/menu">) {
   const { branch_slug } = await params;
 
   return (

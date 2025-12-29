@@ -14,22 +14,18 @@ import {
   PopoverTrigger,
 } from "@/components/atoms/Popover";
 import SignoutButton from "@/components/atoms/SignoutButton";
-import useBreakpointMediaQuery from "@/hooks/useBreakpointMediaQuery";
 import Link from "next/link";
 import { twJoin } from "tailwind-merge";
 
 const UserDropdown = () => {
-  const isLG = useBreakpointMediaQuery("lg");
-
   return (
     <Popover>
       <PopoverTrigger asChild>
         <IconButton
           color="white"
-          size={isLG ? "lg" : "md"}
+          size="responsive"
           className={twJoin(
-            "flex w-auto items-center gap-1",
-            isLG ? "px-2" : "px-1",
+            "flex w-auto items-center gap-1 px-1 lg:w-auto lg:px-2",
           )}
         >
           <>

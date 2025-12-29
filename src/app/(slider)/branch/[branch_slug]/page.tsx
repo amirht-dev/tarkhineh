@@ -12,11 +12,10 @@ import { CardSlider, CardSliderSlide } from "@/components/molecules/CardSlider";
 import CommentCard from "@/components/molecules/CommentCard";
 import ProductCard from "@/components/molecules/ProductCard";
 import { branches, foods } from "@/constants";
-import { NextPage } from "@/types/next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-const BranchPage: NextPage<"branch_slug"> = async ({ params }) => {
+const BranchPage = async ({ params }: PageProps<"/branch/[branch_slug]">) => {
   const { branch_slug } = await params;
 
   const branch = Object.values(branches).find(
